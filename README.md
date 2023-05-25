@@ -1,6 +1,7 @@
 # CSCI 5709 Grp-08
 
 Hi I just started tutorial 2.
+Hi I just added my comment in T2.
 
 ## Getting started
 
