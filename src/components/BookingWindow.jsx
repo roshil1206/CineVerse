@@ -10,7 +10,6 @@ const BookingWindow = () => {
   const [isHoverTab2, setIsHoverTab2] = useState(false);
   const [isSelectedTab1, setSelectedTab1] = useState(true);
   const [isSelectedTab2, setSelectedTab2] = useState(false);
-  const [isPBHover, setIsPBHover] = useState(false);
 
   const handleMouseEnter1 = () => {
     setIsHoverTab1(true);
@@ -35,13 +34,6 @@ const BookingWindow = () => {
     setSelectedTab2(true);
     setSelectedTab1(false);
   }
-
-  const handlePBMouseEnter = () => {
-    setIsPBHover(true);
-  };
-  const handlePBMouseLeave = () => {
-    setIsPBHover(false);
-  };
 
   return (
     <Container>
@@ -87,8 +79,6 @@ const BookingWindow = () => {
             type='submit'
             variant='contained'
             color='primary'
-            onMouseEnter={handlePBMouseEnter}
-            onMouseLeave={handlePBMouseLeave}
           >
             <b>PROCEED TO PAYMENT</b>
           </Button>
