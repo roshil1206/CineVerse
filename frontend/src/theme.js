@@ -3,10 +3,12 @@ import { createTheme } from "@mui/material/styles";
 const theme = createTheme({
   palette: {
     primary: { main: "#FF416C" },
-    secondary: { main: "#00726E" },
+    secondary: { main: "#3E2093" },
+    pink2: "#FAADB3",
     brown: "#574143",
     lightBrown: "#BFA5A6",
-    cyan: "#00A9A1",
+    darkBlue: "#00024A",
+    lightPurple: "#9998B5",
     white: "#FFFFFF",
   },
 
@@ -28,6 +30,7 @@ const theme = createTheme({
     },
     h3: {
       fontSize: "1.25rem",
+      lineHeight: "1.5rem",
       fontWeight: 600,
       fontFamily: '"Montserrat", sans-serif',
     },
@@ -57,13 +60,13 @@ const theme = createTheme({
       fontFamily: '"Montserrat", sans-serif',
     },
     body1: {
-      fontSize: "0.875rem",
+      fontSize: "1rem",
       fontWeight: 400,
       lineHeight: "1.334em",
       fontFamily: '"Montserrat", sans-serif',
     },
     body2: {
-      letterSpacing: "0em",
+      letterSpacing: "0.75em",
       fontWeight: 400,
       lineHeight: "1.5em",
       fontFamily: '"Montserrat", sans-serif',

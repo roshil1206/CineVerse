@@ -2,6 +2,7 @@ import { AppBar, Box, Button, Grid, Typography, styled } from "@mui/material";
 import React, { useState } from "react";
 import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
+import { useNavigate } from "react-router-dom";
 
 const StyledAppBar = styled(AppBar)(({ theme }) => ({
   backgroundColor: theme.palette.white,
@@ -11,12 +12,12 @@ const StyledAppBar = styled(AppBar)(({ theme }) => ({
 }));
 
 const StyledButton = styled(Button)(({ theme }) => ({
-  backgroundColor: theme.palette.cyan,
+  backgroundColor: theme.palette.secondary.main,
 }));
 
 const StyledButtonOutline = styled(Button)(({ theme }) => ({
-  borderColor: theme.palette.cyan,
-  color: theme.palette.cyan,
+  borderColor: theme.palette.secondary.main,
+  color: theme.palette.secondary.main,
 }));
 
 function a11yProps(index) {
@@ -26,13 +27,19 @@ function a11yProps(index) {
   };
 }
 
-const links = ["Home", "Booking", "Contact"];
+const links = [
+  { name: "Home", link: "/" },
+  { name: "Booking", link: "/booking" },
+  { name: "Contact", link: "/contact" },
+];
 
 const Header = () => {
-  const [value, setValue] = useState(1);
+  const [value, setValue] = useState(0);
+  const navigate = useNavigate();
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+    navigate(links[newValue].link);
   };
 
   return (
@@ -47,7 +54,7 @@ const Header = () => {
           <Grid>
             <Tabs value={value} onChange={handleChange}>
               {links.map((link, key) => (
-                <Tab label={link} key={key} {...a11yProps(key)} />
+                <Tab label={link.name} key={key} {...a11yProps(key)} />
               ))}
             </Tabs>
           </Grid>

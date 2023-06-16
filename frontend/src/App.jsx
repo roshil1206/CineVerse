@@ -6,6 +6,7 @@ import { Route, Routes } from "react-router-dom";
 
 import "./App.css";
 import Landing from "./pages/Landing";
+import Contact from "./pages/Contact";
 import Wrapper from "./layout/Wrapper";
 // import PrivateLayout from "./layout/PrivateLayout";
 // import PublicLayout from "./layout/PublicLayout";
@@ -63,12 +64,26 @@ const App = () => {
 
   return (
     <div className="App">
-      <Wrapper>
-        <Routes>
-          {/* {renderRoutes()} */}
-          <Route path="/" element={<Landing />} />
-        </Routes>
-      </Wrapper>
+      <Routes>
+        {/* {renderRoutes()} */}
+
+        <Route
+          path="/"
+          element={
+            <Wrapper>
+              <Landing />
+            </Wrapper>
+          }
+        />
+        <Route
+          path="/contact"
+          element={
+            <Wrapper>
+              <Contact />
+            </Wrapper>
+          }
+        />
+      </Routes>
     </div>
   );
 };
