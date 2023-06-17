@@ -71,6 +71,12 @@ const theme = createTheme({
       lineHeight: "1.5em",
       fontFamily: '"Montserrat", sans-serif',
     },
+    links: {
+      fontSize: "1.25rem",
+      fontWeight: 500,
+      lineHeight: "1.5em",
+      fontFamily: '"Montserrat", sans-serif',
+    },
   },
 });
 

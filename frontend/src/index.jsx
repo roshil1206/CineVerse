@@ -5,18 +5,21 @@ import { BrowserRouter } from "react-router-dom";
 import theme from "./theme";
 import "./index.css";
 import App from "./App";
-import { ThemeProvider } from "@mui/material";
+import { StyledEngineProvider, ThemeProvider } from "@mui/material";
 // import store from "./store";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <ThemeProvider theme={theme}>
-        {/* <Provider store={store}> */}
-        <App />
-        {/* </Provider> */}
-      </ThemeProvider>
+      <StyledEngineProvider injectFirst>
+        {" "}
+        <ThemeProvider theme={theme}>
+          {/* <Provider store={store}> */}
+          <App />
+          {/* </Provider> */}
+        </ThemeProvider>
+      </StyledEngineProvider>
     </BrowserRouter>
   </React.StrictMode>
 );
