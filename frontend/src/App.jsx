@@ -8,6 +8,7 @@ import "./App.css";
 import Landing from "./pages/Landing";
 import Contact from "./pages/Contact";
 import Wrapper from "./layout/Wrapper";
+import MovieDetail from "./pages/MovieDetails";
 // import PrivateLayout from "./layout/PrivateLayout";
 // import PublicLayout from "./layout/PublicLayout";
 // import AdminLayout from "./layout/AdminLayout";
@@ -80,6 +81,14 @@ const App = () => {
           element={
             <Wrapper>
               <Contact />
+            </Wrapper>
+          }
+        />
+        <Route
+          path="/movies"
+          element={
+            <Wrapper>
+              <MovieDetail />
             </Wrapper>
           }
         />
