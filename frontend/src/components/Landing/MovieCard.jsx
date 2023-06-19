@@ -13,9 +13,10 @@ const MovieCardContainer = styled("div")({
 });
 
 const PosterContainer = styled("div")({
+  height: "277px",
   "& img": {
     width: "100%",
-    height: "75%",
+    height: "100%",
     objectFit: "cover",
   },
 });
