@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "@emotion/styled";
-import { ThemeProvider } from "@mui/material/styles";
 import theme from "../../../src/theme";
 
 const MovieCardContainer = styled("div")({
@@ -10,6 +9,7 @@ const MovieCardContainer = styled("div")({
   borderRadius: "15px",
   boxShadow: "2px 2px 4px rgba(100, 100, 100, 0.2)",
   overflow: "hidden",
+  cursor: "pointer",
 });
 
 const PosterContainer = styled("div")({
@@ -42,16 +42,14 @@ const Genre = styled("p")({
 
 export default function MovieCard({ title, genre, poster }) {
   return (
-    <ThemeProvider theme={theme}>
-      <MovieCardContainer>
-        <PosterContainer>
-          <img src={poster} alt={title} />
-        </PosterContainer>
-        <DetailsContainer>
-          <Title>{title}</Title>
-          <Genre>{genre}</Genre>
-        </DetailsContainer>
-      </MovieCardContainer>
-    </ThemeProvider>
+    <MovieCardContainer>
+      <PosterContainer>
+        <img src={poster} alt={title} />
+      </PosterContainer>
+      <DetailsContainer>
+        <Title>{title}</Title>
+        <Genre>{genre}</Genre>
+      </DetailsContainer>
+    </MovieCardContainer>
   );
 }

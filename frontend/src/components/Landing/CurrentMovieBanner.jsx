@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import styled from "@emotion/styled";
-import { ThemeProvider } from "@mui/material/styles";
 import theme from "../../../src/theme";
 
 const CurrentMovieBannerContainer = styled("div")({
@@ -47,14 +46,12 @@ export default function CurrentMovieBanner({ movies }) {
   const currentMovie = movies[currentMovieIndex];
 
   return (
-    <ThemeProvider theme={theme}>
-      <CurrentMovieBannerContainer
-        style={{ backgroundImage: `url(${currentMovie.backgroundImage})` }}>
-        <OverlayContainer>
-          <Title>{currentMovie.title}</Title>
-          <Description>{currentMovie.description}</Description>
-        </OverlayContainer>
-      </CurrentMovieBannerContainer>
-    </ThemeProvider>
+    <CurrentMovieBannerContainer
+      style={{ backgroundImage: `url(${currentMovie.backgroundImage})` }}>
+      <OverlayContainer>
+        <Title>{currentMovie.title}</Title>
+        <Description>{currentMovie.description}</Description>
+      </OverlayContainer>
+    </CurrentMovieBannerContainer>
   );
 }

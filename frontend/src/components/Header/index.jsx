@@ -78,6 +78,10 @@ const Header = () => {
     navigate(newValue);
   };
 
+  const handleHomeRedirect = () => {
+    navigate("/");
+  };
+
   return (
     <StyledAppBar position="static">
       {isMobileScreen ? (
@@ -90,7 +94,11 @@ const Header = () => {
             onClick={toggleDrawer(true)}>
             <MdOutlineMenu color="darkBlue" />
           </IconButton>
-          <Typography variant="h1" color="primary">
+          <Typography
+            variant="h1"
+            color="primary"
+            style={{ cursor: "pointer" }}
+            onClick={handleHomeRedirect}>
             Cineverse
           </Typography>
           <Drawer anchor="left" open={drawerState} onClose={toggleDrawer(false)}>
@@ -112,7 +120,11 @@ const Header = () => {
         <Box>
           <Grid container justifyContent="space-between" alignItems="center">
             <div>
-              <Typography variant="h1" color="primary">
+              <Typography
+                variant="h1"
+                color="primary"
+                style={{ cursor: "pointer" }}
+                onClick={handleHomeRedirect}>
                 Cineverse
               </Typography>
             </div>
