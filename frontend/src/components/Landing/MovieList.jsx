@@ -1,8 +1,8 @@
 import React from "react";
 import MovieCard from "./MovieCard";
 import styled from "@emotion/styled";
-import { ThemeProvider } from "@mui/material/styles";
 import theme from "../../../src/theme";
+import { useNavigate } from "react-router-dom";
 
 const Title = styled("h3")({
   padding: "0 1rem",
@@ -37,20 +37,22 @@ const MovieContainer = styled("div")({
 });
 
 export default function MovieList({ title, movies }) {
+  const navigate = useNavigate();
+  const handleRedirect = (movieId) => {
+    navigate(`/movies?id=${movieId}`);
+  };
   return (
-    <ThemeProvider theme={theme}>
-      <>
-        <Title>{title}</Title>
-        <MovieListContainer>
-          <MovieScrollList>
-            {movies.map((movie) => (
-              <MovieContainer key={movie.id}>
-                <MovieCard title={movie.title} genre={movie.genre} poster={movie.poster} />
-              </MovieContainer>
-            ))}
-          </MovieScrollList>
-        </MovieListContainer>
-      </>
-    </ThemeProvider>
+    <>
+      <Title>{title}</Title>
+      <MovieListContainer>
+        <MovieScrollList>
+          {movies.map((movie) => (
+            <MovieContainer key={movie.id} onClick={() => handleRedirect(movie.id)}>
+              <MovieCard title={movie.name} genre={movie.genre} poster={movie.image} />
+            </MovieContainer>
+          ))}
+        </MovieScrollList>
+      </MovieListContainer>
+    </>
   );
 }

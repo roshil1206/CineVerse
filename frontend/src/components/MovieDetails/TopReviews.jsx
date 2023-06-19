@@ -55,17 +55,17 @@ const Text = styled(Typography)(({ theme }) => ({
   fontWeight: "bold",
 }));
 
-const TopReviews = () => {
+const TopReviews = ({ reviews }) => {
   return (
     <Container>
       <MainWrapper>
         <Box sx={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
           <Text>Top Reviews</Text>
-          <AllReviews variant="subtitle2">8K reviews &gt;</AllReviews>
+          <AllReviews variant="subtitle2">{reviews.length} reviews &gt;</AllReviews>
         </Box>
         <Wrapper>
-          {[1, 2, 3, 4, 5].map((item, i) => (
-            <ReviewTile key={i} />
+          {reviews.map((review, i) => (
+            <ReviewTile key={i} review={review} />
           ))}
         </Wrapper>
       </MainWrapper>

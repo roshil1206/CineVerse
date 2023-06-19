@@ -3,11 +3,14 @@ import { Container, Typography } from "@mui/material";
 import styled from "@emotion/styled";
 
 const TileWrapper = styled("div")(({ theme }) => ({
-  minWidth: 300,
+  width: 300,
   borderRadius: 10,
   backgroundColor: theme.palette.white,
   margin: "10px 25px 10px 5px",
   boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
+  "@media only screen and (max-width: 600px)": {
+    minWidth: "250px",
+  },
 }));
 
 const RatingText = styled(Typography)(({ theme }) => ({
@@ -25,6 +28,7 @@ const Wrapper = styled("div")({
   flexDirection: "column",
   justifyContent: "start",
   padding: "16px 0",
+  width: "100%",
 });
 
 const TextWrapper = styled("div")({
@@ -39,17 +43,17 @@ const ReviewWrapper = styled("div")({
   padding: "16px 0",
 });
 
-const ReviewTile = () => {
+const ReviewTile = ({ review }) => {
   return (
     <TileWrapper>
       <Container>
         <Wrapper>
           <TextWrapper>
-            <Typography variant="h6">Reviewer Name</Typography>
-            <RatingText variant="p">Rating: 9/10</RatingText>
+            <Typography variant="h6">{review.reviewerName}</Typography>
+            <RatingText variant="p">Rating: {review.rating}/10</RatingText>
           </TextWrapper>
           <ReviewWrapper>
-            <Text>Lorem Ipsum is simply dummy text of the printing and typesetting industry</Text>
+            <Text>{review.review}</Text>
           </ReviewWrapper>
         </Wrapper>
       </Container>

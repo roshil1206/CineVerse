@@ -1,9 +1,7 @@
 import React from "react";
-import { Container, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import styled from "@emotion/styled";
 import { keyframes } from "@emotion/react";
-
-import movieImg from "../../assets/images/movieImage2.jpg";
 
 const slideInAnimation = keyframes`
   from {
@@ -17,10 +15,13 @@ const slideInAnimation = keyframes`
 `;
 
 const TileWrapper = styled("div")({
-  minWidth: "200px",
-  marginRight: "15px",
+  width: "200px",
+  marginRight: "30px",
   animation: `${slideInAnimation} 0.5s ease-in-out`,
   cursor: "pointer",
+  "@media only screen and (max-width: 600px)": {
+    minWidth: "150px",
+  },
 });
 
 const Image = styled("img")({
@@ -36,16 +37,14 @@ const Text = styled(Typography)(({ theme }) => ({
   textAlign: "center",
 }));
 
-const MovieTile = () => {
+const MovieTile = ({ movie }) => {
   return (
-    <Container>
-      <TileWrapper>
-        <div className="d-flex flex-column">
-          <Image src={movieImg} alt="movieImg" />
-          <Text>Movie Name</Text>
-        </div>
-      </TileWrapper>
-    </Container>
+    <TileWrapper>
+      <div className="d-flex flex-column">
+        <Image src={movie.image} alt="movieImg" />
+        <Text>{movie.name}</Text>
+      </div>
+    </TileWrapper>
   );
 };
 

@@ -3,6 +3,7 @@ import { Container, Typography, Box } from "@mui/material";
 import styled from "@emotion/styled";
 
 import MovieTile from "./MovieTile";
+import { useNavigate } from "react-router-dom";
 
 const BoxWrapper = styled("div")({
   display: "flex",
@@ -30,7 +31,15 @@ const Text = styled(Typography)(({ theme }) => ({
   fontWeight: "bold",
 }));
 
-const RelatedMovies = () => {
+const RelatedMovies = ({ currentMovie, movies }) => {
+  const navigate = useNavigate();
+
+  const relatedMovies = movies.filter((movie) => movie.genre === currentMovie.genre);
+
+  const handleRedirect = (movieId) => {
+    navigate(`/movies?id=${movieId}`);
+  };
+
   return (
     <Container>
       <BoxWrapper>
@@ -38,8 +47,10 @@ const RelatedMovies = () => {
           <Text>You might also like</Text>
         </Box>
         <Wrapper>
-          {[1, 2, 3, 4, 5].map((item, i) => (
-            <MovieTile key={i} />
+          {relatedMovies.map((movie, i) => (
+            <Box key={i} onClick={() => handleRedirect(movie.id)}>
+              <MovieTile movie={movie} />
+            </Box>
           ))}
         </Wrapper>
       </BoxWrapper>
