@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import * as Components from "../../components/Authentication/Auth";
 import { Alert, Snackbar } from "@mui/material";
-import { useLocation, useParams } from "react-router";
 import { useNavigate } from "react-router-dom";
 
 function Authentication() {
@@ -88,7 +87,6 @@ function Authentication() {
 
     if (Object.keys(newErrors).length === 0) {
       navigate("/");
-      // console.log("Login submitted!");
     }
   };
 
