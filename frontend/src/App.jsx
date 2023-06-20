@@ -9,6 +9,7 @@ import Landing from "./pages/Landing";
 import Contact from "./pages/Contact";
 import Wrapper from "./layout/Wrapper";
 import BookingWindow from "./pages/BookingWindow";
+import MovieDetail from "./pages/MovieDetails";
 // import PrivateLayout from "./layout/PrivateLayout";
 // import PublicLayout from "./layout/PublicLayout";
 // import AdminLayout from "./layout/AdminLayout";
@@ -89,6 +90,10 @@ const App = () => {
           element={
             <Wrapper>
               <BookingWindow />
+          path="/movies"
+          element={
+            <Wrapper>
+              <MovieDetail />
             </Wrapper>
           }
         />

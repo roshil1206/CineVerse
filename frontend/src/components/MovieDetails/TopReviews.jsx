@@ -1,0 +1,76 @@
+import React from "react";
+import { Container, Typography, Box } from "@mui/material";
+import styled from "@emotion/styled";
+import { keyframes } from "@emotion/react";
+
+import ReviewTile from "./ReviewTile";
+
+const slideInAnimation = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
+const AllReviews = styled(Typography)(({ theme }) => ({
+  color: theme.palette.primary.main,
+  cursor: "pointer",
+  transition: "color 0.3s ease-in-out",
+  "&:hover": {
+    color: theme.palette.secondary.main,
+  },
+}));
+
+const MainWrapper = styled("div")`
+  overflow: auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+`;
+
+const Wrapper = styled(Box)({
+  overflow: "auto",
+  width: "100%",
+  display: "flex",
+  gap: "1rem",
+  animation: `${slideInAnimation} 0.5s ease-in-out`,
+  "&::-webkit-scrollbar": {
+    display: "none",
+  },
+  "&::-webkit-scrollbar-thumb": {
+    display: "none",
+  },
+});
+
+const Text = styled(Typography)(({ theme }) => ({
+  size: theme.typography.h5,
+  fontWeight: "bold",
+}));
+
+const TopReviews = ({ reviews }) => {
+  return (
+    <Container>
+      <MainWrapper>
+        <Box sx={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
+          <Text>Top Reviews</Text>
+          <AllReviews variant="subtitle2">{reviews.length} reviews &gt;</AllReviews>
+        </Box>
+        <Wrapper>
+          {reviews.map((review, i) => (
+            <ReviewTile key={i} review={review} />
+          ))}
+        </Wrapper>
+      </MainWrapper>
+    </Container>
+  );
+};
+
+export default TopReviews;
