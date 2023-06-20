@@ -81,6 +81,14 @@ const Header = () => {
     navigate(newValue);
   };
 
+  const handleLogin = () => {
+    navigate("/login");
+  };
+
+  const handleRegister = () => {
+    navigate("/register");
+  };
+
   const handleHomeRedirect = () => {
     navigate("/");
   };
@@ -142,7 +150,10 @@ const Header = () => {
               </Tabs>
             </Grid>
             <Grid>
-              <StyledButton variant="contained" style={{ marginRight: "10px" }}>
+              <StyledButton
+                variant="contained"
+                onClick={handleLogin}
+                style={{ marginRight: "10px" }}>
                 Login
               </StyledButton>
               <StyledButtonOutline variant="outlined">Sign up</StyledButtonOutline>
