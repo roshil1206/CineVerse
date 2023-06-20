@@ -102,7 +102,11 @@ const BookingWindow = () => {
             handleTabChange={handleTabChange}
           />
           <Grid item xs={12} sx={{ textAlign: "center", marginBottom: "20px" }}>
-            <PaymentButton type="submit" variant="contained" disabled={selectedSeats.length === 0}>
+            <PaymentButton
+              type="submit"
+              variant="contained"
+              disabled={selectedSeats.length === 0}
+              onClick={() => alert("TBD")}>
               <b>PROCEED TO PAYMENT</b>
             </PaymentButton>
           </Grid>
