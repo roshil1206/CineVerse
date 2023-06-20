@@ -57,9 +57,14 @@ const links = [
 const Header = () => {
   const theme = useTheme();
   const navigate = useNavigate();
-  const { pathname } = useLocation();
+  const { pathname, search } = useLocation();
   const activePath = "/" + pathname.split("/")[1];
+  console.log(activePath, pathname);
   const isMobileScreen = useMediaQuery(theme.breakpoints.down("md"));
+
+  const currentTab = activePath.slice(1);
+  const currentTabURL = pathname.concat(search);
+  const isMainTabs = links.some((link) => link.link === activePath);
 
   const [value, setValue] = useState(activePath);
   const [drawerState, setDrawerState] = useState(false);
@@ -127,10 +132,13 @@ const Header = () => {
               </Typography>
             </div>
             <Grid>
-              <Tabs value={value} onChange={handleChange}>
+              <Tabs value={isMainTabs ? value : currentTabURL} onChange={handleChange}>
                 {links.map((data, key) => (
                   <StyledTab label={data.name} value={data.link} key={key} {...a11yProps(key)} />
                 ))}
+                {links.some((link) => link.link === activePath) ? null : (
+                  <StyledTab label={currentTab} value={currentTabURL} {...a11yProps(4)} />
+                )}
               </Tabs>
             </Grid>
             <Grid>
