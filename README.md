@@ -23,7 +23,7 @@ experience for all moviegoers.
 The Project has been deployed using GitLab for version control and GitHub as a mirrored repository, with Netlify handling
 the deployment process.
 
-* Deployed URL*: <https://csci-5709-group-08.netlify.app>
+* Deployed URL: <https://csci-5709-group-08.netlify.app>
 
 
 ## Built With
@@ -36,6 +36,8 @@ the deployment process.
 * [ESlint](https://eslint.org) - Linting Library for JS and JSX
 * [Prettier](https://prettier.io) - Code Formatter
 
+## Sources Used
+* Used [Unsplash](https://unsplash.com) to get copyright free images.
 
 ## Acknowledgments
 * Referred [Article](https://dev.to/rajeshroyal/page-not-found-error-on-netlify-reactjs-react-router-solved-43oa) for
