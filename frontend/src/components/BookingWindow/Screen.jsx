@@ -38,6 +38,18 @@ const CustomTab = styled(Tab)(({ isSelected }) => ({
   },
 }));
 
+const ScreenWrapper = styled(`div`)({
+  display: "flex",
+  marginTop: "10px",
+  overflow: "auto",
+  height: "100%",
+  width: "80%",
+  paddingTop: "50px",
+  paddingLeft: "35px",
+  margin: "auto",
+  gap: "60px",
+});
+
 const Screen = ({ selectedSeats, handleSeatClick, handleTabChange }) => {
   const [isHoverTab1, setHoverTab1] = React.useState(false);
   const [isHoverTab2, setHoverTab2] = React.useState(false);
@@ -165,7 +177,7 @@ const Screen = ({ selectedSeats, handleSeatClick, handleTabChange }) => {
 
     seats.push(
       <div style={{ display: "flex" }}>{leftSeatsList}</div>,
-      <div style={{ display: "flex", marginLeft: "70px" }}>{rightSeatsList}</div>
+      <div style={{ display: "flex" }}>{rightSeatsList}</div>
     );
 
     return seats;
@@ -211,19 +223,7 @@ const Screen = ({ selectedSeats, handleSeatClick, handleTabChange }) => {
               }}>
               Selected Seats: {selectedSeats.length}
             </div>
-            <div style={{ display: "flex", justifyContent: "center" }}>
-              <div
-                style={{
-                  display: "flex",
-                  marginTop: "10px",
-                  overflow: "auto",
-                  height: "100%",
-                  paddingTop: "50px",
-                  paddingLeft: "25px",
-                }}>
-                {renderSeats(0, 5, -14, 20, 8, -8)}
-              </div>
-            </div>
+            <ScreenWrapper>{renderSeats(0, 5, -14, 20, 8, -8)}</ScreenWrapper>
           </div>
         </TabsContainer>
       </Grid>

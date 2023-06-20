@@ -1,11 +1,8 @@
 import { Grid } from "@mui/material";
 import styled from "@emotion/styled";
-import React, { useState } from "react";
+import React from "react";
 
-const Seat = ({ seatNo }) => {
-  const [isClicked, setIsClicked] = useState(false);
-  const [isHover, setIsHover] = useState(false);
-
+const Seat = ({ seatNo, isSelected }) => {
   const SeatStyle = styled(Grid)({
     width: "35px",
     height: "50px",
@@ -27,29 +24,15 @@ const Seat = ({ seatNo }) => {
       width: "100%",
       height: "100%",
       borderRadius: "7px",
-      background: isClicked ? "rgba(255, 255, 255, 0.6)" : isHover ? "rgba(0, 0, 0, 0.5)" : "",
+      background: isSelected ? "rgba(255, 255, 255, 0.6)" : "",
+      "&:hover": {
+        background: "rgba(0, 0, 0, 0.5)",
+      },
     },
   });
 
-  const handleClick = () => {
-    setIsClicked(!isClicked);
-    setIsHover(false);
-  };
-
-  const handleMouseEnter = () => {
-    setIsHover(true & !isClicked);
-  };
-
-  const handleMouseLeave = () => {
-    setIsHover(false);
-  };
-
   return (
-    <SeatStyle
-      container
-      onClick={handleClick}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}>
+    <SeatStyle container>
       <div>{seatNo}</div>
     </SeatStyle>
   );
