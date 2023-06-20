@@ -7,27 +7,6 @@ import movie6 from "./images/movie6.jpg";
 import movie7 from "./images/movie7.jpg";
 import movie8 from "./images/movie8.jpg";
 import movie9 from "./images/movie9.jpg";
-import movieA from "./images/movieA.jpg";
-import movieB from "./images/movieB.jpg";
-import movieC from "./images/movieC.jpg";
-
-export const rotatingMovies = [
-  {
-    title: "Movie A",
-    description: "This is the description of Movie A",
-    backgroundImage: movieA,
-  },
-  {
-    title: "Movie B",
-    description: "This is the description of Movie B.",
-    backgroundImage: movieB,
-  },
-  {
-    title: "Movie C",
-    description: "This is the description of Movie C.",
-    backgroundImage: movieC,
-  },
-];
 
 export const movies = [
   {

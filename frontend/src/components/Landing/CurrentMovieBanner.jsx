@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "@emotion/styled";
 import theme from "../../../src/theme";
+import { useNavigate } from "react-router-dom";
 
 const CurrentMovieBannerContainer = styled("div")({
   position: "relative",
@@ -10,15 +11,16 @@ const CurrentMovieBannerContainer = styled("div")({
   backgroundPosition: "center",
   display: "flex",
   alignItems: "center",
+  objectFit: "cover",
   justifyContent: "center",
   color: theme.palette.white,
+  cursor: "pointer",
 });
 
 const OverlayContainer = styled("div")({
   position: "absolute",
   bottom: 0,
   left: 0,
-  width: "100%",
   padding: "20px",
   background: `linear-gradient(to right top, rgba(0, 0, 0, 0.3) 35%, rgba(0, 0, 0, 0) 60%)`,
 });
@@ -37,6 +39,7 @@ const Description = styled("p")({
 
 export default function CurrentMovieBanner({ movies }) {
   const [currentMovieIndex, setCurrentMovieIndex] = useState(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -50,9 +53,10 @@ export default function CurrentMovieBanner({ movies }) {
 
   return (
     <CurrentMovieBannerContainer
-      style={{ backgroundImage: `url(${currentMovie.backgroundImage})` }}>
+      style={{ backgroundImage: `url(${currentMovie.image})` }}
+      onClick={() => navigate(`/movies?id=${currentMovie.id}`)}>
       <OverlayContainer>
-        <Title>{currentMovie.title}</Title>
+        <Title>{currentMovie.name}</Title>
         <Description>{currentMovie.description}</Description>
       </OverlayContainer>
     </CurrentMovieBannerContainer>
