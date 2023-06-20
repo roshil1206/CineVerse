@@ -15,9 +15,12 @@ const CurrentMovieBannerContainer = styled("div")({
 });
 
 const OverlayContainer = styled("div")({
-  backgroundColor: "rgba(0, 0 ,0 , 0.5)",
+  position: "absolute",
+  bottom: 0,
+  left: 0,
+  width: "100%",
   padding: "20px",
-  justifyContent: "end",
+  background: `linear-gradient(to right top, rgba(0, 0, 0, 0.3) 35%, rgba(0, 0, 0, 0) 60%)`,
 });
 
 const Title = styled("h2")({
