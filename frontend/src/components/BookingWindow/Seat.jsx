@@ -6,7 +6,7 @@ const Seat = ({ seatNo }) => {
   const [isClicked, setIsClicked] = useState(false);
   const [isHover, setIsHover] = useState(false);
 
-  const SeatStyle = styled(Grid)(({ theme }) => ({
+  const SeatStyle = styled(Grid)(({}) => ({
     width: "35px",
     height: "50px",
     marginBottom: "10px",

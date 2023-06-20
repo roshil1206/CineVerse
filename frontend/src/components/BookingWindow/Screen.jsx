@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Grid } from "@mui/material";
 import styled from "@emotion/styled";
 import Seat from "./Seat";
