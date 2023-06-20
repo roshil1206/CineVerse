@@ -10,6 +10,7 @@ import Contact from "./pages/Contact";
 import Wrapper from "./layout/Wrapper";
 import MovieDetail from "./pages/MovieDetails";
 import BookingWindow from "./pages/BookingWindow";
+import FAQ from "./pages/FAQ";
 // import PrivateLayout from "./layout/PrivateLayout";
 // import PublicLayout from "./layout/PublicLayout";
 // import AdminLayout from "./layout/AdminLayout";
@@ -98,6 +99,14 @@ const App = () => {
           element={
             <Wrapper>
               <BookingWindow />
+            </Wrapper>
+          }
+        />
+        <Route
+          path="/faq"
+          element={
+            <Wrapper>
+              <FAQ />
             </Wrapper>
           }
         />
