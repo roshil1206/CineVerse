@@ -50,10 +50,8 @@ function a11yProps(index) {
 
 const links = [
   { name: "Home", link: "/" },
-  { name: "Booking", link: "/booking" },
   { name: "Contact", link: "/contact" },
   { name: "FAQs", link: "/faq" },
-  { name: "Page 2", link: "/page2" },
 ];
 
 const Header = () => {

@@ -2,6 +2,7 @@ import React from "react";
 import { Container, Typography, Button } from "@mui/material";
 import styled from "@emotion/styled";
 import { keyframes } from "@emotion/react";
+import { useNavigate } from "react-router-dom";
 
 const slideInAnimation = keyframes`
   from {
@@ -110,6 +111,12 @@ const Div = styled("div")({
 
 const MovieOverview = ({ data }) => {
   const languages = data.languages.join(", ");
+  const navigate = useNavigate();
+
+  const handleBooking = () => {
+    navigate(`/booking?id=${data.id}`);
+  };
+
   return (
     <Wrapper image={data.image}>
       <Container>
@@ -125,7 +132,7 @@ const MovieOverview = ({ data }) => {
             <DesText variant="p" className="desText">
               {data.duration} | {languages} | {data.releaseDate}
             </DesText>
-            <BookButton variant="contained" size="large">
+            <BookButton variant="contained" size="large" onClick={handleBooking}>
               Book Now
             </BookButton>
           </TextWrapper>
