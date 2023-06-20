@@ -59,7 +59,6 @@ const Header = () => {
   const navigate = useNavigate();
   const { pathname, search } = useLocation();
   const activePath = "/" + pathname.split("/")[1];
-  console.log(activePath, pathname);
   const isMobileScreen = useMediaQuery(theme.breakpoints.down("md"));
 
   const currentTab = activePath.slice(1);
