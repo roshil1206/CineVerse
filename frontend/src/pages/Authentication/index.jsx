@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import * as Components from "../../components/Authentication/Auth";
 import { Alert, Snackbar } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function Authentication() {
   const { state } = useLocation();
-
   const navigate = useNavigate();
   const [signIn, toggle] = React.useState(state?.register ? false : true);
   const [errors, setErrors] = useState({});
