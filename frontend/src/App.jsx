@@ -8,8 +8,8 @@ import "./App.css";
 import Landing from "./pages/Landing";
 import Contact from "./pages/Contact";
 import Wrapper from "./layout/Wrapper";
-import BookingWindow from "./pages/BookingWindow";
 import MovieDetail from "./pages/MovieDetails";
+import BookingWindow from "./pages/BookingWindow";
 // import PrivateLayout from "./layout/PrivateLayout";
 // import PublicLayout from "./layout/PublicLayout";
 // import AdminLayout from "./layout/AdminLayout";
@@ -86,14 +86,18 @@ const App = () => {
           }
         />
         <Route
-          path="/booking"
-          element={
-            <Wrapper>
-              <BookingWindow />
           path="/movies"
           element={
             <Wrapper>
               <MovieDetail />
+            </Wrapper>
+          }
+        />
+        <Route
+          path="/booking"
+          element={
+            <Wrapper>
+              <BookingWindow />
             </Wrapper>
           }
         />

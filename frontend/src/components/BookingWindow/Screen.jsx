@@ -38,14 +38,13 @@ const CustomTab = styled(Tab)(({ isSelected }) => ({
   },
 }));
 
-const Screen = () => {
+const Screen = ({ selectedSeats, handleSeatClick, handleTabChange }) => {
   const [isHoverTab1, setHoverTab1] = React.useState(false);
   const [isHoverTab2, setHoverTab2] = React.useState(false);
   const [isHoverTab3, setHoverTab3] = React.useState(false);
   const [isSelectedTab1, setSelectedTab1] = React.useState(true);
   const [isSelectedTab2, setSelectedTab2] = React.useState(false);
   const [isSelectedTab3, setSelectedTab3] = React.useState(false);
-  const [selectedSeats, setSelectedSeats] = useState([]);
 
   const handleMouseEnter1 = () => {
     setHoverTab1(true);
@@ -72,30 +71,24 @@ const Screen = () => {
   };
 
   const handleMouseClick1 = () => {
+    !isSelectedTab1 && handleTabChange();
     setSelectedTab1(true);
     setSelectedTab2(false);
     setSelectedTab3(false);
   };
 
   const handleMouseClick2 = () => {
+    !isSelectedTab2 && handleTabChange();
     setSelectedTab1(false);
     setSelectedTab2(true);
     setSelectedTab3(false);
   };
 
   const handleMouseClick3 = () => {
+    !isSelectedTab3 && handleTabChange();
     setSelectedTab1(false);
     setSelectedTab2(false);
     setSelectedTab3(true);
-  };
-
-  const handleSeatClick = (seatNo) => {
-    console.log("here");
-    if (selectedSeats.includes(seatNo)) {
-      setSelectedSeats(selectedSeats.filter((seat) => seat !== seatNo));
-    } else {
-      setSelectedSeats([...selectedSeats, seatNo]);
-    }
   };
 
   const renderSeats = (
