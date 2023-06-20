@@ -5,8 +5,10 @@ import { useLocation, useParams } from "react-router";
 import { useNavigate } from "react-router-dom";
 
 function Authentication() {
+  const { state } = useLocation();
+
   const navigate = useNavigate();
-  const [signIn, toggle] = React.useState(true);
+  const [signIn, toggle] = React.useState(state?.register ? false : true);
   const [errors, setErrors] = useState({});
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
