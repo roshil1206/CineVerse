@@ -2,6 +2,7 @@ import {
   AppBar,
   Box,
   Button,
+  Divider,
   Drawer,
   Grid,
   IconButton,
@@ -34,11 +35,17 @@ const StyledTab = styled(Tab)(() => ({
 
 const StyledButton = styled(Button)(({ theme }) => ({
   backgroundColor: theme.palette.secondary.main,
+  "&.MuiButton-root:hover": {
+    backgroundColor: theme.palette.secondary.main,
+  },
 }));
 
 const StyledButtonOutline = styled(Button)(({ theme }) => ({
   borderColor: theme.palette.secondary.main,
   color: theme.palette.secondary.main,
+  "&.MuiButton-root:hover": {
+    borderColor: theme.palette.secondary.main,
+  },
 }));
 
 function a11yProps(index) {
@@ -81,11 +88,11 @@ const Header = () => {
   };
 
   const handleLogin = () => {
-    navigate("/login");
+    navigate("/login", { state: { register: false } });
   };
 
   const handleRegister = () => {
-    navigate("/register");
+    navigate("/login", { state: { register: true } });
   };
 
   const handleHomeRedirect = () => {
@@ -122,6 +129,12 @@ const Header = () => {
                     isActive={text.link === activePath}
                   />
                 ))}
+                <Divider />
+                <CustomListItem
+                  name="Login / Register"
+                  link="/login"
+                  isActive={"/login" === activePath}
+                />
               </List>
             </Box>
           </Drawer>
@@ -149,13 +162,19 @@ const Header = () => {
               </Tabs>
             </Grid>
             <Grid>
-              <StyledButton
-                variant="contained"
-                onClick={handleLogin}
-                style={{ marginRight: "10px" }}>
-                Login
-              </StyledButton>
-              <StyledButtonOutline variant="outlined">Sign up</StyledButtonOutline>
+              {!(activePath === "/login") && (
+                <>
+                  <StyledButton
+                    variant="contained"
+                    onClick={handleLogin}
+                    style={{ marginRight: "10px" }}>
+                    Login
+                  </StyledButton>
+                  <StyledButtonOutline variant="outlined" onClick={handleRegister}>
+                    Sign up
+                  </StyledButtonOutline>
+                </>
+              )}
             </Grid>
           </Grid>
         </Box>
