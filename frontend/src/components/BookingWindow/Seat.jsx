@@ -6,7 +6,7 @@ const Seat = ({ seatNo }) => {
   const [isClicked, setIsClicked] = useState(false);
   const [isHover, setIsHover] = useState(false);
 
-  const SeatStyle = styled(Grid)(({}) => ({
+  const SeatStyle = styled(Grid)({
     width: "35px",
     height: "50px",
     marginBottom: "10px",
@@ -29,7 +29,7 @@ const Seat = ({ seatNo }) => {
       borderRadius: "7px",
       background: isClicked ? "rgba(255, 255, 255, 0.6)" : isHover ? "rgba(0, 0, 0, 0.5)" : "",
     },
-  }));
+  });
 
   const handleClick = () => {
     setIsClicked(!isClicked);
