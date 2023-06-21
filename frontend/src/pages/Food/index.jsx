@@ -3,7 +3,6 @@ import { Box, Button, Grid, Fab, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import CustomCard from "./CustomCard";
 import { foodData } from "../../mock/index";
-import { useNavigate } from "react-router-dom";
 import CustomButton from "../../components/UI/CustomButton";
 
 const styles = {
@@ -69,8 +68,6 @@ const CustomFab = styled(Fab)(({ theme }) => ({
 const buttons = ["All", "Food", "Beverages", "Combos"];
 
 const FoodandBeverages = () => {
-  const navigate = useNavigate();
-
   const [selectedButton, setSelectedButton] = useState(0);
   const [selectedItems, setSelectedItems] = useState([]);
 
