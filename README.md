@@ -25,6 +25,8 @@ experience for all moviegoers.
 The Project has been deployed using GitLab for version control and GitHub as a mirrored repository, with [Netlify](https://www.netlify.com/) handling
 the deployment process.
 
+As there are a lot of large image files in the project, there might be a delay in loading the website for the first time.
+
 - Deployed URL: <https://csci-5709-group-08.netlify.app>
 
 ## Built With
@@ -45,7 +47,7 @@ the deployment process.
 ## Acknowledgments
 
 - Referred [Article](https://dev.to/rajeshroyal/page-not-found-error-on-netlify-reactjs-react-router-solved-43oa) for solving the page not found error on netlify.
-- Regex for form validation are reffered from:
-  - [https://stackoverflow.com/questions/201323/how-can-i-validate-an-email-address-using-a-regular-expression](https://stackoverflow.com/questions/201323/how-can-i-validate-an-email-address-using-a-regular-expression) - For Email validation.
-  - [https://stackoverflow.com/questions/3617797/regex-to-match-only-letters](https://stackoverflow.com/questions/3617797/regex-to-match-only-letters) - For Characters Valiation.
-  - [https://stackoverflow.com/questions/16699007/regular-expression-to-match-standard-10-digit-phone-number](https://stackoverflow.com/questions/16699007/regular-expression-to-match-standard-10-digit-phone-number) - For phone number validation.
+- Regex for form validation are referred from:
+  - [Stackoverflow Article](https://stackoverflow.com/questions/201323/how-can-i-validate-an-email-address-using-a-regular-expression) - For Email validation.
+  - [Stackoverflow Article](https://stackoverflow.com/questions/3617797/regex-to-match-only-letters) - For Characters Valiation.
+  - [Stackoverflow Article](https://stackoverflow.com/questions/16699007/regular-expression-to-match-standard-10-digit-phone-number) - For phone number validation.
