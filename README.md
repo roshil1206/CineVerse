@@ -37,7 +37,6 @@ the deployment process.
 - [Classnames](https://www.npmjs.com/package/classnames) - Utility Library for conditional classnames
 - [ESlint](https://eslint.org) - Linting Library for JS and JSX
 - [Prettier](https://prettier.io) - Code Formatter
--
 
 ## Sources Used
 
