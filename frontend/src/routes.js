@@ -3,12 +3,20 @@ import MovieDetails from "./pages/MovieDetails";
 import BookingWindow from "./pages/BookingWindow";
 import Contact from "./pages/Contact";
 import FAQ from "./pages/FAQ";
+import Authentication from "./pages/Authentication";
+import Food from "./pages/Food";
 
 const routes = [
   {
     path: "/",
     name: "Home",
     component: Landing,
+    layout: "public",
+  },
+  {
+    path: "/login",
+    name: "Authentication",
+    component: Authentication,
     layout: "public",
   },
   {
@@ -29,6 +37,7 @@ const routes = [
     component: Contact,
     layout: "public",
   },
+  { path: "/food", name: "Food", component: Food, layout: "public" },
   {
     path: "/faq",
     name: "FAQ",

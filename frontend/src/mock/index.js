@@ -7,27 +7,10 @@ import movie6 from "./images/movie6.jpg";
 import movie7 from "./images/movie7.jpg";
 import movie8 from "./images/movie8.jpg";
 import movie9 from "./images/movie9.jpg";
-import movieA from "./images/movieA.jpg";
-import movieB from "./images/movieB.jpg";
-import movieC from "./images/movieC.jpg";
-
-export const rotatingMovies = [
-  {
-    title: "Movie A",
-    description: "This is the description of Movie A",
-    backgroundImage: movieA,
-  },
-  {
-    title: "Movie B",
-    description: "This is the description of Movie B.",
-    backgroundImage: movieB,
-  },
-  {
-    title: "Movie C",
-    description: "This is the description of Movie C.",
-    backgroundImage: movieC,
-  },
-];
+import sandwich from "./images/sandwich.jpg";
+import popcorn from "./images/popcorn.jpg";
+import beverages from "./images/beverages.jpg";
+import combo from "./images/combo.jpg";
 
 export const movies = [
   {
@@ -264,5 +247,36 @@ export const faqData = [
     question: "What should I do if I face any issues during the booking process?",
     answer:
       "If you encounter any issues while booking movie tickets, please contact our customer support team. You can reach us through the provided contact information on our website, and our support team will be happy to assist you.",
+  },
+];
+
+export const foodData = [
+  {
+    name: "Sandwich",
+    description: "Customize your sandwith as per taste.",
+    type: "food",
+    price: 2.99,
+    image: sandwich,
+  },
+  {
+    name: "Fruit Juice",
+    description: "Select your favourate fruits for juice.",
+    type: "beverages",
+    price: 3.19,
+    image: beverages,
+  },
+  {
+    name: "Popcorn ",
+    description: "A popcorn served with caremal.",
+    type: "food",
+    price: 6.99,
+    image: popcorn,
+  },
+  {
+    name: "Burger and drink",
+    description: "Burger served with chilled drink.",
+    type: "combo",
+    price: 3.99,
+    image: combo,
   },
 ];

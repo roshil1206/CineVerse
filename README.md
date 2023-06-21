@@ -7,36 +7,47 @@ their preferred seats. Real-time seat availability updates enable informed ticke
 consumers' time and effort by delivering a user-friendly and efficient platform, ultimately creating an enjoyable movie
 experience for all moviegoers.
 
-* *Date Created*: 24 05 2023
-* *Last Modification Date*: 20 06 2023
-* *Git URL*: https://git.cs.dal.ca/umehta/csci-5709-grp-08
+- _Date Created_: 24 05 2023
+- _Last Modification Date_: 20 06 2023
+- _Git URL_: https://git.cs.dal.ca/umehta/csci-5709-grp-08
 
 ## Authors
-* [Himanshu Prajapati](himanshu@dal.ca)
-* [Kevin Panchal](panchal@dal.ca)
-* [Riya Patel](riya.patel@dal.ca)
-* [Roshil Patel](rs622844@dal.ca)
-* [Umang Mehta](umang@dal.ca)
-* [Vaidik Nimavat](vd386827@dal.ca)
+
+- [Himanshu Prajapati](himanshu@dal.ca) - _(Full-stack Developer)_
+- [Kevin Panchal](panchal@dal.ca) - _(Full-stack Developer)_
+- [Riya Patel](riya.patel@dal.ca) - _(Full-stack Developer)_
+- [Roshil Patel](rs622844@dal.ca) - _(Full-stack Developer)_
+- [Umang Mehta](umang@dal.ca) - _(Full-stack Developer)_
+- [Vaidik Nimavat](vd386827@dal.ca) - _(Full-stack Developer)_
 
 ## Deployment
-The Project has been deployed using GitLab for version control and GitHub as a mirrored repository, with Netlify handling
+
+The Project has been deployed using GitLab for version control and GitHub as a mirrored repository, with [Netlify](https://www.netlify.com/) handling
 the deployment process.
 
-* Deployed URL*: <https://csci-5709-group-08.netlify.app>
+As there are a lot of large image files in the project, there might be a delay in loading the website for the first time.
 
+- Deployed URL: <https://csci-5709-group-08.netlify.app>
 
 ## Built With
-* [ReactJs](https://react.dev) - The frontend framework used
-* [Material UI](https://material-ui.com) - UI Library
-* [React Router](https://reactrouter.com) - Routing Library
-* [React Icons](https://react-icons.github.io/react-icons/) - Icons Library
-* [React Tabs](https://reactcommunity.org/react-tabs/) - Tabs Library for React 
-* [Classnames](https://www.npmjs.com/package/classnames) - Utility Library for conditional classnames
-* [ESlint](https://eslint.org) - Linting Library for JS and JSX
-* [Prettier](https://prettier.io) - Code Formatter
 
+- [ReactJs](https://react.dev) - The frontend framework used
+- [Material UI](https://material-ui.com) - UI Library
+- [React Router](https://reactrouter.com) - Routing Library
+- [React Icons](https://react-icons.github.io/react-icons/) - Icons Library
+- [React Tabs](https://reactcommunity.org/react-tabs/) - Tabs Library for React
+- [Classnames](https://www.npmjs.com/package/classnames) - Utility Library for conditional classnames
+- [ESlint](https://eslint.org) - Linting Library for JS and JSX
+- [Prettier](https://prettier.io) - Code Formatter
+
+## Sources Used
+
+- Used [Unsplash](https://unsplash.com) and [Pexels](https://www.pexels.com/) to get copyright free images.
 
 ## Acknowledgments
-* Referred [Article](https://dev.to/rajeshroyal/page-not-found-error-on-netlify-reactjs-react-router-solved-43oa) for
-solving the page not found error on netlify.
+
+- Referred [Article](https://dev.to/rajeshroyal/page-not-found-error-on-netlify-reactjs-react-router-solved-43oa) for solving the page not found error on netlify.
+- Regex for form validation are referred from:
+  - [Stackoverflow Article](https://stackoverflow.com/questions/201323/how-can-i-validate-an-email-address-using-a-regular-expression) - For Email validation.
+  - [Stackoverflow Article](https://stackoverflow.com/questions/3617797/regex-to-match-only-letters) - For Characters Valiation.
+  - [Stackoverflow Article](https://stackoverflow.com/questions/16699007/regular-expression-to-match-standard-10-digit-phone-number) - For phone number validation.
