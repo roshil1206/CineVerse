@@ -4,6 +4,7 @@ import BookingWindow from "./pages/BookingWindow";
 import Contact from "./pages/Contact";
 import FAQ from "./pages/FAQ";
 import Authentication from "./pages/Authentication";
+import Food from "./pages/Food";
 
 const routes = [
   {
@@ -36,6 +37,7 @@ const routes = [
     component: Contact,
     layout: "public",
   },
+  { path: "/food", name: "Food", component: Food, layout: "public" },
   {
     path: "/faq",
     name: "FAQ",
