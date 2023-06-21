@@ -13,7 +13,6 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <StyledEngineProvider injectFirst>
-        {" "}
         <ThemeProvider theme={theme}>
           {/* <Provider store={store}> */}
           <App />

@@ -1,32 +1,48 @@
-import SignIn from "./pages/Auth/SignIn";
-import Dashboard from "./pages/Dashboard";
-import Home from "./pages/Home";
-import AdminDashboard from "./pages/AdminDashboard";
+import Landing from "./pages/Landing";
+import MovieDetails from "./pages/MovieDetails";
+import BookingWindow from "./pages/BookingWindow";
+import Contact from "./pages/Contact";
+import FAQ from "./pages/FAQ";
+import Authentication from "./pages/Authentication";
+import Food from "./pages/Food";
 
 const routes = [
   {
     path: "/",
     name: "Home",
-    component: Home,
+    component: Landing,
     layout: "public",
   },
   {
-    path: "/signin",
-    name: "SignIn",
-    component: SignIn,
+    path: "/login",
+    name: "Authentication",
+    component: Authentication,
     layout: "public",
   },
   {
-    path: "/dashboard",
-    name: "Dashboard",
-    component: Dashboard,
-    layout: "private",
+    path: "/movies",
+    name: "Movies",
+    component: MovieDetails,
+    layout: "public",
   },
   {
-    path: "/admin-dashboard",
-    name: "AdminDashboard",
-    component: AdminDashboard,
-    layout: "admin",
+    path: "/booking",
+    name: "Booking",
+    component: BookingWindow,
+    layout: "public",
+  },
+  {
+    path: "/contact",
+    name: "Contact",
+    component: Contact,
+    layout: "public",
+  },
+  { path: "/food", name: "Food", component: Food, layout: "public" },
+  {
+    path: "/faq",
+    name: "FAQ",
+    component: FAQ,
+    layout: "public",
   },
 ];
 

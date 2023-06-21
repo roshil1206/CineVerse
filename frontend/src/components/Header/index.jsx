@@ -2,6 +2,7 @@ import {
   AppBar,
   Box,
   Button,
+  Divider,
   Drawer,
   Grid,
   IconButton,
@@ -34,11 +35,17 @@ const StyledTab = styled(Tab)(() => ({
 
 const StyledButton = styled(Button)(({ theme }) => ({
   backgroundColor: theme.palette.secondary.main,
+  "&.MuiButton-root:hover": {
+    backgroundColor: theme.palette.secondary.main,
+  },
 }));
 
 const StyledButtonOutline = styled(Button)(({ theme }) => ({
   borderColor: theme.palette.secondary.main,
   color: theme.palette.secondary.main,
+  "&.MuiButton-root:hover": {
+    borderColor: theme.palette.secondary.main,
+  },
 }));
 
 function a11yProps(index) {
@@ -50,18 +57,20 @@ function a11yProps(index) {
 
 const links = [
   { name: "Home", link: "/" },
-  { name: "Booking", link: "/booking" },
   { name: "Contact", link: "/contact" },
   { name: "FAQs", link: "/faq" },
-  { name: "Page 2", link: "/page2" },
 ];
 
 const Header = () => {
   const theme = useTheme();
   const navigate = useNavigate();
-  const { pathname } = useLocation();
+  const { pathname, search } = useLocation();
   const activePath = "/" + pathname.split("/")[1];
   const isMobileScreen = useMediaQuery(theme.breakpoints.down("md"));
+
+  const currentTab = activePath.slice(1);
+  const currentTabURL = pathname.concat(search);
+  const isMainTabs = links.some((link) => link.link === activePath);
 
   const [value, setValue] = useState(activePath);
   const [drawerState, setDrawerState] = useState(false);
@@ -78,6 +87,18 @@ const Header = () => {
     navigate(newValue);
   };
 
+  const handleLogin = () => {
+    navigate("/login", { state: { register: false } });
+  };
+
+  const handleRegister = () => {
+    navigate("/login", { state: { register: true } });
+  };
+
+  const handleHomeRedirect = () => {
+    navigate("/");
+  };
+
   return (
     <StyledAppBar position="static">
       {isMobileScreen ? (
@@ -90,7 +111,11 @@ const Header = () => {
             onClick={toggleDrawer(true)}>
             <MdOutlineMenu color="darkBlue" />
           </IconButton>
-          <Typography variant="h1" color="primary">
+          <Typography
+            variant="h1"
+            color="primary"
+            style={{ cursor: "pointer" }}
+            onClick={handleHomeRedirect}>
             Cineverse
           </Typography>
           <Drawer anchor="left" open={drawerState} onClose={toggleDrawer(false)}>
@@ -104,6 +129,12 @@ const Header = () => {
                     isActive={text.link === activePath}
                   />
                 ))}
+                <Divider />
+                <CustomListItem
+                  name="Login / Register"
+                  link="/login"
+                  isActive={"/login" === activePath}
+                />
               </List>
             </Box>
           </Drawer>
@@ -112,22 +143,38 @@ const Header = () => {
         <Box>
           <Grid container justifyContent="space-between" alignItems="center">
             <div>
-              <Typography variant="h1" color="primary">
+              <Typography
+                variant="h1"
+                color="primary"
+                style={{ cursor: "pointer" }}
+                onClick={handleHomeRedirect}>
                 Cineverse
               </Typography>
             </div>
             <Grid>
-              <Tabs value={value} onChange={handleChange}>
+              <Tabs value={isMainTabs ? value : currentTabURL} onChange={handleChange}>
                 {links.map((data, key) => (
                   <StyledTab label={data.name} value={data.link} key={key} {...a11yProps(key)} />
                 ))}
+                {links.some((link) => link.link === activePath) ? null : (
+                  <StyledTab label={currentTab} value={currentTabURL} {...a11yProps(4)} />
+                )}
               </Tabs>
             </Grid>
             <Grid>
-              <StyledButton variant="contained" style={{ marginRight: "10px" }}>
-                Login
-              </StyledButton>
-              <StyledButtonOutline variant="outlined">Sign up</StyledButtonOutline>
+              {!(activePath === "/login") && (
+                <>
+                  <StyledButton
+                    variant="contained"
+                    onClick={handleLogin}
+                    style={{ marginRight: "10px" }}>
+                    Login
+                  </StyledButton>
+                  <StyledButtonOutline variant="outlined" onClick={handleRegister}>
+                    Sign up
+                  </StyledButtonOutline>
+                </>
+              )}
             </Grid>
           </Grid>
         </Box>
