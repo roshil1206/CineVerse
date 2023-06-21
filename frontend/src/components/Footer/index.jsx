@@ -11,6 +11,7 @@ const Wrapper = styled("div")({
 
 const FooterContainer = styled(Box)({
   display: "flex",
+  paddingTop: "2rem",
   justifyContent: "space-between",
   "@media only screen and (max-width: 600px)": {
     flexDirection: "column",

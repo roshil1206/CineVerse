@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { useSearchParams } from "react-router-dom";
-import { Grid, Button } from "@mui/material";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { Grid } from "@mui/material";
 import { styled } from "@mui/system";
 import { Tab, TabList, Tabs } from "react-tabs";
 import Screen from "../../components/BookingWindow/Screen";
 import { movies } from "../../mock";
 import theme from "../../theme";
+import CustomButton from "../../components/UI/CustomButton";
 
 const TabsContainer = styled(Tabs)({
   width: "80%",
@@ -41,15 +42,16 @@ const CustomTab = styled(Tab)(({ isSelected }) => ({
   },
 }));
 
-const PaymentButton = styled(Button)({
-  "& .MuiButtonBase-root": {
-    background: "#052F58",
-    color: "white",
-    width: "150px",
-  },
-});
+// const PaymentButton = styled(Button)({
+//   "& .MuiButtonBase-root": {
+//     background: "#052F58",
+//     color: "white",
+//     width: "150px",
+//   },
+// });
 
 const BookingWindow = () => {
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const movieId = searchParams.get("id");
   const movie = movies.find((movie) => movie.id === +movieId);
@@ -67,6 +69,10 @@ const BookingWindow = () => {
     !isSelectedTab2 && handleTabChange();
     setSelectedTab2(true);
     setSelectedTab1(false);
+  };
+
+  const handleProceed = () => {
+    navigate("/food");
   };
 
   const handleSeatClick = (seatNo) => {
@@ -102,13 +108,13 @@ const BookingWindow = () => {
             handleTabChange={handleTabChange}
           />
           <Grid item xs={12} sx={{ textAlign: "center", marginBottom: "20px" }}>
-            <PaymentButton
+            <CustomButton
               type="submit"
               variant="contained"
               disabled={selectedSeats.length === 0}
-              onClick={() => alert("TBD")}>
-              <b>PROCEED TO PAYMENT</b>
-            </PaymentButton>
+              onClick={() => handleProceed()}>
+              PROCEED
+            </CustomButton>
           </Grid>
         </TabsContainer>
       </Grid>
