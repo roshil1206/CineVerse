@@ -14,11 +14,14 @@ const MovieDetail = () => {
   const [relatedMovies, setRelatedMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(null);
   const movieId = searchParams.get("id");
-  // const movie = movies.find((movie) => movie.id === +movieId);
 
   useEffect(() => {
     getMovie();
   }, [movieId]);
+
+  const updateMovie = (updatedMovie) => {
+    setMovie(updatedMovie);
+  };
 
   const getMovie = async () => {
     try {
@@ -52,7 +55,7 @@ const MovieDetail = () => {
         <>
           <MovieOverview data={movie} />
           <AboutMovie description={movie?.description} />
-          <TopReviews reviews={movie?.topReviews} />
+          <TopReviews reviews={movie?.topReviews} id={movie._id} updateMovie={updateMovie} />
           <RelatedMovies relatedMovies={relatedMovies} />
         </>
       )}

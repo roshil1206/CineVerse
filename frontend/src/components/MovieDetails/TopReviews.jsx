@@ -1,9 +1,11 @@
-import React from "react";
-import { Container, Typography, Box } from "@mui/material";
+import React, { useState } from "react";
+import { Container, Typography, Box, Button } from "@mui/material";
 import styled from "@emotion/styled";
 import { keyframes } from "@emotion/react";
 
 import ReviewTile from "./ReviewTile";
+import AddReviewModal from "./AddReviewModal";
+import axios from "axios";
 
 const slideInAnimation = keyframes`
   from {
@@ -15,15 +17,6 @@ const slideInAnimation = keyframes`
     transform: translateY(0);
   }
 `;
-
-const AllReviews = styled(Typography)(({ theme }) => ({
-  color: theme.palette.primary.main,
-  cursor: "pointer",
-  transition: "color 0.3s ease-in-out",
-  "&:hover": {
-    color: theme.palette.secondary.main,
-  },
-}));
 
 const MainWrapper = styled("div")`
   overflow: auto;
@@ -55,13 +48,25 @@ const Text = styled(Typography)(({ theme }) => ({
   fontWeight: "bold",
 }));
 
-const TopReviews = ({ reviews }) => {
+const TopReviews = ({ reviews, id, updateMovie }) => {
+  const [open, setOpen] = useState(false);
+
+  const handleSubmit = async (reviewState) => {
+    try {
+      const { data } = await axios.post(`http://localhost:3333/movies/${id}/reviews`, reviewState);
+      updateMovie(data);
+      setOpen(false);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <Container>
+      <AddReviewModal open={open} onClose={() => setOpen(false)} onSubmit={handleSubmit} />
       <MainWrapper>
         <Box sx={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
           <Text>Top Reviews</Text>
-          <AllReviews variant="subtitle2">{reviews.length} reviews &gt;</AllReviews>
+          <Button onClick={() => setOpen(true)}>Add Review &gt;</Button>
         </Box>
         <Wrapper>
           {reviews.map((review, i) => (
