@@ -31,10 +31,8 @@ const Text = styled(Typography)(({ theme }) => ({
   fontWeight: "bold",
 }));
 
-const RelatedMovies = ({ currentMovie, movies }) => {
+const RelatedMovies = ({ relatedMovies }) => {
   const navigate = useNavigate();
-
-  const relatedMovies = movies.filter((movie) => movie.genre === currentMovie.genre);
 
   const handleRedirect = (movieId) => {
     navigate(`/movies?id=${movieId}`);
@@ -48,7 +46,7 @@ const RelatedMovies = ({ currentMovie, movies }) => {
         </Box>
         <Wrapper>
           {relatedMovies.map((movie, i) => (
-            <Box key={i} onClick={() => handleRedirect(movie.id)}>
+            <Box key={i} onClick={() => handleRedirect(movie._id)}>
               <MovieTile movie={movie} />
             </Box>
           ))}
