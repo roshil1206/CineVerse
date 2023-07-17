@@ -1,22 +1,56 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { CircularProgress } from "@mui/material";
 import CurrentMovieBanner from "../../components/Landing/CurrentMovieBanner";
 import MovieList from "../../components/Landing/MovieList";
-import { movies } from "../../mock";
 
 export default function Landing() {
-  const rotatingMovies = movies;
+  const [currentMovies, setCurrentMovies] = useState([]);
+  const [upcomingMovies, setUpcomingMovies] = useState([]);
+  const [isLoading, setIsLoading] = useState(null);
 
-  const recommendedMovies = movies.slice(0, 6);
+  useEffect(() => {
+    getMovies();
+  }, []);
 
-  const upcomingMovies = movies.slice(6, 9);
+  const getMovies = async () => {
+    try {
+      setIsLoading(true);
+      const currentMoviesData = await axios.get("http://localhost:3333/landing/current");
+      const upcomingMoviesData = await axios.get("http://localhost:3333/landing/upcoming");
+      // console.log(currentMoviesData);
+      // console.log(upcomingMoviesData);
+
+      setCurrentMovies(currentMoviesData.data);
+      setUpcomingMovies(upcomingMoviesData.data);
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Error fetching movie:", error);
+      setIsLoading(false);
+    }
+  };
 
   return (
-    <div>
-      <div>
-        <CurrentMovieBanner movies={rotatingMovies} />
-        <MovieList title="Current Movies" movies={recommendedMovies} />
-        <MovieList title="Upcoming Movies" movies={upcomingMovies} />
-      </div>
-    </div>
+    <>
+      {isLoading || isLoading === null ? (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100vh",
+          }}>
+          <CircularProgress />
+        </div>
+      ) : (
+        <div>
+          <div>
+            <CurrentMovieBanner movies={currentMovies} />
+            <MovieList title="Current Movies" movies={currentMovies} />
+            <MovieList title="Upcoming Movies" movies={upcomingMovies} />
+          </div>
+        </div>
+      )}
+    </>
   );
 }

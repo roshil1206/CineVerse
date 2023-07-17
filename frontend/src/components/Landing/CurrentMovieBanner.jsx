@@ -38,9 +38,9 @@ const Description = styled("p")({
 });
 
 export default function CurrentMovieBanner({ movies }) {
+  console.log(movies);
   const [currentMovieIndex, setCurrentMovieIndex] = useState(0);
   const navigate = useNavigate();
-
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentMovieIndex((prevIndex) => (prevIndex + 1) % movies.length);
