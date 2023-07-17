@@ -1,13 +1,11 @@
 const express = require("express");
-const { connectToDB } = require("./mongo/config");
-const cors = require("cors");
-const movieRoutes = require("./api/views/movieView");
-
 const app = express();
-const port = 3333;
+require("dotenv").config();
+const mongodb = require("./config/mongodb");
+const cors = require("cors");
+const routes = require("./routes/index");
 
-// Connect to MongoDB
-connectToDB();
+const port = 3333;
 
 // Enable CORS
 app.use(cors());
@@ -16,9 +14,10 @@ app.use(cors());
 app.use(express.json());
 
 // Routes
-app.use("/movies", movieRoutes);
+app.use("/api", routes);
 
 // Start the server
-app.listen(port, () => {
+app.listen(port, async () => {
+  await mongodb.connect();
   console.log(`Server running on port ${port}`);
 });
