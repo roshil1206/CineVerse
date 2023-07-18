@@ -100,7 +100,7 @@ function Authentication() {
       <Components.Container>
         <Components.SignUpContainer signinIn={signIn}>
           <Components.Form>
-            <Components.Title>Create Account</Components.Title>
+            <Components.Title>Sign Up</Components.Title>
 
             <Components.Input
               type="text"
@@ -158,7 +158,7 @@ function Authentication() {
             />
             {errors && <Components.Error>{errors.password}</Components.Error>}
 
-            <Components.Anchor href="#">Forgot your password?</Components.Anchor>
+            {/* <Components.Anchor href="#">Forgot your password?</Components.Anchor> */}
 
             <Components.Button onClick={(e) => handleLogin(e)}>Login</Components.Button>
           </Components.Form>
