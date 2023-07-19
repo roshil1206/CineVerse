@@ -8,7 +8,7 @@ function CustomCard({ data, onAdd }) {
     <Card sx={{ margin: "10px" }}>
       <CardMedia
         sx={{ minHeight: "250px", objectFit: "contain" }}
-        image={data.image}
+        image={data.imageUrl}
         title={data.name}
       />
       <CardContent>

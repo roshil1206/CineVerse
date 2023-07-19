@@ -266,7 +266,7 @@ export const foodData = [
     image: beverages,
   },
   {
-    name: "Popcorn ",
+    name: "Popcorn",
     description: "A popcorn served with caremal.",
     type: "food",
     price: 6.99,
