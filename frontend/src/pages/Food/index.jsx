@@ -1,9 +1,11 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { Box, Button, Grid, Fab, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import CustomCard from "./CustomCard";
 import { foodData } from "../../mock/index";
 import CustomButton from "../../components/UI/CustomButton";
+import { useDispatch } from "react-redux";
+import { getFoodItemsAction } from "../../store/FoodAndBeverages/actions";
 
 const styles = {
   boxRoot: {
@@ -68,6 +70,8 @@ const CustomFab = styled(Fab)(({ theme }) => ({
 const buttons = ["All", "Food", "Beverages", "Combos"];
 
 const FoodandBeverages = () => {
+  const dispatch = useDispatch();
+
   const [selectedButton, setSelectedButton] = useState(0);
   const [selectedItems, setSelectedItems] = useState([]);
 
@@ -80,6 +84,10 @@ const FoodandBeverages = () => {
       return foodData.filter((item) => item.type === "combo");
     } else return foodData;
   }, [selectedButton]);
+
+  useEffect(() => {
+    dispatch(getFoodItemsAction());
+  }, [dispatch]);
 
   return (
     <Box sx={styles.boxRoot}>
