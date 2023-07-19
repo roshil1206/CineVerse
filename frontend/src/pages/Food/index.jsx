@@ -2,10 +2,10 @@ import React, { useState, useMemo, useEffect } from "react";
 import { Box, Button, Grid, Fab, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import CustomCard from "./CustomCard";
-import { foodData } from "../../mock/index";
 import CustomButton from "../../components/UI/CustomButton";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getFoodItemsAction } from "../../store/FoodAndBeverages/actions";
+import CustomSpinner from "../../components/UI/CustomSpinner/index";
 
 const styles = {
   boxRoot: {
@@ -72,17 +72,19 @@ const buttons = ["All", "Food", "Beverages", "Combos"];
 const FoodandBeverages = () => {
   const dispatch = useDispatch();
 
+  const { foodItems, loading, error, message } = useSelector((state) => state.foodReducer);
+
   const [selectedButton, setSelectedButton] = useState(0);
   const [selectedItems, setSelectedItems] = useState([]);
 
   const filteredData = useMemo(() => {
     if (selectedButton === 1) {
-      return foodData.filter((item) => item.type === "food");
+      return foodItems.filter((item) => item.category === "food");
     } else if (selectedButton === 2) {
-      return foodData.filter((item) => item.type === "beverages");
+      return foodItems.filter((item) => item.category === "beverage");
     } else if (selectedButton === 3) {
-      return foodData.filter((item) => item.type === "combo");
-    } else return foodData;
+      return foodItems.filter((item) => item.category === "combo");
+    } else return foodItems;
   }, [selectedButton]);
 
   useEffect(() => {
@@ -91,51 +93,57 @@ const FoodandBeverages = () => {
 
   return (
     <Box sx={styles.boxRoot}>
-      <Box sx={styles.box}>
-        <Typography variant="h1" color="darkBlue" textAlign="center">
-          Food and Beverages
-        </Typography>
-        <Typography variant="subtitle1" color="lightPurple" textAlign="center">
-          Food for the soul!
-        </Typography>
-      </Box>
-      <Box sx={styles.buttonsContainer}>
-        {buttons.map((button, key) => (
-          <StyledButton
-            key={key}
-            variant={selectedButton === key ? "contained" : "outlined"}
-            sx={selectedButton === key ? styles.activeButton : ""}
-            onClick={() => setSelectedButton(key)}>
-            {button}
-          </StyledButton>
-        ))}
-      </Box>
-      <Box>
-        <Grid container>
-          {filteredData.map((item, key) => (
-            <Grid item xs={6} sm={4} lg={3} key={key} style={{ height: "100%" }}>
-              <CustomCard
-                data={item}
-                onAdd={() => setSelectedItems((current) => [...current, item.name])}
-              />
+      {loading ? (
+        <CustomSpinner center={true} />
+      ) : (
+        <>
+          <Box sx={styles.box}>
+            <Typography variant="h1" color="darkBlue" textAlign="center">
+              Food and Beverages
+            </Typography>
+            <Typography variant="subtitle1" color="lightPurple" textAlign="center">
+              Food for the soul!
+            </Typography>
+          </Box>
+          <Box sx={styles.buttonsContainer}>
+            {buttons.map((button, key) => (
+              <StyledButton
+                key={key}
+                variant={selectedButton === key ? "contained" : "outlined"}
+                sx={selectedButton === key ? styles.activeButton : ""}
+                onClick={() => setSelectedButton(key)}>
+                {button}
+              </StyledButton>
+            ))}
+          </Box>
+          <Box>
+            <Grid container>
+              {filteredData.map((item, key) => (
+                <Grid item xs={6} sm={4} lg={3} key={key} style={{ height: "100%" }}>
+                  <CustomCard
+                    data={item}
+                    onAdd={() => setSelectedItems((current) => [...current, item.name])}
+                  />
+                </Grid>
+              ))}
             </Grid>
-          ))}
-        </Grid>
-      </Box>
-      <CustomFab disableRipple={true}>
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <img src="/cart.svg" style={{ height: "20px", width: "20px" }} alt="cart" />
-          <span style={{ marginLeft: "2px", color: "white" }}>{selectedItems.length}</span>
-        </div>
-      </CustomFab>
-      <Grid container justifyContent="flex-end">
-        <CustomButton
-          variant="contained"
-          disabled={selectedItems.length === 0}
-          onClick={() => alert("Work in progress.")}>
-          Continue
-        </CustomButton>
-      </Grid>
+          </Box>
+          <CustomFab disableRipple={true}>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <img src="/cart.svg" style={{ height: "20px", width: "20px" }} alt="cart" />
+              <span style={{ marginLeft: "2px", color: "white" }}>{selectedItems.length}</span>
+            </div>
+          </CustomFab>
+          <Grid container justifyContent="flex-end">
+            <CustomButton
+              variant="contained"
+              disabled={selectedItems.length === 0}
+              onClick={() => alert("Work in progress.")}>
+              Continue
+            </CustomButton>
+          </Grid>
+        </>
+      )}
     </Box>
   );
 };
