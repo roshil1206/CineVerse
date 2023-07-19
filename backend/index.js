@@ -3,8 +3,8 @@ const mongodb = require("./config/mongodb");
 const cors = require("cors");
 const routes = require("./api/routes/index");
 
+const port = process.env.PORT || 3000;
 const app = express();
-const port = 3333;
 
 // Enable CORS
 app.use(cors());

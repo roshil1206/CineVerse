@@ -26,6 +26,13 @@ const MovieDetail = () => {
   const getMovie = async () => {
     try {
       setIsLoading(true);
+<<<<<<< HEAD
+      const { data } = await axios.get(`http://localhost:4000/movies/${movieId}`);
+      const { data: relatedMovieData } = await axios.get(
+        `http://localhost:4000/movies/genre/${data.genre}`
+      );
+      setMovie(data);
+=======
       const { data } = await axios.get(`http://localhost:3333/movie/${movieId}`);
       const movieData = data.data;
 
@@ -33,6 +40,7 @@ const MovieDetail = () => {
       const relatedMovieData = resp.data.data;
 
       setMovie(movieData);
+>>>>>>> develop
       setRelatedMovies(relatedMovieData);
       setIsLoading(false);
     } catch (error) {
