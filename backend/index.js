@@ -5,7 +5,7 @@ const mongodb = require("./config/mongodb");
 const cors = require("cors");
 const routes = require("./routes/index");
 
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 // Enable CORS
 app.use(cors());

@@ -53,7 +53,7 @@ const TopReviews = ({ reviews, id, updateMovie }) => {
 
   const handleSubmit = async (reviewState) => {
     try {
-      const { data } = await axios.post(`http://localhost:3333/movies/${id}/reviews`, reviewState);
+      const { data } = await axios.post(`http://localhost:4000/movies/${id}/reviews`, reviewState);
       updateMovie(data);
       setOpen(false);
     } catch (err) {
