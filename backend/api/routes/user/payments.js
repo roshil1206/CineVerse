@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
-const response = require("../../utils/response");
+const response = require("../../../utils/response");
 
 router.post("/createSesssion", async (req, res) => {
   const session = await stripe.checkout.sessions.create({
