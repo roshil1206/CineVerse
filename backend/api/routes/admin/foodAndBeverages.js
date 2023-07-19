@@ -1,8 +1,8 @@
 const router = require("express").Router();
 const FoodAndBeveragesModel = require("../../models/FoodAndBevereges");
-const multer = require("../../utils/multer");
-const response = require("../../utils/response");
-const uploadImage = require("../../utils/cloudinary");
+const multer = require("../../../utils/multer");
+const response = require("../../../utils/response");
+const uploadImage = require("../../../utils/cloudinary");
 
 router.get("/getItems", async (req, res) => {
   const data = await FoodAndBeveragesModel.find();
@@ -46,7 +46,7 @@ router.post("/addItem", multer.single("file"), async (req, res) => {
       itemData: dataItem,
     });
   } catch (error) {
-    response(res, 500, false, { message: "Something went wrong" });
+    response(res, 500, false, { message: "Something went wrong", error });
   }
 });
 
