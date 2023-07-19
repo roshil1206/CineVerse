@@ -19,7 +19,7 @@ const FoodAndBeveregesSchema = new Schema(
     },
     category: {
       type: String,
-      enum: ["food", "beverege", "combo"],
+      enum: ["food", "beverage", "combo"],
       required: true,
     },
     isActive: {

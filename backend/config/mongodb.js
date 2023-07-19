@@ -14,7 +14,7 @@ const password = process.env.MONGO_PASSWORD;
 
 const collectionName = "CSCI-5709";
 
-const uri = `mongodb+srv://${username}:${password}@mycluster.b2n6lft.mongodb.net/?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://${username}:${password}@mycluster.b2n6lft.mongodb.net/${collectionName}?retryWrites=true&w=majority`;
 
 async function connect() {
   try {
