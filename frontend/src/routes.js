@@ -65,6 +65,12 @@ const routes = [
     component: Failure,
     layout: "none",
   },
+  {
+    path: "/admin/food",
+    name: "Food",
+    component: Food,
+    layout: "admin",
+  },
 ];
 
 export default routes;
