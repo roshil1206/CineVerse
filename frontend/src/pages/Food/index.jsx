@@ -94,6 +94,13 @@ const FoodandBeverages = () => {
     } else return foodItems;
   }, [selectedButton, foodItems]);
 
+  const onIncrement = (data) => {
+    dispatch(updateItemAction(data));
+  };
+  const onDecrement = (data) => {
+    dispatch(updateItemAction(data));
+  };
+
   useEffect(() => {
     dispatch(getFoodItemsAction());
   }, [dispatch]);
@@ -127,7 +134,13 @@ const FoodandBeverages = () => {
             <Grid container>
               {filteredData.map((item, key) => (
                 <Grid item xs={6} sm={4} lg={3} key={key} style={{ height: "100%" }}>
-                  <CustomCard data={item} onAdd={() => handleDataAdd(item)} />
+                  <CustomCard
+                    data={item}
+                    onAdd={() => handleDataAdd(item)}
+                    cartData={items.filter((data) => data._id === item._id)[0]}
+                    onIncrement={onIncrement}
+                    onDecrement={onDecrement}
+                  />
                 </Grid>
               ))}
             </Grid>

@@ -2,7 +2,6 @@ import { Box, Typography, styled } from "@mui/material";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { updateItemAction } from "../../store/Cart/actionTypes";
-import { CiCirclePlus } from "react-icons/ci";
 import PlusMinus from "../UI/PlusMinus/PlusMinus";
 
 const styles = {

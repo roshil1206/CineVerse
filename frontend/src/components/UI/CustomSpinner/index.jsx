@@ -6,7 +6,7 @@ const StyledCircularProgress = styled(CircularProgress)(({ theme }) => ({
   color: `${theme.palette.secondary.main} !important`,
   margin: "10px",
 }));
-const Container = styled(Box)(({ theme }) => ({
+const Container = styled(Box)(() => ({
   display: "flex",
   alignItems: "center",
   justifyContent: "center",

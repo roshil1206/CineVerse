@@ -5,6 +5,8 @@ import { useTheme } from "@emotion/react";
 import Container2 from "../../components/Contact/Container2";
 import Container1 from "../../components/Contact/Container1";
 import { isCharactersInStringOnly, isEmailValid, isPhoneValid } from "../../utils/functions";
+import { useDispatch, useSelector } from "react-redux";
+import { addContactRequestAction } from "../../store/contact/actions";
 
 const styles = {
   box: {
@@ -45,11 +47,13 @@ const dataObject = {
 
 const Contact = () => {
   const theme = useTheme();
+  const dispatch = useDispatch();
+
+  const { loading } = useSelector((state) => state.contactReducer);
+
   const isMobileScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const [data, setData] = useState({ ...dataObject });
   const [errors, setErrors] = useState({ ...dataObject });
-  const [loading, setLoading] = useState(false);
-  const [showMessage, setShowMessage] = useState(false);
 
   const handleDataChange = (e, name) => {
     setData((current) => ({ ...current, [name]: e.target.value }));
@@ -107,15 +111,7 @@ const Contact = () => {
 
   const handleOnSubmit = () => {
     if (isDataValid()) {
-      setLoading(true);
-      setData({ ...dataObject });
-      setTimeout(() => {
-        setLoading(false);
-        setShowMessage(true);
-        setTimeout(() => {
-          setShowMessage(false);
-        }, 3000);
-      }, 3000);
+      dispatch(addContactRequestAction({ ...data, firstName: null }));
     }
   };
 
@@ -144,7 +140,7 @@ const Contact = () => {
                 handleOnSubmit={handleOnSubmit}
                 errors={errors}
                 disabled={loading}
-                showMessage={showMessage}
+                // showMessage={message}
               />
             </Grid>
           </Grid>

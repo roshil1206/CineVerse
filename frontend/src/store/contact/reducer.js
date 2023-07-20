@@ -1,30 +1,33 @@
-import { GET_FOOD_ITEMS_FAIL, GET_FOOD_ITEMS_SUCCESS, SET_FOOD_LOADING } from "./actionTypes";
+import {
+  SET_CONTACT_LOADING,
+  ADD_CONTACT_REQUEST_SUCCESS,
+  ADD_CONTACT_REQUEST_FAIL,
+} from "./actionTypes";
 
 const initialState = {
   loading: false,
-  foodItems: [],
   error: false,
   message: "",
 };
 
-const foodReducer = (state = initialState, action) => {
+const contactReducer = (state = initialState, action) => {
   switch (action.type) {
-    case SET_FOOD_LOADING:
+    case SET_CONTACT_LOADING:
       return {
         ...initialState,
         loading: true,
       };
-    case GET_FOOD_ITEMS_SUCCESS:
+    case ADD_CONTACT_REQUEST_SUCCESS:
       return {
         ...state,
         loading: false,
-        foodItems: action.payload,
+        message: action.payload,
       };
-    case GET_FOOD_ITEMS_FAIL:
+    case ADD_CONTACT_REQUEST_FAIL:
+      console.log(action);
       return {
         ...state,
         loading: false,
-        foodItems: [],
         error: true,
         message: action.message,
       };
@@ -33,4 +36,4 @@ const foodReducer = (state = initialState, action) => {
   }
 };
 
-export default foodReducer;
+export default contactReducer;
