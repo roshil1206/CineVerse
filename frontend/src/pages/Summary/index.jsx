@@ -1,14 +1,29 @@
 import React, { useState } from "react";
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Card, Grid, Typography, styled } from "@mui/material";
 import CustomButton from "../../components/UI/CustomButton";
 import { useSelector } from "react-redux";
 import ItemData from "../../components/Summary/ItemData";
 import axios from "../../utils/axios";
 
+const styles = {
+  box: {
+    "&.MuiBox-root": {
+      padding: "5rem 0",
+    },
+  },
+};
+
+const Container = styled(Box)(() => ({
+  minHeight: "calc(100vh - 48px)",
+  padding: "10px",
+}));
+
+const CustomCard = styled(Card)(() => ({
+  padding: "10px",
+}));
+
 const Summary = () => {
   const { items } = useSelector((state) => state.cartReducer);
-
-  const [loading, setLoading] = useState(false);
 
   const getTotal = () => {
     let total = 0;
@@ -39,24 +54,16 @@ const Summary = () => {
   };
 
   return (
-    <div style={{ marginTop: "70px", padding: "10px" }}>
-      <Box
-        sx={{
-          boxShadow: " 10px 13px 10px -20px #000000",
-          width: "100%",
-        }}>
-        <Typography
-          style={{
-            fontSize: "20px",
-            fontWeight: 600,
-          }}>
+    <Container>
+      <Box sx={styles.box}>
+        <Typography variant="h1" color="darkBlue" textAlign="center">
           Order Summary
         </Typography>
-        <br />
+      </Box>
+      <CustomCard>
         {items.map((order, key) => (
           <ItemData order={order} key={key} />
         ))}
-
         <div
           style={{
             display: "flex",
@@ -64,14 +71,15 @@ const Summary = () => {
             justifyContent: "space-between",
             padding: "10px",
           }}>
-          <Typography style={{ fontSize: "18px" }}>
+          <Typography variant="h3">
             <b>Total</b>
           </Typography>
-          <Typography style={{ fontSize: "18px" }}>
+          <Typography variant="h3">
             <b>$ {parseFloat(getTotal()).toFixed(2)}</b>
           </Typography>
         </div>
-      </Box>
+      </CustomCard>
+
       <Grid container justifyContent="flex-end">
         <CustomButton
           variant="contained"
@@ -80,7 +88,7 @@ const Summary = () => {
           Proceed to checkout
         </CustomButton>
       </Grid>
-    </div>
+    </Container>
   );
 };
 

@@ -2,6 +2,8 @@ import { Box, Typography, styled } from "@mui/material";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { updateItemAction } from "../../store/Cart/actionTypes";
+import { CiCirclePlus } from "react-icons/ci";
+import PlusMinus from "../UI/PlusMinus/PlusMinus";
 
 const styles = {
   hr: {
@@ -15,18 +17,15 @@ const styles = {
     justifyContent: "space-between",
   },
   img: {
-    height: "60px",
-    width: "60px",
+    height: "100px",
+    width: "100px",
     marginRight: "20px",
   },
   cont1: {
     display: "flex",
     alignItems: "center",
   },
-  cont2: {
-    display: "flex",
-    alignItems: "center",
-  },
+
   cont3: {
     display: "flex",
     alignItems: "flex-end",
@@ -62,23 +61,16 @@ const ItemData = ({ order }) => {
         <div style={styles.cont1}>
           <img src={order.imageUrl} alt={order.name} style={styles.img} />
           <div>
-            <Typography style={{ fontSize: "18px", fontWeight: 400 }}>{order.name}</Typography>
-            <div style={styles.cont2}>
-              <button
-                onClick={() => decreaseCount(order)}
-                disabled={order.count === 0}
-                style={styles.incDecButton}>
-                -
-              </button>
-              <b>{order.count}</b>
-              <button onClick={() => increaseCount(order)} style={styles.incDecButton}>
-                +
-              </button>
-            </div>
+            <Typography variant="body1">{order.name}</Typography>
+            <PlusMinus
+              decreaseCount={() => decreaseCount(order)}
+              count={order.count}
+              increaseCount={() => increaseCount(order)}
+            />
           </div>
         </div>
         <div style={styles.cont3}>
-          <Typography>
+          <Typography variant="body1">
             $ {order.price} x {order.count} <br />
             <b>$ {parseFloat(order.price * order.count).toFixed(2)}</b>
           </Typography>

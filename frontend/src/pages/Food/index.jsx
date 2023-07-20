@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getFoodItemsAction } from "../../store/FoodAndBeverages/actions";
 import CustomSpinner from "../../components/UI/CustomSpinner/index";
 import { useNavigate } from "react-router";
-import { addItemAction } from "../../store/Cart/actionTypes";
+import { addItemAction, updateItemAction } from "../../store/Cart/actionTypes";
 
 const styles = {
   boxRoot: {
