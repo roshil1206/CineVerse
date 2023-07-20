@@ -1,10 +1,8 @@
 const router = require("express").Router();
-const FoodAndBeveragesModel = require("../../models/FoodAndBevereges");
-const response = require("../../../utils/response");
+const {
+  getFoodItems,
+} = require("../../controllers/foodAndBeveregesController");
 
-router.get("/getAll", async (req, res) => {
-  const data = await FoodAndBeveragesModel.find();
-  response(res, 200, true, data);
-});
+router.get("/getAll", getFoodItems);
 
 module.exports = router;

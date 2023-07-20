@@ -1,29 +1,62 @@
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
+const UserModel = require("../models/UserModel");
+const response = require("../utils/response");
 
-const verifyToken = (req, res, next) => {
-  const token = req.headers.authorization;
+const authenticateUser = async (req, res, next) => {
+  try {
+    const token = req.headers.authorization.split(" ")[1];
 
-  if (!token) {
-    return res.status(401).json({ message: 'No token provided' });
-  }
-
-  jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
-    if (err) {
-      return res.status(403).json({ message: 'Failed to authenticate token' });
+    if (!token) {
+      return response(res, 401, false, {
+        message: "Fail to authenticate token.",
+      });
     }
-    req.user = decoded;
-    next();
-  });
+
+    jwt.verify(token, process.env.SECRET_KEY, async (err, decoded) => {
+      if (err) {
+        return response(res, 403, false, {
+          message: "Failed to authenticate token",
+        });
+      }
+      req.user = await UserModel.findById(decoded.id);
+      next();
+    });
+  } catch (error) {
+    return response(res, 401, false, { message: "No token provided" });
+  }
 };
 
-const isAdmin = (req, res, next) => {
-  if (req.user.role !== 'admin') {
-    return res.status(403).json({ message: 'Admin access only' });
+const authenticateAdmin = (req, res, next) => {
+  try {
+    const token = req.headers.authorization.split(" ")[1];
+
+    if (!token) {
+      return response(res, 401, false, {
+        message: "Fail to authenticate token.",
+      });
+    }
+
+    jwt.verify(token, process.env.SECRET_KEY, async (err, decoded) => {
+      if (err) {
+        return response(res, 403, false, {
+          message: "Failed to authenticate token",
+        });
+      }
+      const user = await UserModel.findById(decoded.id);
+      if (user.role !== "admin") {
+        return response(res, 403, false, {
+          message: "Invalid Authorization",
+        });
+      }
+      req.user = user;
+      next();
+    });
+  } catch (error) {
+    return response(res, 401, false, { message: "No token provided" });
   }
-  next();
 };
 
 module.exports = {
-  verifyToken,
-  isAdmin,
+  authenticateUser,
+  authenticateAdmin,
 };
