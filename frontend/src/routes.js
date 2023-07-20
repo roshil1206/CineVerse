@@ -5,6 +5,9 @@ import Contact from "./pages/Contact";
 import FAQ from "./pages/FAQ";
 import Authentication from "./pages/Authentication";
 import Food from "./pages/Food";
+import Summary from "./pages/Summary";
+import Success from "./pages/Payments/Success";
+import Failure from "./pages/Payments/Failure";
 
 const routes = [
   {
@@ -43,6 +46,24 @@ const routes = [
     name: "FAQ",
     component: FAQ,
     layout: "public",
+  },
+  {
+    path: "/summary",
+    name: "Summary",
+    component: Summary,
+    layout: "public",
+  },
+  {
+    path: "/paymentSuccess",
+    name: "paymentSuccess",
+    component: Success,
+    layout: "none",
+  },
+  {
+    path: "/paymentFail",
+    name: "paymentFail",
+    component: Failure,
+    layout: "none",
   },
 ];
 

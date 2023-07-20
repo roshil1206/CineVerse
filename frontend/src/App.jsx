@@ -43,6 +43,9 @@ const App = () => {
           //   ) : (
           //     <Navigate to="/signin" />
           //   );
+          case "none":
+            return <Component />;
+
           case "public":
           default:
             return (

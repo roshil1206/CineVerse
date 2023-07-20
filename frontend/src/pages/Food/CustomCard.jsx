@@ -2,8 +2,10 @@ import React from "react";
 import { Card, CardMedia, CardContent, Typography, Grid } from "@mui/material";
 // import SuccessButton from "./SuccessButton";
 import CustomButton from "../../components/UI/CustomButton";
+import PlusMinus from "../../components/UI/PlusMinus/PlusMinus";
 
-function CustomCard({ data, onAdd }) {
+function CustomCard({ data, onAdd, count, onIncrement, onDecrement }) {
+  console.log(data);
   return (
     <Card sx={{ margin: "10px" }}>
       <CardMedia
@@ -19,9 +21,17 @@ function CustomCard({ data, onAdd }) {
         <br />
         <Grid container justifyContent="space-between" alignItems="center">
           <Typography sx={{ fontSize: "18px", fontWeight: 700 }}>$ {data.price}</Typography>
-          <CustomButton variant="contained" color="secondary" onClick={() => onAdd()}>
-            Buy
-          </CustomButton>
+          {data.count ? (
+            <PlusMinus
+              increaseCount={() => onIncrement(data)}
+              decreaseCount={() => onDecrement()}
+              count={data.count}
+            />
+          ) : (
+            <CustomButton variant="contained" color="secondary" onClick={() => onAdd()}>
+              Buy
+            </CustomButton>
+          )}
         </Grid>
       </CardContent>
     </Card>
