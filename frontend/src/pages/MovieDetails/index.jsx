@@ -26,9 +26,9 @@ const MovieDetail = () => {
   const getMovie = async () => {
     try {
       setIsLoading(true);
-      const { data } = await axios.get(`http://localhost:4000/movie/${movieId}`);
+      const { data } = await axios.get(`${process.env.REACT_APP_BACKEND_BASE_URL}/movie/${movieId}`);
       const movieData = data.data;
-      const resp = await axios.get(`http://localhost:4000/movie/genre/${movieData.genre}`);
+      const resp = await axios.get(`${process.env.REACT_APP_BACKEND_BASE_URL}/movie/genre/${movieData.genre}`);
       const relatedMovieData = resp.data.data;
       setMovie(movieData);
       setRelatedMovies(relatedMovieData);
