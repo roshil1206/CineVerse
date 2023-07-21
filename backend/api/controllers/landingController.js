@@ -1,8 +1,8 @@
-const landingModel = require("../models/landingModel");
+const Movie = require("../../models/movieModel");
 
 const getCurrentMovies = async (req, res) => {
   try {
-    const movies = await landingModel.getMovies({});
+    const movies = await Movie.find();
     const currentDate = new Date();
 
     const currentMovies = movies.filter((movie) => {
@@ -22,7 +22,7 @@ const getCurrentMovies = async (req, res) => {
 
 const getUpcomingMovies = async (req, res) => {
   try {
-    const movies = await landingModel.getMovies({});
+    const movies = await Movie.find();
     const currentDate = new Date();
 
     const upcomingMovies = movies.filter((movie) => {

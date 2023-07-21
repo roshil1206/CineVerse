@@ -6,6 +6,7 @@ const movieRoutes = require("./user/movie");
 const adminMovieRoutes = require("./admin/movie");
 const userManager = require("./user/userManager");
 const contact = require("./user/contact");
+const landing = require("./user/landing");
 
 // Admin routes
 router.use("/admin/foodAndBeverages", AdminFoodAndBeverages);
@@ -17,5 +18,6 @@ router.use("/movie", movieRoutes);
 router.use("/payments", Payments);
 router.use("/user", userManager);
 router.use("/contact", contact);
+router.use("/landing", landing);
 
 module.exports = router;

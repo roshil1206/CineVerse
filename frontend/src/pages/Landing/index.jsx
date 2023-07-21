@@ -16,8 +16,8 @@ export default function Landing() {
   const getMovies = async () => {
     try {
       setIsLoading(true);
-      const currentMoviesData = await axios.get("http://localhost:3333/landing/current");
-      const upcomingMoviesData = await axios.get("http://localhost:3333/landing/upcoming");
+      const currentMoviesData = await axios.get("http://localhost:4000/landing/current");
+      const upcomingMoviesData = await axios.get("http://localhost:4000/landing/upcoming");
       // console.log(currentMoviesData);
       // console.log(upcomingMoviesData);
 
