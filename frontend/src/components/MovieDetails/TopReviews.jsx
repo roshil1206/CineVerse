@@ -55,7 +55,7 @@ const TopReviews = ({ reviews, id, updateMovie }) => {
 
   const handleSubmit = async (reviewState) => {
     try {
-      const { data } = await axios.post(`http://localhost:4000/movies/${id}/reviews`, reviewState);
+      const { data } = await axios.post(`http://localhost:4000/movie/${id}/reviews`, reviewState);
       const movieData = data.data;
       updateMovie(movieData);
       setOpen(false);

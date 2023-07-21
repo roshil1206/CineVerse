@@ -17,7 +17,7 @@ import Tabs from "@mui/material/Tabs";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useTheme } from "@emotion/react";
 import { MdOutlineMenu } from "react-icons/md";
-import CustomListItem from "./CustomListItem";
+import CustomListItem from "../Header/CustomListItem";
 
 const StyledAppBar = styled(AppBar)(({ theme }) => ({
   backgroundColor: theme.palette.white,
@@ -31,13 +31,6 @@ const StyledAppBar = styled(AppBar)(({ theme }) => ({
 
 const StyledTab = styled(Tab)(() => ({
   fontSize: "1rem",
-}));
-
-const StyledButton = styled(Button)(({ theme }) => ({
-  backgroundColor: theme.palette.secondary.main,
-  "&.MuiButton-root:hover": {
-    backgroundColor: theme.palette.secondary.main,
-  },
 }));
 
 const StyledButtonOutline = styled(Button)(({ theme }) => ({
@@ -56,8 +49,10 @@ function a11yProps(index) {
 }
 
 const links = [
-  { name: "Dashboard", link: "/admin/dashboard" },
-  { name: "Contact", link: "/admin/food" },
+  { name: "Users", link: "/admin/user" },
+  { name: "Movies", link: "/admin/movie" },
+  { name: "Theaters", link: "/admin/theater" },
+  { name: "Foods", link: "/admin/food" },
 ];
 
 const Header = () => {
@@ -67,7 +62,6 @@ const Header = () => {
   const activePath = "/" + pathname.split("/")[1];
   const isMobileScreen = useMediaQuery(theme.breakpoints.down("md"));
 
-  const currentTab = activePath.slice(1);
   const currentTabURL = pathname.concat(search);
   const isMainTabs = links.some((link) => link.link === activePath);
 
@@ -84,6 +78,10 @@ const Header = () => {
   const handleChange = (event, newValue) => {
     setValue(newValue);
     navigate(newValue);
+  };
+
+  const handleHomeRedirect = () => {
+    navigate("/admin");
   };
 
   return (
@@ -143,11 +141,18 @@ const Header = () => {
                 {links.map((data, key) => (
                   <StyledTab label={data.name} value={data.link} key={key} {...a11yProps(key)} />
                 ))}
-                {links.some((link) => link.link === activePath) ? null : (
-                  <StyledTab label={currentTab} value={currentTabURL} {...a11yProps(4)} />
-                )}
               </Tabs>
             </Grid>
+            <div>
+              <StyledButtonOutline
+                variant="outlined"
+                color="secondary"
+                onClick={() => {
+                  console.log("Sign Out");
+                }}>
+                Sign Out
+              </StyledButtonOutline>
+            </div>
           </Grid>
         </Box>
       )}

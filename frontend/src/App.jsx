@@ -4,6 +4,7 @@ import { Route, Routes, useLocation } from "react-router-dom";
 import "./App.css";
 import Wrapper from "./layout/Wrapper";
 import RoutesList from "./routes";
+import AdminWrapper from "./layout/Admin/Wrapper";
 import { ToastContainer } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
@@ -48,7 +49,12 @@ const App = () => {
           //   );
           case "none":
             return <Component />;
-
+          case "admin":
+            return (
+              <AdminWrapper>
+                <Component />
+              </AdminWrapper>
+            );
           case "public":
           default:
             return (

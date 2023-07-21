@@ -14,7 +14,7 @@ import combo from "./images/combo.jpg";
 
 export const movies = [
   {
-    id: "64b1c883b90565b01630c0f1",
+    id: "64b9a5ca9aa6112a3873f505",
     name: "Movie 1",
     rating: 7.9,
     duration: "2h 15min",
@@ -37,7 +37,7 @@ export const movies = [
     ],
   },
   {
-    id: "64b1c883b90565b01630c0f2",
+    id: "64b9a5ca9aa6112a3873f508",
     name: "Movie 2",
     rating: 8.2,
     duration: "1h 50min",
@@ -60,7 +60,7 @@ export const movies = [
     ],
   },
   {
-    id: "64b1c883b90565b01630c0f3",
+    id: "64b9a5ca9aa6112a3873f50b",
     name: "Movie 3",
     rating: 6.5,
     duration: "2h 5min",
@@ -83,7 +83,7 @@ export const movies = [
     ],
   },
   {
-    id: "64b1c883b90565b01630c0f4",
+    id: "64b9a5ca9aa6112a3873f50e",
     name: "Movie 4",
     rating: 9.0,
     duration: "2h 30min",
@@ -106,7 +106,7 @@ export const movies = [
     ],
   },
   {
-    id: "64b1c883b90565b01630c0f5",
+    id: "64b9a5ca9aa6112a3873f514",
     name: "Movie 5",
     rating: 7.7,
     duration: "1h 40min",
@@ -129,7 +129,7 @@ export const movies = [
     ],
   },
   {
-    id: "64b1c883b90565b01630c0f6",
+    id: "64b9a5ca9aa6112a3873f517",
     name: "Movie 6",
     rating: 8.9,
     duration: "2h 20min",
@@ -152,7 +152,7 @@ export const movies = [
     ],
   },
   {
-    id: "64b1c883b90565b01630c0f7",
+    id: "64b9a5ca9aa6112a3873f51a",
     name: "Movie 7",
     rating: 6.8,
     duration: "1h 55min",
@@ -175,7 +175,7 @@ export const movies = [
     ],
   },
   {
-    id: "64b1c883b90565b01630c0f8",
+    id: "64b9a5ca9aa6112a3873f51d",
     name: "Movie 8",
     rating: 9.5,
     duration: "2h 10min",
@@ -198,7 +198,7 @@ export const movies = [
     ],
   },
   {
-    id: "64b1c883b90565b01630c0f9",
+    id: "64b9a5ca9aa6112a3873f51d",
     name: "Movie 9",
     rating: 7.3,
     duration: "2h 5min",

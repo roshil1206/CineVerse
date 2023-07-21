@@ -8,6 +8,8 @@ import Food from "./pages/Food";
 import Summary from "./pages/Summary";
 import Success from "./pages/Payments/Success";
 import Failure from "./pages/Payments/Failure";
+import AdminMovie from "./pages/Admin/Movie";
+import AdminFood from "./pages/Admin/Food";
 
 const routes = [
   {
@@ -68,7 +70,13 @@ const routes = [
   {
     path: "/admin/food",
     name: "Food",
-    component: Food,
+    component: AdminFood,
+    layout: "admin",
+  },
+  {
+    path: "/admin/movie",
+    name: "Movie",
+    component: AdminMovie,
     layout: "admin",
   },
 ];
