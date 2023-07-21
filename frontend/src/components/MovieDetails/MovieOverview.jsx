@@ -114,7 +114,7 @@ const MovieOverview = ({ data }) => {
   const navigate = useNavigate();
 
   const handleBooking = () => {
-    navigate(`/booking?id=${data._id}`);
+    navigate(`/theatre?id=${data._id}`);
   };
 
   return (
