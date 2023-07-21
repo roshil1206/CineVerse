@@ -19,10 +19,14 @@ export default function TheatreSelection() {
   const getMovie = async () => {
     try {
       setIsLoading(true);
-      const { data } = await axios.get(`http://localhost:4000/movie/${movieId}`);
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_BACKEND_BASE_URL}/movie/${movieId}`
+      );
       const movieName = data.data.name;
       setMovie(movieName);
-      const { data: tData } = await axios.get(`http://localhost:4000/theatre/${movieId}`);
+      const { data: tData } = await axios.get(
+        `${process.env.REACT_APP_BACKEND_BASE_URL}/theatre/${movieId}`
+      );
       setTheaters(tData.data);
       // console.log(tData.data);
       setIsLoading(false);
