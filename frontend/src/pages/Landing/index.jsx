@@ -16,8 +16,12 @@ export default function Landing() {
   const getMovies = async () => {
     try {
       setIsLoading(true);
-      const currentMoviesData = await axios.get("http://localhost:4000/landing/current");
-      const upcomingMoviesData = await axios.get("http://localhost:4000/landing/upcoming");
+      const currentMoviesData = await axios.get(
+        `${process.env.REACT_APP_BACKEND_BASE_URL}/landing/current`
+      );
+      const upcomingMoviesData = await axios.get(
+        `${process.env.REACT_APP_BACKEND_BASE_URL}/landing/upcoming`
+      );
       // console.log(currentMoviesData);
       // console.log(upcomingMoviesData);
 

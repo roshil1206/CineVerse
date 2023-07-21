@@ -51,8 +51,9 @@ const Movie = () => {
   );
 
   const fetchMovieData = async () => {
+    console.log(`${process.env.REACT_APP_BACKEND_BASE_URL}`);
     try {
-      const { data } = await axios.get("http://localhost:4000/admin/movie");
+      const { data } = await axios.get(`${process.env.REACT_APP_BACKEND_BASE_URL}/admin/movie`);
       setMovieData(data.data);
     } catch (error) {
       console.log(error);
@@ -61,7 +62,7 @@ const Movie = () => {
 
   const handleDelete = (movieData) => {
     try {
-      axios.delete(`http://localhost:4000/admin/movie/${movieData._id}`);
+      axios.delete(`${process.env.REACT_APP_BACKEND_BASE_URL}/admin/movie/${movieData._id}`);
       fetchMovieData();
     } catch (error) {
       console.log(error);
@@ -77,9 +78,9 @@ const Movie = () => {
   const handleSubmit = async (data) => {
     try {
       if (isUpdate) {
-        await axios.put(`http://localhost:4000/admin/movie/${data._id}`, data);
+        await axios.put(`${process.env.REACT_APP_BACKEND_BASE_URL}/admin/movie/${data._id}`, data);
       } else {
-        await axios.post("http://localhost:4000/admin/movie", data);
+        await axios.post(`${process.env.REACT_APP_BACKEND_BASE_URL}/admin/movie`, data);
       }
       fetchMovieData();
     } catch (error) {
