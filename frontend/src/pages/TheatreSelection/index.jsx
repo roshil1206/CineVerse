@@ -67,7 +67,7 @@ export default function TheatreSelection() {
             </Typography>
             {theaters?.map((theater, index) => {
               const { showtimes } = theater?.movies?.find((m) => m.id === movieId);
-              console.log(showtimes);
+              // console.log(showtimes);
               // console.log(theater);
               return (
                 <TheaterCard key={index} theaterName={theater.name} showtimes={showtimes || []} />
