@@ -1,5 +1,5 @@
 const { ObjectId } = require("mongodb");
-const { getMoviesCollection } = require("../../mongo/config");
+const { getMoviesCollection } = require("../mongo/config");
 
 // Function to fetch a movie by ID
 const getMovieById = async (id) => {
