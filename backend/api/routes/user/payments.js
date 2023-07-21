@@ -1,0 +1,72 @@
+const router = require("express").Router();
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+const response = require("../../../utils/response");
+const { authenticateUser } = require("../../../middleware/authmiddleware");
+const PaymentsModel = require("../../../models/PaymentsModel");
+
+router.use(authenticateUser);
+
+router.post("/createSesssion", async (req, res) => {
+  const { user } = req;
+  console.log(user);
+  const { items } = req.body;
+  const session = await stripe.checkout.sessions.create({
+    customer: user.stripeCustomerId,
+    payment_method_types: ["card"],
+    line_items: items.map((item) => ({
+      quantity: item.count,
+      price_data: {
+        currency: "cad",
+        product_data: {
+          name: item.name,
+        },
+        unit_amount: item.price * 100,
+      },
+    })),
+    mode: "payment",
+    success_url:
+      "http://localhost:3000/paymentSuccess?session_id={CHECKOUT_SESSION_ID}",
+    cancel_url: "http://localhost:3000/paymentFail",
+  });
+  const paymentObj = new PaymentsModel({
+    user_id: user._id,
+    session_id: session.id,
+    total_price: session.amount_total / 100,
+    items: items.map((item) => ({
+      name: item.name,
+      id: item._id,
+      quantity: item.count,
+      price: item.price,
+    })),
+  });
+  await paymentObj.save();
+  return response(res, 200, true, { link: session.url });
+});
+
+router.post("/success", async (req, res) => {
+  const { user } = req;
+  const { sessionId } = req.body;
+  try {
+    const session = await stripe.checkout.sessions.retrieve(sessionId);
+    if (session.status !== "complete") {
+      return response(res, 400, false, { message: "Payment not successfull." });
+    }
+
+    const paymentData = await PaymentsModel.findOne({
+      user_id: user._id,
+      session_id: sessionId,
+    });
+    paymentData.paymentSuccess = true;
+    await paymentData.save();
+    return response(res, 200, true, {
+      message: "Payment successfull.",
+      paymentData,
+    });
+  } catch (error) {
+    return response(res, 400, false, {
+      message: "Payment failed.",
+    });
+  }
+});
+
+module.exports = router;

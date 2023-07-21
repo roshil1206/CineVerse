@@ -4,6 +4,10 @@ import { Route, Routes, useLocation } from "react-router-dom";
 import "./App.css";
 import Wrapper from "./layout/Wrapper";
 import RoutesList from "./routes";
+import AdminWrapper from "./layout/Admin/Wrapper";
+import { ToastContainer } from "react-toastify";
+
+import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
   // const cookieData = Cookies.get("user");
@@ -43,6 +47,14 @@ const App = () => {
           //   ) : (
           //     <Navigate to="/signin" />
           //   );
+          case "none":
+            return <Component />;
+          case "admin":
+            return (
+              <AdminWrapper>
+                <Component />
+              </AdminWrapper>
+            );
           case "public":
           default:
             return (
@@ -66,6 +78,18 @@ const App = () => {
 
   return (
     <div className="App">
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       <Routes>{renderRoutes()}</Routes>
     </div>
   );

@@ -19,7 +19,6 @@ const slideInAnimation = keyframes`
 `;
 
 const MainWrapper = styled("div")`
-  overflow: auto;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -29,18 +28,21 @@ const MainWrapper = styled("div")`
   padding-bottom: 1rem;
 `;
 
+const ReviewWrapper = styled("div")`
+  overflow: auto;
+  width: 100%;
+  "&::-webkit-scrollbar": {
+    display: none
+  },
+  "&::-webkit-scrollbar-thumb": {
+    display: none
+  },
+`;
+
 const Wrapper = styled(Box)({
-  overflow: "auto",
-  width: "100%",
   display: "flex",
   gap: "1rem",
   animation: `${slideInAnimation} 0.5s ease-in-out`,
-  "&::-webkit-scrollbar": {
-    display: "none",
-  },
-  "&::-webkit-scrollbar-thumb": {
-    display: "none",
-  },
 });
 
 const Text = styled(Typography)(({ theme }) => ({
@@ -53,8 +55,9 @@ const TopReviews = ({ reviews, id, updateMovie }) => {
 
   const handleSubmit = async (reviewState) => {
     try {
-      const { data } = await axios.post(`http://localhost:3333/movies/${id}/reviews`, reviewState);
-      updateMovie(data);
+      const { data } = await axios.post(`http://localhost:4000/movie/${id}/reviews`, reviewState);
+      const movieData = data.data;
+      updateMovie(movieData);
       setOpen(false);
     } catch (err) {
       console.log(err);
@@ -68,11 +71,13 @@ const TopReviews = ({ reviews, id, updateMovie }) => {
           <Text>Top Reviews</Text>
           <Button onClick={() => setOpen(true)}>Add Review &gt;</Button>
         </Box>
-        <Wrapper>
-          {reviews.map((review, i) => (
-            <ReviewTile key={i} review={review} />
-          ))}
-        </Wrapper>
+        <ReviewWrapper>
+          <Wrapper>
+            {reviews.map((review, i) => (
+              <ReviewTile key={i} review={review} />
+            ))}
+          </Wrapper>
+        </ReviewWrapper>
       </MainWrapper>
     </Container>
   );

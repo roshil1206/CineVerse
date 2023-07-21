@@ -23,7 +23,7 @@ const Container2 = ({
   handleOnSubmit,
   errors,
   disabled,
-  showMessage,
+  // showMessage,
 }) => {
   return (
     <Container>
@@ -33,11 +33,11 @@ const Container2 = ({
         </Typography>
       )}
 
-      {showMessage && (
+      {/* {showMessage && (
         <Typography variant="h4" color="secondary">
           Request received, our team will contact you back soon.
         </Typography>
-      )}
+      )} */}
       <Grid container justifyContent="space-between">
         {inputFields.map((field, key) => (
           <Grid item xs={12} sm={6} key={key} className="gridItem">
