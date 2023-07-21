@@ -3,15 +3,15 @@ const mongoose = require("mongoose");
 const reviewSchema = new mongoose.Schema({
   reviewerName: {
     type: String,
-    required: true,
+    required: false,
   },
   rating: {
     type: Number,
-    required: true,
+    required: false,
   },
   review: {
     type: String,
-    required: true,
+    required: false,
   },
 });
 
@@ -22,7 +22,7 @@ const movieSchema = new mongoose.Schema({
   },
   rating: {
     type: Number,
-    required: true,
+    required: false,
   },
   duration: {
     type: String,
@@ -51,6 +51,7 @@ const movieSchema = new mongoose.Schema({
   topReviews: {
     type: [reviewSchema],
     default: [],
+    required: false,
   },
 });
 
