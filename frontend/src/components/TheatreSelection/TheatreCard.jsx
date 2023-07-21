@@ -21,7 +21,8 @@ const TheaterName = styled("h2")({
 
 const TimeTileContainer = styled("div")({
   display: "flex",
-  gap: "19px", // Adjust the gap between time tiles
+  gap: "19px",
+  cursor: "pointer",
 });
 
 const TimeTile = styled("div")({
@@ -33,18 +34,13 @@ const TimeTile = styled("div")({
   color: theme.palette.white,
 });
 
-export default function TheaterCard({ theaterName, showtimes }) {
-  const navigate = useNavigate();
+export default function TheaterCard({ theaterName, showtimes, handleClick }) {
   return (
     <TheaterCardContainer>
       <TheaterName>{theaterName}</TheaterName>
       <TimeTileContainer>
         {showtimes.map((showtime, index) => (
-          <TimeTile
-            key={index}
-            onClick={() => {
-              navigate(`/booking`);
-            }}>
+          <TimeTile key={index} onClick={() => handleClick(showtime)}>
             {showtime}
           </TimeTile>
         ))}
