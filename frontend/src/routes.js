@@ -1,5 +1,6 @@
 import Landing from "./pages/Landing";
 import MovieDetails from "./pages/MovieDetails";
+import TheatreSelection from "./pages/TheatreSelection";
 import BookingWindow from "./pages/BookingWindow";
 import Contact from "./pages/Contact";
 import FAQ from "./pages/FAQ";
@@ -28,6 +29,12 @@ const routes = [
     path: "/movies",
     name: "Movies",
     component: MovieDetails,
+    layout: "public",
+  },
+  {
+    path: "/theatre",
+    name: "Theatres",
+    component: TheatreSelection,
     layout: "public",
   },
   {
