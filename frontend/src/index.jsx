@@ -7,6 +7,8 @@ import "./index.css";
 import App from "./App";
 import { StyledEngineProvider, ThemeProvider } from "@mui/material";
 import store from "./store/index";
+import "@fortawesome/fontawesome-free/css/all.min.css";
+import "bootstrap-css-only/css/bootstrap.min.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

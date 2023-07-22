@@ -21,6 +21,48 @@ function* getFoodItemsSaga() {
   }
 }
 
+function* addFoodItemSaga() {
+  try {
+    yield put({ type: SET_FOOD_LOADING });
+    const { data } = yield axios.get("/foodAndBeverages/getAll");
+    if (data.success) {
+      yield put({ type: GET_FOOD_ITEMS_SUCCESS, payload: data.data });
+    } else {
+      yield put({ type: GET_FOOD_ITEMS_FAIL, message: data.message });
+    }
+  } catch (error) {
+    yield put({ type: GET_FOOD_ITEMS_FAIL, message: "Something went wrong." });
+  }
+}
+
+function* updateFoodItemSaga() {
+  try {
+    yield put({ type: SET_FOOD_LOADING });
+    const { data } = yield axios.get("/foodAndBeverages/getAll");
+    if (data.success) {
+      yield put({ type: GET_FOOD_ITEMS_SUCCESS, payload: data.data });
+    } else {
+      yield put({ type: GET_FOOD_ITEMS_FAIL, message: data.message });
+    }
+  } catch (error) {
+    yield put({ type: GET_FOOD_ITEMS_FAIL, message: "Something went wrong." });
+  }
+}
+
+function* deleteFoodItemSaga() {
+  try {
+    yield put({ type: SET_FOOD_LOADING });
+    const { data } = yield axios.get("/foodAndBeverages/getAll");
+    if (data.success) {
+      yield put({ type: GET_FOOD_ITEMS_SUCCESS, payload: data.data });
+    } else {
+      yield put({ type: GET_FOOD_ITEMS_FAIL, message: data.message });
+    }
+  } catch (error) {
+    yield put({ type: GET_FOOD_ITEMS_FAIL, message: "Something went wrong." });
+  }
+}
+
 function* foodSaga() {
   yield takeLatest(GET_FOOD_ITEMS, getFoodItemsSaga);
 }
