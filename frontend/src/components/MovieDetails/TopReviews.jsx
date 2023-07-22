@@ -39,6 +39,14 @@ const ReviewWrapper = styled("div")`
   },
 `;
 
+const NoReviewsWrapper = styled("div")`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  width: 100%;
+`;
+
 const Wrapper = styled(Box)({
   display: "flex",
   gap: "1rem",
@@ -74,13 +82,19 @@ const TopReviews = ({ reviews, id, updateMovie }) => {
           <Text>Top Reviews</Text>
           <Button onClick={() => setOpen(true)}>Add Review &gt;</Button>
         </Box>
-        <ReviewWrapper>
-          <Wrapper>
-            {reviews.map((review, i) => (
-              <ReviewTile key={i} review={review} />
-            ))}
-          </Wrapper>
-        </ReviewWrapper>
+        {reviews.length > 0 ? (
+          <ReviewWrapper>
+            <Wrapper>
+              {reviews.map((review, i) => (
+                <ReviewTile key={i} review={review} />
+              ))}
+            </Wrapper>
+          </ReviewWrapper>
+        ) : (
+          <NoReviewsWrapper>
+            <Typography variant="h5">No Reviews Yet</Typography>
+          </NoReviewsWrapper>
+        )}
       </MainWrapper>
     </Container>
   );

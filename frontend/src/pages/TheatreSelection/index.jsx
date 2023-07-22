@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import TheaterCard from "../../components/TheatreSelection/TheatreCard";
-import { Container, Typography } from "@mui/material";
+import { Container, Typography, CircularProgress } from "@mui/material";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { CircularProgress } from "@mui/material";
 import axios from "axios";
 import theme from "../../theme";
 
@@ -19,7 +18,7 @@ export default function TheatreSelection() {
   }, [movieId]);
 
   const handleClick = (time) => {
-    navigate(`/booking/${movieId}?time=${time}`);
+    navigate(`/booking?id=${movieId}&time=${time}`);
   };
 
   const getMovie = async () => {
@@ -77,8 +76,6 @@ export default function TheatreSelection() {
             </Typography>
             {theaters.map((theater, index) => {
               const { showtimes } = theater.movies.find((m) => m.id === movieId);
-              // console.log(showtimes);
-              // console.log(theater);
               return (
                 <TheaterCard
                   key={index}

@@ -47,7 +47,7 @@ export default function MovieList({ title, movies }) {
       <MovieListContainer>
         <MovieScrollList>
           {movies.map((movie) => (
-            <MovieContainer key={movie.id} onClick={() => handleRedirect(movie._id)}>
+            <MovieContainer key={movie._id} onClick={() => handleRedirect(movie._id)}>
               <MovieCard title={movie.name} genre={movie.genre} poster={movie.image} />
             </MovieContainer>
           ))}
