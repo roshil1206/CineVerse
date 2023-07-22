@@ -34,7 +34,6 @@ export default function TheatreSelection() {
         `${process.env.REACT_APP_BACKEND_BASE_URL}/theatre/${movieId}`
       );
       setTheaters(tData.data);
-      // console.log(tData.data);
       setIsLoading(false);
     } catch (error) {
       console.error("Error fetching movie:", error);
@@ -75,19 +74,30 @@ export default function TheatreSelection() {
               }}>
               {movie}
             </Typography>
-            {theaters?.map((theater, index) => {
-              const { showtimes } = theater?.movies?.find((m) => m.id === movieId);
-              // console.log(showtimes);
-              // console.log(theater);
-              return (
-                <TheaterCard
-                  key={index}
-                  theaterName={theater.name}
-                  showtimes={showtimes || []}
-                  handleClick={handleClick}
-                />
-              );
-            })}
+            {theaters.length === 0 ? (
+              <Typography
+                variant="subtitle1"
+                sx={{
+                  fontWeight: "bold",
+                  textAlign: "center",
+                  color: theme.palette.darkBlue,
+                  marginTop: "25px",
+                }}>
+                No theaters found for this movie.
+              </Typography>
+            ) : (
+              theaters.map((theater, index) => {
+                const { showtimes } = theater?.movies?.find((m) => m.id === movieId);
+                return (
+                  <TheaterCard
+                    key={index}
+                    theaterName={theater.name}
+                    showtimes={showtimes || []}
+                    handleClick={handleClick}
+                  />
+                );
+              })
+            )}
           </Container>
         </>
       )}
