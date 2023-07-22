@@ -103,7 +103,6 @@ function Authentication() {
 
     setErrors(newErrors);
 
-
     if (Object.keys(newErrors).length === 0) {
       try {
         const response = await axios.post(`/user/login`, {
@@ -128,103 +127,102 @@ function Authentication() {
     setOpen(false);
   };
 
+  // import React, { useState } from "react";
+  // import * as Components from "../../components/Authentication/Auth";
+  // import { Alert, Snackbar } from "@mui/material";
+  // import { useLocation, useNavigate } from "react-router-dom";
 
-// import React, { useState } from "react";
-// import * as Components from "../../components/Authentication/Auth";
-// import { Alert, Snackbar } from "@mui/material";
-// import { useLocation, useNavigate } from "react-router-dom";
+  // function Authentication() {
+  //   const { state } = useLocation();
+  //   const navigate = useNavigate();
+  //   const [signIn, toggle] = React.useState(state?.register ? false : true);
+  //   const [errors, setErrors] = useState({});
+  //   const [name, setName] = useState("");
+  //   const [email, setEmail] = useState("");
+  //   const [password, setPassword] = useState("");
+  //   const [rePassword, setRePassword] = useState("");
+  //   const [open, setOpen] = React.useState(false);
+  //   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  //   const nameRegex = /[a-zA-Z]+$/;
 
-// function Authentication() {
-//   const { state } = useLocation();
-//   const navigate = useNavigate();
-//   const [signIn, toggle] = React.useState(state?.register ? false : true);
-//   const [errors, setErrors] = useState({});
-//   const [name, setName] = useState("");
-//   const [email, setEmail] = useState("");
-//   const [password, setPassword] = useState("");
-//   const [rePassword, setRePassword] = useState("");
-//   const [open, setOpen] = React.useState(false);
-//   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-//   const nameRegex = /[a-zA-Z]+$/;
+  //   const resetField = () => {
+  //     setName("");
+  //     setEmail("");
+  //     setPassword("");
+  //     setRePassword("");
+  //   };
 
-//   const resetField = () => {
-//     setName("");
-//     setEmail("");
-//     setPassword("");
-//     setRePassword("");
-//   };
+  //   const handleToggle = () => {
+  //     setErrors({});
+  //     toggle(!signIn);
+  //   };
 
-//   const handleToggle = () => {
-//     setErrors({});
-//     toggle(!signIn);
-//   };
+  //   const handleRegister = (e) => {
+  //     e.preventDefault();
+  //     const newErrors = {};
 
-//   const handleRegister = (e) => {
-//     e.preventDefault();
-//     const newErrors = {};
+  //     if (name.trim() === "") {
+  //       newErrors.name = "Name is required";
+  //     } else if (!nameRegex.test(name)) {
+  //       newErrors.name = "Name cannot contain numbers";
+  //     }
 
-//     if (name.trim() === "") {
-//       newErrors.name = "Name is required";
-//     } else if (!nameRegex.test(name)) {
-//       newErrors.name = "Name cannot contain numbers";
-//     }
+  //     if (!emailRegex.test(email)) {
+  //       newErrors.email = "Email is invalid";
+  //     } else if (email.trim() === "") {
+  //       newErrors.email = "Email is required";
+  //     }
 
-//     if (!emailRegex.test(email)) {
-//       newErrors.email = "Email is invalid";
-//     } else if (email.trim() === "") {
-//       newErrors.email = "Email is required";
-//     }
+  //     if (password.length < 8) {
+  //       newErrors.password = "Password is too short";
+  //     } else if (password.trim() === "") {
+  //       newErrors.password = "Password is required";
+  //     }
 
-//     if (password.length < 8) {
-//       newErrors.password = "Password is too short";
-//     } else if (password.trim() === "") {
-//       newErrors.password = "Password is required";
-//     }
+  //     if (rePassword.trim() === "") {
+  //       newErrors.rePassword = "Re-Password is required";
+  //     } else if (password !== rePassword) {
+  //       newErrors.rePassword = "Passwords do not match";
+  //     }
 
-//     if (rePassword.trim() === "") {
-//       newErrors.rePassword = "Re-Password is required";
-//     } else if (password !== rePassword) {
-//       newErrors.rePassword = "Passwords do not match";
-//     }
+  //     setErrors(newErrors);
 
-//     setErrors(newErrors);
+  //     if (Object.keys(newErrors).length === 0) {
+  //       console.log("Registration submitted!");
+  //       toggle(!signIn);
+  //       setOpen(true);
+  //       resetField();
+  //     }
+  //   };
 
-//     if (Object.keys(newErrors).length === 0) {
-//       console.log("Registration submitted!");
-//       toggle(!signIn);
-//       setOpen(true);
-//       resetField();
-//     }
-//   };
+  //   const handleLogin = (e) => {
+  //     e.preventDefault();
+  //     const newErrors = {};
+  //     if (!emailRegex.test(email)) {
+  //       newErrors.email = "Email is invalid";
+  //     } else if (email.trim() === "") {
+  //       newErrors.email = "Email is required";
+  //     }
 
-//   const handleLogin = (e) => {
-//     e.preventDefault();
-//     const newErrors = {};
-//     if (!emailRegex.test(email)) {
-//       newErrors.email = "Email is invalid";
-//     } else if (email.trim() === "") {
-//       newErrors.email = "Email is required";
-//     }
+  //     if (password.length < 8) {
+  //       newErrors.password = "Password is too short";
+  //     } else if (password.trim() === "") {
+  //       newErrors.password = "Password is required";
+  //     }
+  //     if (password.trim() === "") {
+  //       newErrors.password = "Password is required";
+  //     }
 
-//     if (password.length < 8) {
-//       newErrors.password = "Password is too short";
-//     } else if (password.trim() === "") {
-//       newErrors.password = "Password is required";
-//     }
-//     if (password.trim() === "") {
-//       newErrors.password = "Password is required";
-//     }
+  //     setErrors(newErrors);
 
-//     setErrors(newErrors);
+  //     if (Object.keys(newErrors).length === 0) {
+  //       navigate("/");
+  //     }
+  //   };
 
-//     if (Object.keys(newErrors).length === 0) {
-//       navigate("/");
-//     }
-//   };
-
-//   const closeSnackbar = () => {
-//     setOpen(false);
-//   };
+  //   const closeSnackbar = () => {
+  //     setOpen(false);
+  //   };
 
   return (
     <Components.MainContainer>
