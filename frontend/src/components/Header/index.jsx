@@ -18,6 +18,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useTheme } from "@emotion/react";
 import { MdOutlineMenu } from "react-icons/md";
 import CustomListItem from "./CustomListItem";
+import { isLogin } from "../../utils/functions";
+import { useDispatch } from "react-redux";
+import { removeUserAction } from "../../store/Auth/actions";
 
 const StyledAppBar = styled(AppBar)(({ theme }) => ({
   backgroundColor: theme.palette.white,
@@ -59,7 +62,6 @@ const links = [
   { name: "Home", link: "/" },
   { name: "Contact", link: "/contact" },
   { name: "FAQs", link: "/faq" },
-  { name: "Food", link: "/food" },
 ];
 
 const Header = () => {
@@ -68,6 +70,7 @@ const Header = () => {
   const { pathname, search } = useLocation();
   const activePath = "/" + pathname.split("/")[1];
   const isMobileScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const dispatch = useDispatch();
 
   const currentTab = activePath.slice(1);
   const currentTabURL = pathname.concat(search);
@@ -97,6 +100,11 @@ const Header = () => {
   };
 
   const handleHomeRedirect = () => {
+    navigate("/");
+  };
+
+  const handleLogOut = () => {
+    dispatch(removeUserAction());
     navigate("/");
   };
 
@@ -131,11 +139,15 @@ const Header = () => {
                   />
                 ))}
                 <Divider />
-                <CustomListItem
-                  name="Login / Register"
-                  link="/login"
-                  isActive={"/login" === activePath}
-                />
+                {isLogin() ? (
+                  <CustomListItem name="Logout" link="/logout" handleCLick={handleLogOut} />
+                ) : (
+                  <CustomListItem
+                    name="Login / Register"
+                    link="/login"
+                    isActive={"/login" === activePath}
+                  />
+                )}
               </List>
             </Box>
           </Drawer>
@@ -163,8 +175,12 @@ const Header = () => {
               </Tabs>
             </Grid>
             <Grid>
-              {!(activePath === "/login") && (
-                <>
+              {isLogin() ? (
+                <StyledButtonOutline variant="outlined" onClick={handleLogOut}>
+                  Log Out
+                </StyledButtonOutline>
+              ) : (
+                <div style={{ visibility: activePath === "/login" ? "hidden" : "visible" }}>
                   <StyledButton
                     variant="contained"
                     onClick={handleLogin}
@@ -174,7 +190,7 @@ const Header = () => {
                   <StyledButtonOutline variant="outlined" onClick={handleRegister}>
                     Sign up
                   </StyledButtonOutline>
-                </>
+                </div>
               )}
             </Grid>
           </Grid>

@@ -1,11 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as Components from "../../components/Authentication/Auth";
 import { Alert, Snackbar } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "../../utils/axios";
+import { useDispatch, useSelector } from "react-redux";
+import { setUserAction } from "../../store/Auth/actions";
+import { isLogin } from "../../utils/functions";
 
 function Authentication() {
   const { state } = useLocation();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [signIn, toggle] = React.useState(state?.register ? false : true);
   const [errors, setErrors] = useState({});
@@ -18,6 +22,15 @@ function Authentication() {
   const [open, setOpen] = React.useState(false);
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const nameRegex = /^[a-zA-Z]*$/;
+
+  const { user } = useSelector((state) => state.authReducer);
+
+  useEffect(() => {
+    if (isLogin()) {
+      navigate("/");
+    }
+  }, [user]);
+
   const resetField = () => {
     setName("");
     setRegisterEmail("");
@@ -103,22 +116,11 @@ function Authentication() {
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      try {
-        const response = await axios.post(`/user/login`, {
-          email,
-          password,
-        });
-
-        const { data } = response;
-        if (data.success) {
-          localStorage.setItem("token", data.token);
-          navigate("/");
-        } else {
-          console.error("Login failed:", data.message);
-        }
-      } catch (error) {
-        console.error("Error during login:", error);
-      }
+      const data = {
+        email,
+        password,
+      };
+      dispatch(setUserAction(data));
     }
   };
 
@@ -150,7 +152,7 @@ function Authentication() {
             {errors && <Components.Error>{errors.registerEmail}</Components.Error>}
 
             <Components.Input
-              type="text"
+              type="password"
               placeholder="Password"
               value={registerPassword}
               onChange={(e) => setRegisterPassword(e.target.value)}

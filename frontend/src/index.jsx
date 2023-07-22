@@ -6,7 +6,8 @@ import theme from "./theme";
 import "./index.css";
 import App from "./App";
 import { StyledEngineProvider, ThemeProvider } from "@mui/material";
-import store from "./store/index";
+import { store, persistor } from "./store/index";
+import { PersistGate } from "redux-persist/integration/react";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -15,7 +16,9 @@ root.render(
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={theme}>
           <Provider store={store}>
-            <App />
+            <PersistGate persistor={persistor} loading={null}>
+              <App />
+            </PersistGate>
           </Provider>
         </ThemeProvider>
       </StyledEngineProvider>
