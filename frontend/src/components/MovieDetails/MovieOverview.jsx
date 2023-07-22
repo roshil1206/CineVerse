@@ -117,6 +117,8 @@ const MovieOverview = ({ data }) => {
     navigate(`/theatre?id=${data._id}`);
   };
 
+  const releaseDate = new Date(data.releaseDate).toISOString().split("T")[0];
+
   return (
     <Wrapper image={data.image}>
       <Container>
@@ -130,7 +132,7 @@ const MovieOverview = ({ data }) => {
               Rating: {data.rating}/10
             </RatingText>
             <DesText variant="p" className="desText">
-              {data.duration} | {languages} | {data.releaseDate}
+              {data.duration} | {languages} | {releaseDate}
             </DesText>
             <BookButton variant="contained" size="large" onClick={handleBooking}>
               Book Now
