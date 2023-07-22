@@ -86,7 +86,7 @@ export default function TheatreSelection() {
               </Typography>
             ) : (
               theaters.map((theater, index) => {
-                const { showtimes } = theater?.movies?.find((m) => m.id === movieId);
+                const { showtimes } = theater.movies.find((m) => m.id === movieId);
                 return (
                   <TheaterCard
                     key={index}
