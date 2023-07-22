@@ -31,6 +31,14 @@ const Text = styled(Typography)(({ theme }) => ({
   fontWeight: "bold",
 }));
 
+const NoRelatedMoviesWrapper = styled("div")({
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  height: "100px",
+  width: "100%",
+});
+
 const RelatedMovies = ({ relatedMovies }) => {
   const navigate = useNavigate();
 
@@ -44,13 +52,19 @@ const RelatedMovies = ({ relatedMovies }) => {
         <Box display="flex">
           <Text>You might also like</Text>
         </Box>
-        <Wrapper>
-          {relatedMovies.map((movie, i) => (
-            <Box key={i} onClick={() => handleRedirect(movie._id)}>
-              <MovieTile movie={movie} />
-            </Box>
-          ))}
-        </Wrapper>
+        {relatedMovies.length > 0 ? (
+          <Wrapper>
+            {relatedMovies.map((movie, i) => (
+              <Box key={i} onClick={() => handleRedirect(movie._id)}>
+                <MovieTile movie={movie} />
+              </Box>
+            ))}
+          </Wrapper>
+        ) : (
+          <NoRelatedMoviesWrapper>
+            <Typography variant="h5">No Related Movies</Typography>
+          </NoRelatedMoviesWrapper>
+        )}
       </BoxWrapper>
     </Container>
   );
