@@ -16,11 +16,18 @@ const StyledListItem = styled(ListItem)(({ theme }) => ({
   },
 }));
 
-const CustomListItem = ({ name, link, isActive }) => {
+const CustomListItem = ({ name, link, isActive, handleCLick }) => {
   const navigate = useNavigate();
+  const handleClickFunc = () => {
+    if (link === "/logout") {
+      handleCLick();
+    } else {
+      navigate(link);
+    }
+  };
   return (
     <StyledListItem>
-      <ListItemButton onClick={() => navigate(link)} className={isActive ? "active" : ""}>
+      <ListItemButton onClick={handleClickFunc} className={isActive ? "active" : ""}>
         <ListItemText primary={name} />
       </ListItemButton>
     </StyledListItem>

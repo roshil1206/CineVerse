@@ -1,4 +1,4 @@
-const Movie = require("../models/movieModel");
+const Movie = require("../../models/movieModel");
 const response = require("../../utils/response");
 
 // User Controllers

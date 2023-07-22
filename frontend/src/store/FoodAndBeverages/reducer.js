@@ -26,7 +26,7 @@ const foodReducer = (state = initialState, action) => {
         loading: false,
         foodItems: [],
         error: true,
-        message: action.payload.message,
+        message: action.message,
       };
     default:
       return state;

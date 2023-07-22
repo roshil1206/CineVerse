@@ -20,18 +20,31 @@ const MovieDetail = () => {
   }, [movieId]);
 
   const updateMovie = (updatedMovie) => {
-    setMovie(updatedMovie);
+    let movieRating = 0;
+    updatedMovie.topReviews.forEach((movie) => {
+      movieRating += movie.rating;
+    });
+    setMovie({ ...updatedMovie, movieRating: movieRating / updatedMovie.topReviews.length });
   };
 
   const getMovie = async () => {
     try {
       setIsLoading(true);
-      const { data } = await axios.get(`http://localhost:4000/movies/${movieId}`);
-      const { data: relatedMovieData } = await axios.get(
-        `http://localhost:4000/movies/genre/${data.genre}`
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_BACKEND_BASE_URL}/movie/${movieId}`
       );
-      setMovie(data);
-      setRelatedMovies(relatedMovieData);
+      const movieData = data.data;
+      const resp = await axios.get(
+        `${process.env.REACT_APP_BACKEND_BASE_URL}/movie/genre/${movieData.genre}`
+      );
+      const relatedMovieData = resp.data.data;
+      const relatedMovieDataFiltered = relatedMovieData.filter((movie) => movie._id !== movieId);
+      let movieRating = 0;
+      movieData.topReviews.forEach((movie) => {
+        movieRating += movie.rating;
+      });
+      setMovie({ ...movieData, movieRating: movieRating / movieData.topReviews.length });
+      setRelatedMovies(relatedMovieDataFiltered);
       setIsLoading(false);
     } catch (error) {
       console.error("Error fetching movie:", error);

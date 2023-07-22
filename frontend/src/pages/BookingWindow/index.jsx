@@ -4,7 +4,6 @@ import { Grid } from "@mui/material";
 import { styled } from "@mui/system";
 import { Tab, TabList, Tabs } from "react-tabs";
 import Screen from "../../components/BookingWindow/Screen";
-import { movies } from "../../mock";
 import theme from "../../theme";
 import CustomButton from "../../components/UI/CustomButton";
 
@@ -54,7 +53,7 @@ const BookingWindow = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const movieId = searchParams.get("id");
-  const movie = movies.find((movie) => movie.id === +movieId);
+  const movie = { name: "", id: movieId };
   const [isSelectedTab1, setSelectedTab1] = useState(true);
   const [isSelectedTab2, setSelectedTab2] = useState(false);
   const [selectedSeats, handleSelectedSeats] = useState([]);

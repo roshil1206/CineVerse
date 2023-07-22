@@ -13,6 +13,6 @@ router.post("/", movieController.addMovie);
 router.put("/:id", movieController.updateMovie);
 
 // Route for deleting a movie
-router.delete("/:id", movieController.addReview);
+router.delete("/:id", movieController.deleteMovie);
 
 module.exports = router;

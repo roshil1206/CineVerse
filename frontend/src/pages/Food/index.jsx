@@ -6,6 +6,8 @@ import CustomButton from "../../components/UI/CustomButton";
 import { useDispatch, useSelector } from "react-redux";
 import { getFoodItemsAction } from "../../store/FoodAndBeverages/actions";
 import CustomSpinner from "../../components/UI/CustomSpinner/index";
+import { useNavigate } from "react-router";
+import { addItemAction, updateItemAction } from "../../store/Cart/actionTypes";
 
 const styles = {
   boxRoot: {
@@ -71,11 +73,16 @@ const buttons = ["All", "Food", "Beverages", "Combos"];
 
 const FoodandBeverages = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const { foodItems, loading, error, message } = useSelector((state) => state.foodReducer);
+  const { foodItems, loading } = useSelector((state) => state.foodReducer);
+  const { items } = useSelector((state) => state.cartReducer);
 
   const [selectedButton, setSelectedButton] = useState(0);
-  const [selectedItems, setSelectedItems] = useState([]);
+
+  const handleDataAdd = (item) => {
+    dispatch(addItemAction(item));
+  };
 
   const filteredData = useMemo(() => {
     if (selectedButton === 1) {
@@ -85,7 +92,14 @@ const FoodandBeverages = () => {
     } else if (selectedButton === 3) {
       return foodItems.filter((item) => item.category === "combo");
     } else return foodItems;
-  }, [selectedButton]);
+  }, [selectedButton, foodItems]);
+
+  const onIncrement = (data) => {
+    dispatch(updateItemAction(data));
+  };
+  const onDecrement = (data) => {
+    dispatch(updateItemAction(data));
+  };
 
   useEffect(() => {
     dispatch(getFoodItemsAction());
@@ -122,7 +136,10 @@ const FoodandBeverages = () => {
                 <Grid item xs={6} sm={4} lg={3} key={key} style={{ height: "100%" }}>
                   <CustomCard
                     data={item}
-                    onAdd={() => setSelectedItems((current) => [...current, item.name])}
+                    onAdd={() => handleDataAdd(item)}
+                    cartData={items.filter((data) => data._id === item._id)[0]}
+                    onIncrement={onIncrement}
+                    onDecrement={onDecrement}
                   />
                 </Grid>
               ))}
@@ -131,14 +148,14 @@ const FoodandBeverages = () => {
           <CustomFab disableRipple={true}>
             <div style={{ display: "flex", alignItems: "center" }}>
               <img src="/cart.svg" style={{ height: "20px", width: "20px" }} alt="cart" />
-              <span style={{ marginLeft: "2px", color: "white" }}>{selectedItems.length}</span>
+              <span style={{ marginLeft: "2px", color: "white" }}>{items.length}</span>
             </div>
           </CustomFab>
           <Grid container justifyContent="flex-end">
             <CustomButton
               variant="contained"
-              disabled={selectedItems.length === 0}
-              onClick={() => alert("Work in progress.")}>
+              disabled={items.length === 0}
+              onClick={() => navigate("/summary")}>
               Continue
             </CustomButton>
           </Grid>
