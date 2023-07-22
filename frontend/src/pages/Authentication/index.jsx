@@ -17,8 +17,7 @@ function Authentication() {
   const [rePassword, setRePassword] = useState("");
   const [open, setOpen] = React.useState(false);
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const nameRegex = /[a-zA-Z]+$/;
-
+  const nameRegex = /^[a-zA-Z]*$/;
   const resetField = () => {
     setName("");
     setRegisterEmail("");
@@ -38,7 +37,7 @@ function Authentication() {
     if (name.trim() === "") {
       newErrors.name = "Name is required";
     } else if (!nameRegex.test(name)) {
-      newErrors.name = "Name cannot contain numbers";
+      newErrors.name = "Name can contain only alphabets";
     }
 
     if (!emailRegex.test(registerEmail)) {
@@ -148,7 +147,7 @@ function Authentication() {
               value={registerEmail}
               onChange={(e) => setRegisterEmail(e.target.value)}
             />
-            {errors && <Components.Error>{errors.email}</Components.Error>}
+            {errors && <Components.Error>{errors.registerEmail}</Components.Error>}
 
             <Components.Input
               type="text"
