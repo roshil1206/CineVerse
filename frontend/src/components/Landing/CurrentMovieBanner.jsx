@@ -56,8 +56,8 @@ export default function CurrentMovieBanner({ movies }) {
       style={{ backgroundImage: `url(${currentMovie.image})` }}
       onClick={() => navigate(`/movies?id=${currentMovie._id}`)}>
       <OverlayContainer>
-        <Title>{currentMovie.name}</Title>
-        <Description>{currentMovie.description}</Description>
+        <Title>{currentMovie?.name}</Title>
+        <Description>{currentMovie?.description}</Description>
       </OverlayContainer>
     </CurrentMovieBannerContainer>
   );
