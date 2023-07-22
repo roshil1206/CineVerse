@@ -1,16 +1,5 @@
 import React, { useState } from "react";
-import {
-  Button,
-  Grid,
-  Avatar,
-  Card,
-  Typography,
-  OutlinedInput,
-  InputLabel,
-  FormControl,
-  TextField,
-  Box,
-} from "@mui/material";
+import { Button, Grid, Avatar, Card, Typography, FormControl, TextField, Box } from "@mui/material";
 
 const UserProfile = () => {
   const styles = {
@@ -197,8 +186,7 @@ const UserProfile = () => {
             </Grid>
             <Grid item xs={12} sm={4}>
               <FormControl variant="outlined" style={{ marginBottom: "10px", width: "100%" }}>
-                <InputLabel htmlFor="email-input">Email</InputLabel>
-                <OutlinedInput
+                <TextField
                   id="email-input"
                   name="email"
                   disabled
@@ -228,55 +216,9 @@ const UserProfile = () => {
             Address Information
           </Typography>
           <Grid container spacing={3}>
-            {/* <Grid item xs={12} sm={4}>
-              <FormControl variant="outlined" style={{ marginBottom: "10px", width: "100%" }}>
-                <TextField
-                  variant="outlined"
-                  id="country-input"
-                  name="country"
-                  disabled={!editMode}
-                  label="Country"
-                  value={state.country}
-                  onChange={handleInputChange}
-                  error={Boolean(errors.country)}
-                  helperText={errors.country}
-                />
-              </FormControl>
-            </Grid>
             <Grid item xs={12} sm={4}>
               <FormControl variant="outlined" style={{ marginBottom: "10px", width: "100%" }}>
                 <TextField
-                  variant="outlined"
-                  id="province-input"
-                  name="province"
-                  disabled={!editMode}
-                  label="Province"
-                  value={state.province}
-                  onChange={handleInputChange}
-                  error={Boolean(errors.province)}
-                  helperText={errors.province}
-                />
-              </FormControl>
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <FormControl variant="outlined" style={{ marginBottom: "10px", width: "100%" }}>
-                <TextField
-                  variant="outlined"
-                  id="city-input"
-                  name="city"
-                  disabled={!editMode}
-                  label="City"
-                  value={state.city}
-                  onChange={handleInputChange}
-                  error={Boolean(errors.city)}
-                  helperText={errors.city}
-                />
-              </FormControl>
-            </Grid> */}
-            <Grid item xs={12} sm={4}>
-              <FormControl variant="outlined" style={{ marginBottom: "10px", width: "100%" }}>
-                <InputLabel htmlFor="address-input">Unit</InputLabel>
-                <OutlinedInput
                   id="address-input"
                   name="address"
                   disabled={!editMode}
@@ -288,8 +230,7 @@ const UserProfile = () => {
             </Grid>
             <Grid item xs={12} sm={4}>
               <FormControl variant="outlined" style={{ marginBottom: "10px", width: "100%" }}>
-                <InputLabel htmlFor="address-input">Street</InputLabel>
-                <OutlinedInput
+                <TextField
                   id="address-input"
                   name="street"
                   disabled={!editMode}
@@ -301,8 +242,7 @@ const UserProfile = () => {
             </Grid>
             <Grid item xs={12} sm={4}>
               <FormControl variant="outlined" style={{ marginBottom: "10px", width: "100%" }}>
-                <InputLabel htmlFor="address-input">Postalcode</InputLabel>
-                <OutlinedInput
+                <TextField
                   id="postal-input"
                   name="postalcode"
                   disabled={!editMode}
