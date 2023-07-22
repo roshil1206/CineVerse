@@ -5,6 +5,7 @@ import BookingWindow from "./pages/BookingWindow";
 import Contact from "./pages/Contact";
 import FAQ from "./pages/FAQ";
 import Authentication from "./pages/Authentication";
+import UserProfile from "./pages/Authentication/UserProfile";
 import Food from "./pages/Food";
 import Summary from "./pages/Summary";
 import Success from "./pages/Payments/Success";
@@ -23,6 +24,12 @@ const routes = [
     path: "/login",
     name: "Authentication",
     component: Authentication,
+    layout: "public",
+  },
+  {
+    path: "/profile",
+    name: "Profile",
+    component: UserProfile,
     layout: "public",
   },
   {

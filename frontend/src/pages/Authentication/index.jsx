@@ -20,10 +20,13 @@ function Authentication() {
   const [registerPassword, setRegisterPassword] = useState("");
   const [rePassword, setRePassword] = useState("");
   const [open, setOpen] = React.useState(false);
+  const [snackBarMessage, setSnackBarMessage] = React.useState("");
+  const [errorType, setErrorType] = React.useState("");
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const nameRegex = /^[a-zA-Z]*$/;
 
   const { user } = useSelector((state) => state.authReducer);
+  const { error, message } = useSelector((state) => state.authReducer);
 
   useEffect(() => {
     if (isLogin()) {
@@ -84,15 +87,22 @@ function Authentication() {
 
         const { data } = response;
         if (data.success) {
-          console.log("Registration submitted!");
           toggle(!signIn);
+          setErrorType("success");
           setOpen(true);
+          setSnackBarMessage("Registration Successful!");
           resetField();
         } else {
           console.error("Registration failed:", data.message);
+          setErrorType("error");
+          setOpen(true);
+          setSnackBarMessage(data.message);
         }
       } catch (error) {
         console.error("Error during registration:", error);
+        setErrorType("error");
+        setOpen(true);
+        setSnackBarMessage("User Already Exists!");
       }
     }
   };
@@ -121,6 +131,12 @@ function Authentication() {
         password,
       };
       dispatch(setUserAction(data));
+
+      if (error) {
+        setErrorType("error");
+        setOpen(true);
+        setSnackBarMessage(message);
+      }
     }
   };
 
@@ -219,8 +235,8 @@ function Authentication() {
         </Components.OverlayContainer>
       </Components.Container>
       <Snackbar open={open} autoHideDuration={2000} onClose={closeSnackbar}>
-        <Alert severity="success" sx={{ width: "100%", letterSpacing: "0em" }}>
-          Registration successful!
+        <Alert severity={errorType} sx={{ width: "100%", letterSpacing: "0em" }}>
+          {snackBarMessage}
         </Alert>
       </Snackbar>
     </Components.MainContainer>

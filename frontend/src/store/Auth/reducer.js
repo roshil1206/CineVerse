@@ -28,6 +28,7 @@ const authReducer = (state = initialState, action) => {
         user: { email: action.payload.email, role: action.payload.role },
       };
     case SET_USER_FAIL:
+      console.log(action.message);
       return {
         ...state,
         loading: false,
