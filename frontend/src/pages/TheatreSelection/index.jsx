@@ -75,8 +75,8 @@ export default function TheatreSelection() {
               }}>
               {movie}
             </Typography>
-            {theaters?.map((theater, index) => {
-              const { showtimes } = theater?.movies?.find((m) => m.id === movieId);
+            {theaters.map((theater, index) => {
+              const { showtimes } = theater.movies.find((m) => m.id === movieId);
               // console.log(showtimes);
               // console.log(theater);
               return (
