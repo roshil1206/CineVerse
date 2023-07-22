@@ -22,7 +22,7 @@ function* setUserSaga({ payload }) {
       yield put({ type: SET_USER_FAIL, message: data.message });
     }
   } catch (error) {
-    yield put({ type: SET_USER_FAIL, message: "Something went wrong." });
+    yield put({ type: SET_USER_FAIL, message: "Invalid Email or password" });
   }
 }
 
