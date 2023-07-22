@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 
 import "./App.css";
-import Wrapper from "./layout/Wrapper";
+import PublicLayout from "./layout/PublicLayout";
 import RoutesList from "./routes";
-import AdminWrapper from "./layout/Admin/Wrapper";
+import AdminLayout from "./layout/AdminLayout";
 import { ToastContainer } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
@@ -50,17 +50,17 @@ const App = () => {
           //   );
           case "admin":
             return isLoggedIn ? (
-              <AdminWrapper>
+              <AdminLayout>
                 <Component />
-              </AdminWrapper>
+              </AdminLayout>
             ) : (
               <Navigate to="/login" />
             );
           case "private":
             return isLoggedIn ? (
-              <Wrapper>
+              <PublicLayout>
                 <Component />
-              </Wrapper>
+              </PublicLayout>
             ) : (
               <Navigate to="/login" />
             );
@@ -69,9 +69,9 @@ const App = () => {
           case "public":
           default:
             return (
-              <Wrapper>
+              <PublicLayout>
                 <Component />
-              </Wrapper>
+              </PublicLayout>
             );
         }
       }

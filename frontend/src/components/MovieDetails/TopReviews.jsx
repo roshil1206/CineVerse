@@ -6,6 +6,7 @@ import { keyframes } from "@emotion/react";
 import ReviewTile from "./ReviewTile";
 import AddReviewModal from "./AddReviewModal";
 import axios from "axios";
+import { isLogin } from "../../utils/functions";
 
 const slideInAnimation = keyframes`
   from {
@@ -80,7 +81,9 @@ const TopReviews = ({ reviews, id, updateMovie }) => {
       <MainWrapper>
         <Box sx={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
           <Text>Top Reviews</Text>
-          <Button onClick={() => setOpen(true)}>Add Review &gt;</Button>
+          <Button onClick={() => setOpen(true)} disabled={!isLogin()}>
+            Add Review &gt;
+          </Button>
         </Box>
         {reviews.length > 0 ? (
           <ReviewWrapper>
