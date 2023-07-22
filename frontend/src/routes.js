@@ -35,13 +35,13 @@ const routes = [
     path: "/theatre",
     name: "Theatres",
     component: TheatreSelection,
-    layout: "public",
+    layout: "private",
   },
   {
     path: "/booking",
     name: "Booking",
     component: BookingWindow,
-    layout: "public",
+    layout: "private",
   },
   {
     path: "/contact",
@@ -49,7 +49,7 @@ const routes = [
     component: Contact,
     layout: "public",
   },
-  { path: "/food", name: "Food", component: Food, layout: "public" },
+  { path: "/food", name: "Food", component: Food, layout: "private" },
   {
     path: "/faq",
     name: "FAQ",
@@ -60,7 +60,7 @@ const routes = [
     path: "/summary",
     name: "Summary",
     component: Summary,
-    layout: "public",
+    layout: "private",
   },
   {
     path: "/paymentSuccess",

@@ -3,10 +3,23 @@ import createSagaMiddleware from "redux-saga";
 import rootReducer from "./rootReducer";
 import rootSaga from "./rootSaga";
 import { composeWithDevTools } from "redux-devtools-extension";
+import { persistReducer, persistStore } from "redux-persist";
+import storage from "redux-persist/lib/storage";
+
+const persistConfig = {
+  key: "csci5709-grp08",
+  storage,
+};
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 const sagaMiddleware = createSagaMiddleware();
-const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(sagaMiddleware)));
+const store = createStore(persistedReducer, composeWithDevTools(applyMiddleware(sagaMiddleware)));
 
 sagaMiddleware.run(rootSaga);
+
+const persistor = persistStore(store);
+
+export { persistor, store };
 
 export default store;
