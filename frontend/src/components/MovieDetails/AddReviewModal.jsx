@@ -51,7 +51,7 @@ const AddReviewModal = ({ open, onClose, onSubmit }) => {
   };
 
   return (
-    <Modal open={open} onClose={onClose} centered>
+    <Modal open={open} onClose={onClose}>
       <ModalContent>
         <ModalHeader>
           <Typography variant="h5">Add Review</Typography>
