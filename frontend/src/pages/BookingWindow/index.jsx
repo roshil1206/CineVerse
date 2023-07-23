@@ -67,10 +67,11 @@ const BookingWindow = () => {
     seatNumbers: [],
   });
 
+  dispatch(addItemAction(ticketData));
+
   useEffect(() => {
-    dispatch(addItemAction(ticketData));
     getBookedSeats();
-  }, []);
+  }, [dispatch]);
 
   const getBookedSeats = async () => {
     try {
@@ -115,16 +116,8 @@ const BookingWindow = () => {
   };
 
   const handleProceed = () => {
-    try {
-      // await axios.post(`${process.env.REACT_APP_BACKEND_BASE_URL}/screen/${movieId}/${theatreId}`, {
-      //   seatNumbers: selectedSeats,
-      //   date: date,
-      //   showTime: showTime,
-      // });
-      navigate("/food");
-    } catch (error) {
-      console.error("Error fetching seats:", error);
-    }
+    dispatch(updateItemAction(ticketData));
+    navigate("/food");
   };
 
   const handleSeatClick = (seatNo) => {
@@ -133,27 +126,15 @@ const BookingWindow = () => {
       setTicketData({
         ...ticketData,
         count: ticketData.count - 1,
+        seatNumbers: ticketData.seatNumbers.filter((seat) => seat !== seatNo),
       });
-      dispatch(
-        updateItemAction({
-          ...ticketData,
-          seatNumbers: selectedSeats.filter((seat) => seat !== seatNo),
-          count: ticketData.count - 1,
-        })
-      );
     } else {
       handleSelectedSeats([...selectedSeats, seatNo]);
       setTicketData({
         ...ticketData,
         count: ticketData.count + 1,
+        seatNumbers: [...ticketData.seatNumbers, seatNo],
       });
-      dispatch(
-        updateItemAction({
-          ...ticketData,
-          seatNumbers: [...selectedSeats, seatNo],
-          count: ticketData.count + 1,
-        })
-      );
     }
   };
 
