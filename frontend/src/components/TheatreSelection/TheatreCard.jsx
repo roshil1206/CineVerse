@@ -5,23 +5,34 @@ import theme from "../../theme";
 const TheatreCardContainer = styled("div")({
   display: "flex",
   flexDirection: "column",
-  backgroundColor: theme.palette.white, // Set background color to white
+  backgroundColor: theme.palette.white,
   padding: "16px",
   borderRadius: "8px",
   marginBottom: "16px",
-  boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)", // Add shadow
+  boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
+  "@media (max-width: 700px)": {
+    padding: "12px",
+    marginBottom: "12px",
+  },
 });
 
 const TheatreName = styled("h2")({
   color: theme.palette.brown,
   fontSize: "24px",
   fontWeight: "bold",
+  "@media (max-width: 700px)": {
+    fontSize: "20px",
+  },
 });
 
 const TimeTileContainer = styled("div")({
   display: "flex",
   gap: "19px",
   cursor: "pointer",
+  flexWrap: "wrap",
+  "@media (max-width: 700px)": {
+    gap: "10px",
+  },
 });
 
 const TimeTile = styled("div")({
@@ -31,6 +42,13 @@ const TimeTile = styled("div")({
   fontSize: "16px",
   fontWeight: "bold",
   color: theme.palette.white,
+  width: "80px",
+  textAlign: "center",
+  "@media (max-width: 700px)": {
+    padding: "6px 12px",
+    fontSize: "12px",
+    width: "60px",
+  },
 });
 
 export default function TheatreCard({ theatreName, showtimes, theatreId, handleClick }) {
