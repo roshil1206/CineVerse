@@ -7,7 +7,6 @@ const getTheatre = async (req, res) => {
     const theatre = await Theatre.find({
       "movieDetails.movie": movieId,
     }).populate(["movieDetails"]);
-    // const theatre = await Theatre.find().populate(["movieDetails"]);
 
     if (!theatre) {
       return response(res, 404, false, { error: "Theatre not found" });
@@ -19,33 +18,64 @@ const getTheatre = async (req, res) => {
   }
 };
 
-const saveDataToMongoDB = async (req, res) => {
+// Admin Controller
+const addTheatre = async (req, res) => {
   try {
-    // Sample data
-    const data = {
-      name: "Theatre 3",
-      movieDetails: [
-        {
-          movie: "64b9a5ca9aa6112a3873f505",
-          showtimes: ["9:00 AM", "3:30 PM", "8:00 PM"],
-        },
-      ],
-    };
+    const theatreData = req.body;
+    const theatre = new Movie(theatreData);
+    const savedtheatre = await theatre.save();
+    return response(res, 201, true, savedtheatre);
+  } catch (err) {
+    return response(res, 500, false, { error: err.message });
+  }
+};
 
-    // Create a new Theatre document using the Theatre model
-    const theatre = new Theatre(data);
+const getAllTheatre = async (req, res) => {
+  try {
+    const theatres = await Theatre.find().populate(["movieDetails"]);
+    return response(res, 200, true, theatres);
+  } catch (err) {
+    return response(res, 500, false, { error: err.message });
+  }
+};
 
-    // Save the document to the database
-    await theatre.save();
+const updateTheatre = async (req, res) => {
+  try {
+    const theatreId = req.params.id;
+    const theatreData = req.body;
+    const theatre = await Theatre.findByIdAndUpdate(theatreId, theatreData, {
+      new: true,
+    }).populate(["movieDetails"]);
+
+    if (!theatre) {
+      return response(res, 404, false, { error: "Movie not found" });
+    }
+
     return response(res, 200, true, theatre);
+  } catch (err) {
+    return response(res, 500, false, { error: err.message });
+  }
+};
 
-    console.log("Data saved successfully!");
-  } catch (error) {
-    console.error("Error saving data:", error);
+const deleteTheatre = async (req, res) => {
+  try {
+    const theatreId = req.params.id;
+    const theatre = await Theatre.findByIdAndDelete(theatreId).populate(["movieDetails"]);
+
+    if (!theatre) {
+      return response(res, 404, false, { error: "Movie not found" });
+    }
+
+    return response(res, 200, true, theatre);
+  } catch (err) {
+    return response(res, 500, false, { error: err.message });
   }
 };
 
 module.exports = {
   getTheatre,
-  saveDataToMongoDB,
+  addTheatre,
+  getAllTheatre,
+  updateTheatre,
+  deleteTheatre,
 };
