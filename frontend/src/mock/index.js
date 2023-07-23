@@ -17,7 +17,7 @@ export const faqData = [
   {
     question: "Can I book food and drinks along with my movie tickets?",
     answer:
-      "Yes, you can book food and drinks along with your movie tickets. During the ticket booking process, you will have the option to add food and drinks to your order. You can choose from a variety of snacks, beverages, and combos offered by the theater. The food and drinks will be available for pickup at the theater's concession stand.",
+      "Yes, you can book food and drinks along with your movie tickets. During the ticket booking process, you will have the option to add food and drinks to your order. You can choose from a variety of snacks, beverages, and combos offered by the theatre. The food and drinks will be available for pickup at the theatre's concession stand.",
   },
   {
     question: "What should I do if I face any issues during the booking process?",
