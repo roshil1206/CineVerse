@@ -30,6 +30,9 @@ const cartReducer = (state = initialState, action) => {
         items: state.items.map((item) => {
           if (item._id === action.payload._id) {
             item.count = action.payload.count;
+            if (item.movieId !== undefined) {
+              item.seatNumbers = action.payload.seatNumbers;
+            }
           }
           return item;
         }),
