@@ -81,8 +81,17 @@ export default function TheatreSelection() {
               display: "flex",
               flexDirection: "column",
               justifyContent: "centre",
-              width: "60vw",
+              width: "70%",
               minHeight: "68.6vh",
+              "@media (max-width: 1000px)": {
+                width: "80%",
+              },
+              "@media (max-width: 768px)": {
+                width: "90%",
+              },
+              "@media (max-width: 768px)": {
+                width: "100%",
+              },
             }}>
             <Typography
               variant="h1"
