@@ -23,6 +23,38 @@ const userSchema = new mongoose.Schema({
     enum: ["user", "admin"],
     default: "user",
   },
+  phoneNo: {
+    type: String,
+    default: "",
+  },
+  unit: {
+    type: String,
+    default: "",
+  },
+  street: {
+    type: String,
+    default: "",
+  },
+  postalCode: {
+    type: String,
+    default: "",
+  },
+  country: {
+    type: String,
+    default: "",
+  },
+  province: {
+    type: String,
+    default: "",
+  },
+  city: {
+    type: String,
+    default: "",
+  },
+  imageUrl: {
+    type: String,
+    default: "",
+  },
 });
 
 const User = mongoose.model("User", userSchema);
