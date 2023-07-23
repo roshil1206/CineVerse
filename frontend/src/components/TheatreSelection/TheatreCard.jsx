@@ -2,7 +2,7 @@ import React from "react";
 import styled from "@emotion/styled";
 import theme from "../../theme";
 
-const TheaterCardContainer = styled("div")({
+const TheatreCardContainer = styled("div")({
   display: "flex",
   flexDirection: "column",
   backgroundColor: theme.palette.white, // Set background color to white
@@ -12,7 +12,7 @@ const TheaterCardContainer = styled("div")({
   boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)", // Add shadow
 });
 
-const TheaterName = styled("h2")({
+const TheatreName = styled("h2")({
   color: theme.palette.brown,
   fontSize: "24px",
   fontWeight: "bold",
@@ -33,17 +33,17 @@ const TimeTile = styled("div")({
   color: theme.palette.white,
 });
 
-export default function TheaterCard({ theaterName, showtimes, handleClick }) {
+export default function TheatreCard({ theatreName, showtimes, theatreId, handleClick }) {
   return (
-    <TheaterCardContainer>
-      <TheaterName>{theaterName}</TheaterName>
+    <TheatreCardContainer>
+      <TheatreName>{theatreName}</TheatreName>
       <TimeTileContainer>
         {showtimes.map((showtime, index) => (
-          <TimeTile key={index} onClick={() => handleClick(showtime)}>
+          <TimeTile key={index} onClick={() => handleClick(showtime, theatreId)}>
             {showtime}
           </TimeTile>
         ))}
       </TimeTileContainer>
-    </TheaterCardContainer>
+    </TheatreCardContainer>
   );
 }
