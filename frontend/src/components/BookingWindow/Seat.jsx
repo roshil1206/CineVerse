@@ -2,7 +2,7 @@ import { Grid } from "@mui/material";
 import styled from "@emotion/styled";
 import React from "react";
 
-const Seat = ({ seatNo, isSelected }) => {
+const Seat = ({ seatNo, isSelected, isBooked }) => {
   const SeatStyle = styled(Grid)({
     width: "35px",
     height: "50px",
@@ -16,7 +16,7 @@ const Seat = ({ seatNo, isSelected }) => {
     boxShadow: "0 0 5px rgba(0, 0, 0, 0.5)",
     fontSize: "1rem",
     padding: "0rem",
-    cursor: "pointer",
+    cursor: isBooked ? "not-allowed" : "pointer",
     position: "relative",
     "& > div": {
       position: "absolute",
@@ -24,9 +24,9 @@ const Seat = ({ seatNo, isSelected }) => {
       width: "100%",
       height: "100%",
       borderRadius: "7px",
-      background: isSelected ? "rgba(255, 255, 255, 0.6)" : "",
+      background: isBooked ? "rgba(0, 0, 0, 0.6)" : isSelected ? "rgba(255, 255, 255, 0.6)" : "",
       "&:hover": {
-        background: "rgba(0, 0, 0, 0.5)",
+        background: isBooked ? "" : "rgba(0, 0, 0, 0.3)",
       },
     },
   });
