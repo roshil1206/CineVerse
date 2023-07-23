@@ -28,29 +28,46 @@ const Summary = () => {
   const getTotal = () => {
     let total = 0;
     items.forEach((entry) => {
+      console.log(entry);
       total = total + entry.count * entry.price;
     });
     return total;
   };
 
-  const startCheckout = async () => {
+  const addSeats = async () => {
+    console.log(items);
+    const ticketData = items.filter((item) => item !== undefined && item?.movieId !== undefined)[0];
     axios
-      .post(
-        "/payments/createSesssion",
-        { items },
-        {
-          headers: {
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YjhkNDMwNDI0YzEyOTkwNmFmZmIwMSIsImlhdCI6MTY4OTgzNTM2MywiZXhwIjoxNjkyNDI3MzYzfQ.Ao4p8ZoVmMkiWqK6cTYKZaanB8nQ8uocZI7sxOM1OPk",
-          },
-        }
-      )
+      .post(`/screen/${ticketData.movieId}/${ticketData.theatreId}`, {
+        seatNumbers: ticketData.seatNumbers,
+        date: ticketData.date,
+        showTime: ticketData.showTime,
+      })
       .then(({ data }) => {
-        if (data.data.link) {
-          window.location.href = data.data.link;
-        }
+        console.log(data);
       })
       .catch((error) => console.error(error));
+  };
+
+  const startCheckout = async () => {
+    addSeats();
+    // axios
+    //   .post(
+    //     "/payments/createSesssion",
+    //     { items },
+    //     {
+    //       headers: {
+    //         Authorization:
+    //           "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YjhkNDMwNDI0YzEyOTkwNmFmZmIwMSIsImlhdCI6MTY4OTgzNTM2MywiZXhwIjoxNjkyNDI3MzYzfQ.Ao4p8ZoVmMkiWqK6cTYKZaanB8nQ8uocZI7sxOM1OPk",
+    //       },
+    //     }
+    //   )
+    //   .then(({ data }) => {
+    //     if (data.data.link) {
+    //       window.location.href = data.data.link;
+    //     }
+    //   })
+    //   .catch((error) => console.error(error));
   };
 
   return (

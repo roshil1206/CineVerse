@@ -1,30 +1,42 @@
 const mongoose = require("mongoose");
 
-const screenSchema = new mongoose.Schema({
-  screenId: {
-    type: Number,
-    required: true,
-  },
-  movieName: {
+const bookingSchema = new mongoose.Schema({
+  date: {
     type: String,
     required: true,
   },
   showTime: {
-    type: Date,
+    type: String,
+    required: true,
+  },
+  bookedSeats: {
+    type: [String],
+    required: false,
+    default: [],
+  },
+});
+
+const screenSchema = new mongoose.Schema({
+  movie: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Movie",
+    required: true,
+  },
+  theatre: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Theatre",
     required: true,
   },
   ticketPrice: {
     type: Number,
     required: true,
   },
-  totalSeats: {
-    type: Number,
-    required: true,
+  bookingDetails: {
+    type: [bookingSchema],
+    required: false,
+    default: [],
   },
-  bookedSeats: {
-    type: [Number],
-    required: true,
-  },
+  
 });
 
 module.exports = mongoose.model("Screen", screenSchema, "screens");
