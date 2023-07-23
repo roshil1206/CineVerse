@@ -30,7 +30,7 @@ const routes = [
     path: "/profile",
     name: "Profile",
     component: UserProfile,
-    layout: "public",
+    layout: "private",
   },
   {
     path: "/movies",

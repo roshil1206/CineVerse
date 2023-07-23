@@ -1,7 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Grid, Avatar, Card, Typography, FormControl, TextField, Box } from "@mui/material";
+import axios from "../../utils/axios";
+import { useSelector } from "react-redux";
+import Cookies from "js-cookie";
 
 const UserProfile = () => {
+  const { user } = useSelector((state) => state.authReducer);
+  const token = Cookies.get("token");
+
+  const userId = user.email;
   const styles = {
     box: {
       "&.MuiBox-root": {
@@ -16,22 +23,39 @@ const UserProfile = () => {
       height: "100%",
     },
   };
+
   const [state, setState] = useState({
     name: "",
     email: "",
     address: "",
     city: "",
-    postalcode: "",
+    postalCode: "",
     province: "",
     dob: "",
-    profilePic: null,
-    phone: "",
+    imageUrl: "",
+    phoneNo: "",
     country: "",
+    unit: "",
+    street: "",
   });
 
   const [editMode, setEditMode] = useState(false);
   const [editProfilePic, setEditProfilePic] = useState(false);
   const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        getUserProfile(userId).then((res) => {
+          setState(res.data.user);
+        });
+      } catch (error) {
+        console.error("Error fetching user profile", error);
+      }
+    };
+    fetchUserProfile();
+  }, []);
+
   const handleInputChange = (event) => {
     const { name, value } = event.target;
 
@@ -44,13 +68,13 @@ const UserProfile = () => {
   const handleImageChange = (event) => {
     setState({
       ...state,
-      profilePic: URL.createObjectURL(event.target.files[0]),
+      imageUrl: URL.createObjectURL(event.target.files[0]),
+      file: event.target.files[0],
     });
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(state);
   };
 
   const enableEditMode = (event) => {
@@ -59,12 +83,60 @@ const UserProfile = () => {
     setEditProfilePic(true);
   };
 
-  const saveProfileHandler = (event) => {
+  const saveProfileHandler = async (event) => {
     event.preventDefault();
     const validationErrors = validateForm();
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
+    }
+
+    try {
+      updateUserProfile(state._id, state).then((res) => {
+        setState(res.data.user);
+        setEditMode(false);
+
+        setErrors({});
+      });
+    } catch (error) {
+      console.error("Error updating user profile", error);
+    }
+  };
+
+  const updateUserProfile = async (id, userData) => {
+    try {
+      const formData = new FormData();
+      formData.append("file", state.file);
+      formData.append("name", userData.name);
+      formData.append("email", userData.email);
+      formData.append("phoneNo", userData.phoneNo);
+      formData.append("unit", userData.unit);
+      formData.append("street", userData.street);
+      formData.append("city", userData.city);
+      formData.append("provice", userData.province);
+      formData.append("country", userData.country);
+      formData.append("postalCode", userData.postalCode);
+
+      const response = await axios.post(
+        `${process.env.REACT_APP_BACKEND_BASE_URL}/user/${id}/updateuserinfo`,
+        formData,
+        { headers: { Authorization: "Bearer " + token, "Content-Type": "multipart/form-data" } }
+      );
+      return response.data;
+    } catch (error) {
+      throw new Error(error.response?.data?.message || "Failed to update user profile");
+    }
+  };
+
+  const getUserProfile = async (id) => {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_BACKEND_BASE_URL}/user/${id}/getuserinfo`,
+        { headers: { Authorization: "Bearer " + token } }
+      );
+      return response.data;
+    } catch (error) {
+      throw new Error(error.response?.data?.message || "Failed to get user profile");
     }
   };
 
@@ -75,6 +147,8 @@ const UserProfile = () => {
     const cityRegex = /^[a-zA-Z ]*$/;
     const phoneRegex = /^\d+$/;
     const validationErrors = {};
+
+    console.log(state);
 
     if (!state.name.trim().match(regex)) {
       validationErrors.name = "Name can only contain letters and spaces";
@@ -92,8 +166,8 @@ const UserProfile = () => {
       validationErrors.city = "City can only contain letters and spaces";
     }
 
-    if (state.phone.trim() !== "" && !state.phone.trim().match(phoneRegex)) {
-      validationErrors.phone = "Phone number can only contain digits";
+    if (state.phoneNo.trim() !== "" && !state.phoneNo.trim().match(phoneRegex)) {
+      validationErrors.phoneNo = "Phone number can only contain digits";
     }
 
     return validationErrors;
@@ -142,7 +216,7 @@ const UserProfile = () => {
               flexDirection: "column",
             }}>
             <Avatar
-              src={state.profilePic}
+              src={state?.imageUrl}
               style={{ width: "200px", height: "200px", margin: "10px 0" }}
             />
             <input
@@ -150,6 +224,7 @@ const UserProfile = () => {
               style={{ display: "none" }}
               id="profile-pic-upload"
               type="file"
+              name="imageUrl"
               onChange={handleImageChange}
             />
             <label htmlFor="profile-pic-upload">
@@ -160,7 +235,7 @@ const UserProfile = () => {
           </div>
         ) : (
           <Avatar
-            src={state.profilePic}
+            src={state?.imageUrl}
             style={{ width: "200px", height: "200px", margin: "10px 0" }}
           />
         )}
@@ -177,7 +252,7 @@ const UserProfile = () => {
                   name="name"
                   disabled={!editMode}
                   label="Name"
-                  value={state.name}
+                  value={state?.name}
                   onChange={handleInputChange}
                   error={Boolean(errors.name)}
                   helperText={errors.name}
@@ -187,12 +262,13 @@ const UserProfile = () => {
             <Grid item xs={12} sm={4}>
               <FormControl variant="outlined" style={{ marginBottom: "10px", width: "100%" }}>
                 <TextField
+                  variant="outlined"
                   id="email-input"
                   name="email"
                   disabled
-                  value={state.email}
-                  onChange={handleInputChange}
                   label="Email"
+                  value={userId}
+                  onChange={handleInputChange}
                 />
               </FormControl>
             </Grid>
@@ -201,13 +277,13 @@ const UserProfile = () => {
                 <TextField
                   variant="outlined"
                   id="contact-input"
-                  name="phone"
+                  name="phoneNo"
                   disabled={!editMode}
-                  value={state.phone}
+                  value={state?.phoneNo}
                   onChange={handleInputChange}
                   label="Phone No"
-                  error={Boolean(errors.phone)}
-                  helperText={errors.phone}
+                  error={Boolean(errors.phoneNo)}
+                  helperText={errors.phoneNo}
                 />
               </FormControl>
             </Grid>
@@ -219,36 +295,39 @@ const UserProfile = () => {
             <Grid item xs={12} sm={4}>
               <FormControl variant="outlined" style={{ marginBottom: "10px", width: "100%" }}>
                 <TextField
-                  id="address-input"
-                  name="address"
+                  variant="outlined"
+                  id="unit-input"
+                  name="unit"
                   disabled={!editMode}
-                  value={state.address}
-                  onChange={handleInputChange}
                   label="Unit"
+                  value={state?.unit}
+                  onChange={handleInputChange}
                 />
               </FormControl>
             </Grid>
             <Grid item xs={12} sm={4}>
               <FormControl variant="outlined" style={{ marginBottom: "10px", width: "100%" }}>
                 <TextField
-                  id="address-input"
+                  variant="outlined"
+                  id="street-input"
                   name="street"
                   disabled={!editMode}
-                  value={state.street}
-                  onChange={handleInputChange}
                   label="Street"
+                  value={state?.street}
+                  onChange={handleInputChange}
                 />
               </FormControl>
             </Grid>
             <Grid item xs={12} sm={4}>
               <FormControl variant="outlined" style={{ marginBottom: "10px", width: "100%" }}>
                 <TextField
-                  id="postal-input"
-                  name="postalcode"
+                  variant="outlined"
+                  id="postalCode-input"
+                  name="postalCode"
                   disabled={!editMode}
-                  value={state.postalcode}
-                  onChange={handleInputChange}
                   label="Postalcode"
+                  value={state?.postalCode}
+                  onChange={handleInputChange}
                 />
               </FormControl>
             </Grid>
@@ -260,7 +339,7 @@ const UserProfile = () => {
                   name="country"
                   disabled={!editMode}
                   label="Country"
-                  value={state.country}
+                  value={state?.country}
                   onChange={handleInputChange}
                   error={Boolean(errors.country)}
                   helperText={errors.country}
@@ -275,7 +354,7 @@ const UserProfile = () => {
                   name="province"
                   disabled={!editMode}
                   label="Province"
-                  value={state.province}
+                  value={state?.province}
                   onChange={handleInputChange}
                   error={Boolean(errors.province)}
                   helperText={errors.province}
@@ -290,7 +369,7 @@ const UserProfile = () => {
                   name="city"
                   disabled={!editMode}
                   label="City"
-                  value={state.city}
+                  value={state?.city}
                   onChange={handleInputChange}
                   error={Boolean(errors.city)}
                   helperText={errors.city}

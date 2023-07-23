@@ -7,14 +7,15 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 const register = async (req, res) => {
   try {
-    const { name, email, password, repassword } = req.body;
+    console.log(req.body);
+    const { name, email, password, confirmPassword } = req.body;
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return response(res, 409, false, { message: "User already exists" });
     }
 
-    if (password !== repassword) {
+    if (password !== confirmPassword) {
       return response(res, 409, false, { message: "Password dosen't match." });
     }
 
@@ -61,26 +62,6 @@ const login = async (req, res) => {
   } catch (error) {
     return response(res, 500, false, { message: "Login failed" });
   }
-};
-
-exports.getUserInfo = async (id) => {
-  const user = await User.findById(id);
-
-  return {
-    user: {
-      name: user.name,
-      phoneNo: user.phoneNo,
-      email: user.email,
-      unit: user.unit,
-      street: user.street,
-      postalCode: user.postalCode,
-      country: user.country,
-      city: user.city,
-      province: user.province,
-      imageUrl: user.imageUrl,
-      _id: user._id,
-    },
-  };
 };
 
 const updateUserInfo = async (req, res) => {
@@ -141,8 +122,8 @@ const updateUserInfo = async (req, res) => {
 
 const getUserInfo = async (req, res) => {
   try {
-    const userId = req.params.id;
-    const user = await User.findById(userId);
+    const userId = req.params.email;
+    const user = await User.findOne({email: userId});
 
     const userInfo = {
       user: {

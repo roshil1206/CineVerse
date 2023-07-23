@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.post("/register", userController.register);
 router.post("/login", userController.login);
-router.post("/:id/updateuserinfo", [multer.single("imageUrl"), authenticateUser] ,userController.updateUserInfo);
-router.post("/:id/getuserinfo",[multer.single("imageUrl"), authenticateUser], userController.getUserInfo);
+router.post("/:id/updateuserinfo", [multer.single("file"), authenticateUser] ,userController.updateUserInfo);
+router.get("/:email/getuserinfo",authenticateUser, userController.getUserInfo);
 
 module.exports = router;
