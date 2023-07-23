@@ -10,11 +10,13 @@ const adminScreenRoutes = require("./admin/screen");
 const contact = require("./user/contact");
 const landing = require("./user/landing");
 const theatre = require("./user/theatre");
+const adminTheatreRoutes = require("./admin/theatre");
 
 // Admin routes
 router.use("/admin/foodAndBeverages", AdminFoodAndBeverages);
 router.use("/admin/movie", adminMovieRoutes);
 router.use("/admin/screen", adminScreenRoutes);
+router.use("/admin/theatre", adminTheatreRoutes);
 
 // User routes
 router.use("/foodAndBeverages", FoodAndBeverages);
