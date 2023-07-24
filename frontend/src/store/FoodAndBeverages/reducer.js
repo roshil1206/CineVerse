@@ -1,4 +1,14 @@
-import { GET_FOOD_ITEMS_FAIL, GET_FOOD_ITEMS_SUCCESS, SET_FOOD_LOADING } from "./actionTypes";
+import {
+  ADD_FOOD_ITEM_FAIL,
+  ADD_FOOD_ITEM_SUCCESS,
+  CHANGE_ACTIVATION_STATE_FAIL,
+  CHANGE_ACTIVATION_STATE_SUCCESS,
+  GET_FOOD_ITEMS_FAIL,
+  GET_FOOD_ITEMS_SUCCESS,
+  SET_FOOD_LOADING,
+  UPDATE_FOOD_ITEM_FAIL,
+  UPDATE_FOOD_ITEM_SUCCESS,
+} from "./actionTypes";
 
 const initialState = {
   loading: false,
@@ -25,6 +35,23 @@ const foodReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         foodItems: [],
+        error: true,
+        message: action.message,
+      };
+    case CHANGE_ACTIVATION_STATE_SUCCESS:
+    case UPDATE_FOOD_ITEM_SUCCESS:
+    case ADD_FOOD_ITEM_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+      };
+
+    case CHANGE_ACTIVATION_STATE_FAIL:
+    case ADD_FOOD_ITEM_FAIL:
+    case UPDATE_FOOD_ITEM_FAIL:
+      return {
+        ...state,
+        loading: false,
         error: true,
         message: action.message,
       };
