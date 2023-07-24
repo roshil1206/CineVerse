@@ -65,7 +65,12 @@ const TopReviews = ({ reviews, id, updateMovie }) => {
   const handleSubmit = async (reviewState) => {
     try {
       const { data } = await axios.post(
+<<<<<<< Updated upstream
         `${process.env.REACT_APP_BACKEND_BASE_URL}/movie/${id}/reviews`,
+=======
+        // eslint-disable-next-line no-undef
+        `http://localhost:4000/movie/${id}/reviews`,
+>>>>>>> Stashed changes
         reviewState
       );
       const movieData = data.data;
