@@ -83,8 +83,8 @@ const BookingWindow = () => {
       setBookedSeates(data.data.bookingDetail);
       setMovie(data.data.movie);
       setTheatre(data.data.theatre);
-      setTicketData({ ...ticketData, price: data.data.ticketPrice });
-      dispatch(updateItemAction({ ...ticketData, price: data.data.ticketPrice }));
+      setTicketData({ ...ticketData, price: data.data.price });
+      dispatch(updateItemAction({ ...ticketData, price: data.data.price }));
       setIsLoading(false);
     } catch (error) {
       if (error.response.status === 404) {
@@ -101,8 +101,8 @@ const BookingWindow = () => {
           setBookedSeates(data.data.bookingDetail);
           setMovie(data.data.movie);
           setTheatre(data.data.theatre);
-          setTicketData({ ...ticketData, price: data.data.ticketPrice });
-          dispatch(updateItemAction({ ...ticketData, price: data.data.ticketPrice }));
+          setTicketData({ ...ticketData, price: data.data.price });
+          dispatch(updateItemAction({ ...ticketData, price: data.data.price }));
           setIsLoading(false);
         } catch (error) {
           console.error("Error fetching seats:", error);

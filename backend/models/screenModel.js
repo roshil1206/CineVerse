@@ -27,7 +27,7 @@ const screenSchema = new mongoose.Schema({
     ref: "Theatre",
     required: true,
   },
-  ticketPrice: {
+  price: {
     type: Number,
     required: true,
   },

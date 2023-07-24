@@ -9,4 +9,7 @@ router.get("/:movie/:theatre", screenController.getBookedSeats);
 // Route for booking seats
 router.post("/:movie/:theatre", screenController.bookSeats);
 
+// Route for adding a booking
+router.post("/:movie/:theatre/booking", screenController.addBooking);
+
 module.exports = router;

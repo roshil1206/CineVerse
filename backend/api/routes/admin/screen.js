@@ -9,9 +9,6 @@ router.get("/", screenController.getAllScreens);
 // Route for adding a screen
 router.post("/", screenController.addScreen);
 
-// Route for adding a booking
-router.post("/:movie/:theatre/booking", screenController.addBooking);
-
 // Route for updating a screen
 router.put("/:id", screenController.updateScreen);
 
