@@ -152,7 +152,15 @@ const partiespage = () => {
       <TicketWrapper>
         <TicketHeader>Long Term Rental</TicketHeader>
         <TicketContent>
-          <p>CineVerse is the perfect venue for your next big day</p>
+          <p>
+            CineVerse is the perfect venue for your next big day. Whether its a birthday party,
+            anniversary celebration, or any special occasion, our long-term rental packages offer
+            you the opportunity to have a private movie theater experience with your loved ones.
+          </p>
+          <p>
+            Our state-of-the-art theaters, comfortable seating, and top-notch audiovisual systems
+            ensure that your event will be memorable for everyone attending.
+          </p>
         </TicketContent>
         <TicketFooter>
           <CardButton to="/parties/longtermrental">Inquire</CardButton>
@@ -164,8 +172,13 @@ const partiespage = () => {
         <TicketHeader>XSCAPE Arcade</TicketHeader>
         <TicketContent>
           <p>
-            Want an epic party that will be talked about for years? Have it at XSCAPE! New Packages
-            Coming Soon to an Xscape near you!
+            Want an epic party that will be talked about for years? Have it at XSCAPE! Our XSCAPE
+            Arcade parties are the ultimate gaming experience for all ages.
+          </p>
+          <p>
+            Choose from a wide selection of games, both classic and modern, and challenge your
+            friends to exciting competitions. Our comfortable gaming lounges and party packages will
+            ensure that everyone has a blast!
           </p>
         </TicketContent>
         <TicketFooter>
@@ -176,12 +189,15 @@ const partiespage = () => {
       {/* Popcorn Parties */}
       <TicketWrapper>
         <TicketHeader>Popcorn Parties</TicketHeader>
-        <TicketContent>
-          <p>
-            Popcorn Parties are a great way to enjoy your favorite movies with friends and family.
-            Our cozy theater rooms and unlimited popcorn make it an unforgettable experience.
-          </p>
-        </TicketContent>
+        <p>
+          Popcorn Parties are a great way to enjoy your favorite movies with friends and family. Our
+          cozy theater rooms and unlimited popcorn make it an unforgettable experience.
+        </p>
+        <p>
+          Choose from a wide selection of movies, from classic films to the latest blockbusters, and
+          enjoy the big screen experience with your loved ones. Whether its a kids birthday party a
+          casual get-together, our Popcorn Parties are sure to delight everyone.
+        </p>
         <TicketFooter>
           <CardButton to="/parties/popcorn">Go to Popcorn Parties</CardButton>
         </TicketFooter>
