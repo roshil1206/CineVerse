@@ -207,7 +207,9 @@ function Authentication() {
             />
             {errors && <Components.Error>{errors.password}</Components.Error>}
 
-            {/* <Components.Anchor href="#">Forgot your password?</Components.Anchor> */}
+            <Components.Anchor href="/forgotpassword" style={{ textDecoration: "underline" }}>
+              Forgot your password?
+            </Components.Anchor>
 
             <Components.Button onClick={(e) => handleLogin(e)}>Login</Components.Button>
           </Components.Form>

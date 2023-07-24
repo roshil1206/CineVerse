@@ -12,6 +12,7 @@ import Success from "./pages/Payments/Success";
 import Failure from "./pages/Payments/Failure";
 import AdminMovie from "./pages/Admin/Movie";
 import AdminFood from "./pages/Admin/Food";
+import ForgotPassword from "./pages/Authentication/forgotPassword";
 
 const routes = [
   {
@@ -31,6 +32,12 @@ const routes = [
     name: "Profile",
     component: UserProfile,
     layout: "private",
+  },
+  {
+    path: "/forgotpassword",
+    name: "forgotpassword",
+    component: ForgotPassword,
+    layout: "pubic",
   },
   {
     path: "/movies",
