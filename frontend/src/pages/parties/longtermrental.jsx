@@ -2,6 +2,7 @@ import React from "react";
 import styled from "@emotion/styled";
 import { Box, Typography, Link } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { keyframes } from "styled-components";
 
 const Container = styled(Box)(() => ({
   margin: "2rem 0",
@@ -19,13 +20,85 @@ const RentalCard = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  box-shadow: 20px 20px 60px #bebebe, -20px -20px 60px #ffffff;
-  border: 1px solid #ccc;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
+  border: 2px solid #ccc; /* Light grey border */
   padding: 20px;
   margin-bottom: 20px;
+  margin: 0 auto;
   background-color: #f9f9f9;
+
+  /* Screen-like effect */
+  &::before {
+    content: "";
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: calc(100% - 20px);
+    height: 80%; /* Adjusted to cover most of the card */
+    border: 2px solid #ccc;
+    border-radius: 14px;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+    pointer-events: none; /* Disable interaction with the pseudo-element */
+  }
+
+  /* Keyboard-like effect at the bottom */
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    width: calc(100% - 20px);
+    height: 30px;
+    background-color: #d9d9d9; /* Light grey background */
+    border-radius: 0 0 10px 10px; /* Rounded bottom corners */
+  }
+
+  /* Camera icon on top */
+  &::after {
+    content: "";
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 10px;
+    height: 10px;
+    border: 2px solid #000;
+    border-radius: 50%;
+    background-color: #000;
+    z-index: 2; /* Bring the camera icon above the pseudo-elements */
+  }
+
+  /* Stand */
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 8px;
+    background-color: #ccc; /* Light grey stand color */
+    border-radius: 0 0 8px 8px; /* Rounded bottom stand corners */
+  }
+`;
+const TheaterSeats = styled.div`
+  position: absolute;
+  bottom: 15px; /* Adjusted position to place seats below the rental card */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%; /* Adjusted width to make three lines of seats */
+  height: 60px; /* Adjusted height to create three lines of seats */
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
 `;
 
+const SeatLine = styled.div`
+  width: 20px;
+  height: 20px;
+  background-color: #444;
+  border-radius: 4px;
+`;
 const ScreeningCard = styled.div`
   width: 320px;
   height: 350px;
@@ -151,6 +224,25 @@ const TypesOfScreeningsContainer = styled.div`
   justify-content: space-between;
   flex-wrap: wrap;
 `;
+const fadeInAnimation = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
+const fallDownAnimation = keyframes`
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+`;
 
 const TypesOfScreeningsHeading = styled.h2`
   text-align: center;
@@ -158,6 +250,20 @@ const TypesOfScreeningsHeading = styled.h2`
   font-weight: 600;
   color: #222;
   margin-bottom: 20px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  animation: ${fadeInAnimation} 0.8s ease, ${fallDownAnimation} 1.5s ease;
+
+  &::before {
+    content: "🎞️"; /* Movie reel symbol */
+    display: block;
+    font-size: 32px;
+    margin-bottom: 10px;
+    animation: ${fadeInAnimation} 0.8s ease; /* Apply the same animation to the symbol */
+  }
 `;
 // Combine the three cards in a container
 const TypesOfScreenings = () => {
@@ -207,16 +313,20 @@ const longtermrental = () => {
         Celebrate your special moments with us!
       </Typography>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <TypesOfScreeningsHeading>Types of Screen</TypesOfScreeningsHeading>
+        <TypesOfScreeningsHeading>Types of Screens</TypesOfScreeningsHeading>
         {/* Use the TypesOfScreenings Heading here */}
         <TypesOfScreenings /> {/* Use the TypesOfScreenings component here */}
       </div>
-
       <RentalCard>
         <h3>Screening Inquiry</h3>
-        <p> Interested in organizing a special screening event?</p>
+        <p>Interested in organizing a special screening event?</p>
         <CardButton onClick={handleButtonClick}>Inquire Now</CardButton>
       </RentalCard>
+      <TheaterSeats>
+        <SeatLine />
+        <SeatLine />
+        <SeatLine />
+      </TheaterSeats>
       <div className="rental-card">
         <h3>Class in Session - Education Rentals</h3>
         <p>
