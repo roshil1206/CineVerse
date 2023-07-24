@@ -42,12 +42,10 @@ const forgotPassword = async (req, res) => {
 
 const resetPassword = async (req, res) => {
   try {
-    const { otp, password, confirmPassword } = req.body;
-    const email = req.params.email;
+    const { otp, email, password, confirmPassword } = req.body;
+    // const email = req.params.email;
 
-    console.log("EMAIL===>", email);
     const user = await User.findOne({ email });
-    console.log("USER===>", user)
     if (!user) {
       return response(res, 404, false, { message: "User not found" });
     }
