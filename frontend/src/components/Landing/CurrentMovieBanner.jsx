@@ -38,7 +38,6 @@ const Description = styled("p")({
 });
 
 export default function CurrentMovieBanner({ movies }) {
-  console.log(movies);
   const [currentMovieIndex, setCurrentMovieIndex] = useState(0);
   const navigate = useNavigate();
   useEffect(() => {
@@ -54,10 +53,10 @@ export default function CurrentMovieBanner({ movies }) {
   return (
     <CurrentMovieBannerContainer
       style={{ backgroundImage: `url(${currentMovie.image})` }}
-      onClick={() => navigate(`/movies?id=${currentMovie.id}`)}>
+      onClick={() => navigate(`/movies?id=${currentMovie._id}`)}>
       <OverlayContainer>
-        <Title>{currentMovie.name}</Title>
-        <Description>{currentMovie.description}</Description>
+        <Title>{currentMovie?.name}</Title>
+        <Description>{currentMovie?.description}</Description>
       </OverlayContainer>
     </CurrentMovieBannerContainer>
   );

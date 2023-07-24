@@ -6,6 +6,7 @@ import { keyframes } from "@emotion/react";
 import ReviewTile from "./ReviewTile";
 import AddReviewModal from "./AddReviewModal";
 import axios from "axios";
+import { isLogin } from "../../utils/functions";
 
 const slideInAnimation = keyframes`
   from {
@@ -39,6 +40,14 @@ const ReviewWrapper = styled("div")`
   },
 `;
 
+const NoReviewsWrapper = styled("div")`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  width: 100%;
+`;
+
 const Wrapper = styled(Box)({
   display: "flex",
   gap: "1rem",
@@ -55,7 +64,10 @@ const TopReviews = ({ reviews, id, updateMovie }) => {
 
   const handleSubmit = async (reviewState) => {
     try {
-      const { data } = await axios.post(`http://localhost:4000/movie/${id}/reviews`, reviewState);
+      const { data } = await axios.post(
+        `${process.env.REACT_APP_BACKEND_BASE_URL}/movie/${id}/reviews`,
+        reviewState
+      );
       const movieData = data.data;
       updateMovie(movieData);
       setOpen(false);
@@ -69,15 +81,23 @@ const TopReviews = ({ reviews, id, updateMovie }) => {
       <MainWrapper>
         <Box sx={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
           <Text>Top Reviews</Text>
-          <Button onClick={() => setOpen(true)}>Add Review &gt;</Button>
+          <Button onClick={() => setOpen(true)} disabled={!isLogin()}>
+            Add Review &gt;
+          </Button>
         </Box>
-        <ReviewWrapper>
-          <Wrapper>
-            {reviews.map((review, i) => (
-              <ReviewTile key={i} review={review} />
-            ))}
-          </Wrapper>
-        </ReviewWrapper>
+        {reviews.length > 0 ? (
+          <ReviewWrapper>
+            <Wrapper>
+              {reviews.map((review, i) => (
+                <ReviewTile key={i} review={review} />
+              ))}
+            </Wrapper>
+          </ReviewWrapper>
+        ) : (
+          <NoReviewsWrapper>
+            <Typography variant="h5">No Reviews Yet</Typography>
+          </NoReviewsWrapper>
+        )}
       </MainWrapper>
     </Container>
   );

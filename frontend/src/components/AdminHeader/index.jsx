@@ -51,7 +51,7 @@ function a11yProps(index) {
 const links = [
   { name: "Users", link: "/admin/user" },
   { name: "Movies", link: "/admin/movie" },
-  { name: "Theaters", link: "/admin/theater" },
+  { name: "Theatres", link: "/admin/theatre" },
   { name: "Foods", link: "/admin/food" },
 ];
 

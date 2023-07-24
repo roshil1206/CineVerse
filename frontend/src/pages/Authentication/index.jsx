@@ -1,25 +1,43 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as Components from "../../components/Authentication/Auth";
 import { Alert, Snackbar } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
+import axios from "../../utils/axios";
+import { useDispatch, useSelector } from "react-redux";
+import { setUserAction } from "../../store/Auth/actions";
+import { isLogin } from "../../utils/functions";
 
 function Authentication() {
   const { state } = useLocation();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [signIn, toggle] = React.useState(state?.register ? false : true);
   const [errors, setErrors] = useState({});
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [registerEmail, setRegisterEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [registerPassword, setRegisterPassword] = useState("");
   const [rePassword, setRePassword] = useState("");
   const [open, setOpen] = React.useState(false);
+  const [snackBarMessage, setSnackBarMessage] = React.useState("");
+  const [errorType, setErrorType] = React.useState("");
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const nameRegex = /[a-zA-Z]+$/;
+  const nameRegex = /^[a-zA-Z]*$/;
+
+  const { user } = useSelector((state) => state.authReducer);
+  const { error, message } = useSelector((state) => state.authReducer);
+
+  useEffect(() => {
+    if (isLogin()) {
+      navigate("/");
+    }
+  }, [user]);
 
   const resetField = () => {
     setName("");
-    setEmail("");
-    setPassword("");
+    setRegisterEmail("");
+    setRegisterPassword("");
     setRePassword("");
   };
 
@@ -28,47 +46,71 @@ function Authentication() {
     toggle(!signIn);
   };
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
     const newErrors = {};
 
     if (name.trim() === "") {
       newErrors.name = "Name is required";
     } else if (!nameRegex.test(name)) {
-      newErrors.name = "Name cannot contain numbers";
+      newErrors.name = "Name can contain only alphabets";
     }
 
-    if (!emailRegex.test(email)) {
-      newErrors.email = "Email is invalid";
-    } else if (email.trim() === "") {
-      newErrors.email = "Email is required";
+    if (!emailRegex.test(registerEmail)) {
+      newErrors.registerEmail = "Email is invalid";
+    } else if (registerEmail.trim() === "") {
+      newErrors.registerEmail = "Email is required";
     }
 
-    if (password.length < 8) {
-      newErrors.password = "Password is too short";
-    } else if (password.trim() === "") {
-      newErrors.password = "Password is required";
+    if (registerPassword.length < 8) {
+      newErrors.registerPassword = "Password is too short";
+    } else if (registerPassword.trim() === "") {
+      newErrors.registerPassword = "Password is required";
     }
 
     if (rePassword.trim() === "") {
       newErrors.rePassword = "Re-Password is required";
-    } else if (password !== rePassword) {
+    } else if (registerPassword !== rePassword) {
       newErrors.rePassword = "Passwords do not match";
     }
 
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      console.log("Registration submitted!");
-      toggle(!signIn);
-      setOpen(true);
-      resetField();
+      try {
+        const response = await axios.post(`/user/register`, {
+          name,
+          email: registerEmail,
+          password: registerPassword,
+          confirmPassword: rePassword,
+        });
+
+        const { data } = response;
+        if (data.success) {
+          toggle(!signIn);
+          setErrorType("success");
+          setOpen(true);
+          setSnackBarMessage("Registration Successful!");
+          resetField();
+        } else {
+          console.error("Registration failed:", data.message);
+          setErrorType("error");
+          setOpen(true);
+          setSnackBarMessage(data.message);
+        }
+      } catch (error) {
+        console.error("Error during registration:", error);
+        setErrorType("error");
+        setOpen(true);
+        setSnackBarMessage("User Already Exists!");
+      }
     }
   };
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     const newErrors = {};
+
     if (!emailRegex.test(email)) {
       newErrors.email = "Email is invalid";
     } else if (email.trim() === "") {
@@ -80,14 +122,21 @@ function Authentication() {
     } else if (password.trim() === "") {
       newErrors.password = "Password is required";
     }
-    if (password.trim() === "") {
-      newErrors.password = "Password is required";
-    }
 
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      navigate("/");
+      const data = {
+        email,
+        password,
+      };
+      dispatch(setUserAction(data));
+
+      if (error) {
+        setErrorType("error");
+        setOpen(true);
+        setSnackBarMessage(message);
+      }
     }
   };
 
@@ -113,18 +162,18 @@ function Authentication() {
             <Components.Input
               type="email"
               placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={registerEmail}
+              onChange={(e) => setRegisterEmail(e.target.value)}
             />
-            {errors && <Components.Error>{errors.email}</Components.Error>}
+            {errors && <Components.Error>{errors.registerEmail}</Components.Error>}
 
             <Components.Input
-              type="text"
+              type="password"
               placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={registerPassword}
+              onChange={(e) => setRegisterPassword(e.target.value)}
             />
-            {errors && <Components.Error>{errors.password}</Components.Error>}
+            {errors && <Components.Error>{errors.registerPassword}</Components.Error>}
 
             <Components.Input
               type="password"
@@ -158,7 +207,9 @@ function Authentication() {
             />
             {errors && <Components.Error>{errors.password}</Components.Error>}
 
-            {/* <Components.Anchor href="#">Forgot your password?</Components.Anchor> */}
+            <Components.Anchor href="/forgotpassword" style={{ textDecoration: "underline" }}>
+              Forgot your password?
+            </Components.Anchor>
 
             <Components.Button onClick={(e) => handleLogin(e)}>Login</Components.Button>
           </Components.Form>
@@ -186,8 +237,8 @@ function Authentication() {
         </Components.OverlayContainer>
       </Components.Container>
       <Snackbar open={open} autoHideDuration={2000} onClose={closeSnackbar}>
-        <Alert severity="success" sx={{ width: "100%", letterSpacing: "0em" }}>
-          Registration successful!
+        <Alert severity={errorType} sx={{ width: "100%", letterSpacing: "0em" }}>
+          {snackBarMessage}
         </Alert>
       </Snackbar>
     </Components.MainContainer>

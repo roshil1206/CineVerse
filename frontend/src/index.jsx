@@ -9,6 +9,8 @@ import { StyledEngineProvider, ThemeProvider } from "@mui/material";
 import store from "./store/index";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "bootstrap-css-only/css/bootstrap.min.css";
+import { store, persistor } from "./store/index";
+import { PersistGate } from "redux-persist/integration/react";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -17,7 +19,9 @@ root.render(
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={theme}>
           <Provider store={store}>
-            <App />
+            <PersistGate persistor={persistor} loading={null}>
+              <App />
+            </PersistGate>
           </Provider>
         </ThemeProvider>
       </StyledEngineProvider>

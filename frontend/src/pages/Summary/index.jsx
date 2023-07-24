@@ -28,12 +28,29 @@ const Summary = () => {
   const getTotal = () => {
     let total = 0;
     items.forEach((entry) => {
+      console.log(entry);
       total = total + entry.count * entry.price;
     });
     return total;
   };
 
+  const addSeats = async () => {
+    console.log(items);
+    const ticketData = items.filter((item) => item !== undefined && item?.movieId !== undefined)[0];
+    axios
+      .post(`/screen/${ticketData.movieId}/${ticketData.theatreId}`, {
+        seatNumbers: ticketData.seatNumbers,
+        date: ticketData.date,
+        showTime: ticketData.showTime,
+      })
+      .then(({ data }) => {
+        console.log(data);
+      })
+      .catch((error) => console.error(error));
+  };
+
   const startCheckout = async () => {
+    addSeats();
     axios
       .post(
         "/payments/createSesssion",

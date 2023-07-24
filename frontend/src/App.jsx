@@ -1,18 +1,17 @@
-import React, { useEffect } from "react";
-import { Route, Routes, useLocation } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 
 import "./App.css";
-import Wrapper from "./layout/Wrapper";
+import PublicLayout from "./layout/PublicLayout";
 import RoutesList from "./routes";
-import AdminWrapper from "./layout/Admin/Wrapper";
+import AdminLayout from "./layout/AdminLayout";
 import { ToastContainer } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
+import { isLogin } from "./utils/functions";
+import { useSelector } from "react-redux";
 
 const App = () => {
-  // const cookieData = Cookies.get("user");
-  // const user = JSON.parse(cookieData === undefined ? "{}" : cookieData);
-
   const location = useLocation();
 
   useEffect(() => {
@@ -24,43 +23,55 @@ const App = () => {
   }, [location]);
 
   const renderRoutes = () => {
-    // const isLogin = !!user;
-    // const isAdmin = user?.isAdmin;
+    const [isAdmin, setIsAdmin] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(isLogin());
+    const { user } = useSelector((state) => state.authReducer);
+    console.log("isAdmin", isAdmin);
+
+    useEffect(() => {
+      if (user) {
+        setIsAdmin(user.role === "admin");
+      }
+      setIsLoggedIn(isLogin());
+    }, [user]);
+
     const renderRoute = (Component, layout) => {
       if (Component) {
         switch (layout) {
           // case "admin":
           //   return isAdmin ? (
-          //     <AdminLayout>
+          //     <AdminWrapper>
           //       <Component />
-          //     </AdminLayout>
-          //   ) : isLogin ? (
+          //     </AdminWrapper>
+          //   ) : isLoggedIn ? (
           //     <Navigate to="/" />
           //   ) : (
-          //     <Navigate to="/signin" />
+          //     <Navigate to="/login" />
           //   );
-          // case "private":
-          //   return isLogin ? (
-          //     <PrivateLayout>
-          //       <Component />
-          //     </PrivateLayout>
-          //   ) : (
-          //     <Navigate to="/signin" />
-          //   );
+          case "admin":
+            return isLoggedIn ? (
+              <AdminLayout>
+                <Component />
+              </AdminLayout>
+            ) : (
+              <Navigate to="/login" />
+            );
+          case "private":
+            return isLoggedIn ? (
+              <PublicLayout>
+                <Component />
+              </PublicLayout>
+            ) : (
+              <Navigate to="/login" />
+            );
           case "none":
             return <Component />;
-          case "admin":
-            return (
-              <AdminWrapper>
-                <Component />
-              </AdminWrapper>
-            );
           case "public":
           default:
             return (
-              <Wrapper>
+              <PublicLayout>
                 <Component />
-              </Wrapper>
+              </PublicLayout>
             );
         }
       }
@@ -90,7 +101,10 @@ const App = () => {
         pauseOnHover
         theme="light"
       />
-      <Routes>{renderRoutes()}</Routes>
+      <Routes>
+        {renderRoutes()}
+        <Route path="*" element={<Navigate to="/" />} />
+      </Routes>
     </div>
   );
 };
