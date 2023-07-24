@@ -89,7 +89,7 @@ const BookingWindow = () => {
     } catch (error) {
       if (error.response.status === 404) {
         await axios.post(
-          `${process.env.REACT_APP_BACKEND_BASE_URL}/admin/screen/${movieId}/${theatreId}/booking`,
+          `${process.env.REACT_APP_BACKEND_BASE_URL}/screen/${movieId}/${theatreId}/booking`,
           { date: date, showTime: showTime }
         );
 
