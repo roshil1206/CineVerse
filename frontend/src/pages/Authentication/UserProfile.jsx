@@ -95,7 +95,7 @@ const UserProfile = () => {
       updateUserProfile(state._id, state).then((res) => {
         setState(res.data.user);
         setEditMode(false);
-
+        setEditProfilePic(false);
         setErrors({});
       });
     } catch (error) {
