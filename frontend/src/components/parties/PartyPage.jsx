@@ -1,13 +1,9 @@
-/* eslint-disable import/no-unresolved */
-/* eslint-disable react/jsx-no-undef */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "@emotion/styled";
 import { Box } from "@mui/material";
-import Slider from "react-slick";
 
-const Container = styled(Box)(({ theme }) => ({
+const Container = styled(Box)(() => ({
   margin: "2rem 0",
 }));
 
@@ -18,25 +14,90 @@ const LeftAlignedContainer = styled.div`
   margin-top: 50px;
 `;
 const TicketWrapper = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 700px;
   margin: 50px auto;
-  border: 3px solid #000;
-  border-radius: 15px; /* Increased to give a ticket-like appearance */
-  overflow: hidden; /* To hide any overflowing content inside the ticket */
+  padding: 20px;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transform: scale(1);
+  transition: all 0.3s ease;
+
+  /* Custom border for the movie reel effect */
+  &::before,
+  &::after,
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    width: 5px;
+    background-color: #222;
+    border-radius: 50%;
+  }
+
+  &::before {
+    height: 100%;
+    left: -5px;
+  }
+
+  &::after {
+    height: 40%;
+    left: -5px;
+    top: 30%;
+  }
+
+  &:hover {
+    background-color: #f9f2f4;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    transform: scale(1.05) rotate(-2deg);
+  }
+
+  /* Glowing effect */
+  &:after {
+    position: absolute;
+    content: "";
+    top: 5vw;
+    left: 0;
+    right: 0;
+    z-index: -1;
+    height: 100%;
+    width: 100%;
+    margin: 0 auto;
+    transform: scale(0.75);
+    filter: blur(5vw);
+    background: linear-gradient(270deg, #0fffc1, #7e0fff);
+    background-size: 200% 200%;
+    animation: animateGlow 2s ease infinite; /* Increased animation speed */
+
+    @keyframes animateGlow {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+  }
 `;
 
 const TicketHeader = styled.div`
   width: 100%;
   padding: 0.5rem;
-  background-color: #000;
+  background-color: #222;
   color: #fff;
   font-size: 1.2rem;
   font-weight: 600;
   text-align: center;
-  border-radius: 15px 15px 0 0; /* Adjusted to cut semicircle on the top */
+  border-radius: 15px 15px 0 0;
+  box-shadow: inset 4px 4px 0 0 #fff, inset -4px -4px 0 0 #fff;
 `;
 
 const TicketContent = styled.div`
@@ -44,7 +105,7 @@ const TicketContent = styled.div`
   flex-direction: column;
   padding: 1rem;
   text-align: center;
-
+  font-weight: bold;
   & ul {
     list-style: none;
     padding: 0;
@@ -59,10 +120,11 @@ const TicketContent = styled.div`
 const TicketFooter = styled.div`
   width: 100%;
   padding: 0.5rem;
-  background-color: #000;
+  background-color: #222;
   color: #fff;
   text-align: center;
-  border-radius: 0 0 15px 15px; /* Adjusted to cut semicircle on the bottom */
+  border-radius: 0 0 15px 15px;
+  box-shadow: inset 4px 4px 0 0 #fff, inset -4px -4px 0 0 #fff;
 `;
 
 const CardButton = styled(Link)`
@@ -79,6 +141,7 @@ const CardButton = styled(Link)`
 
   &:hover {
     background: #d81c60;
+    transform: scale(1.1);
   }
 `;
 const partiespage = () => {
@@ -114,11 +177,10 @@ const partiespage = () => {
       <TicketWrapper>
         <TicketHeader>Popcorn Parties</TicketHeader>
         <TicketContent>
-          <ul>
-            <li>Location: 21 street</li>
-            <li>Tickets No. : 120</li>
-            <li>Earnings: 500$</li>
-          </ul>
+          <p>
+            Popcorn Parties are a great way to enjoy your favorite movies with friends and family.
+            Our cozy theater rooms and unlimited popcorn make it an unforgettable experience.
+          </p>
         </TicketContent>
         <TicketFooter>
           <CardButton to="/parties/popcorn">Go to Popcorn Parties</CardButton>

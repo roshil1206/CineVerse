@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import Landing from "./pages/Landing";
 import MovieDetails from "./pages/MovieDetails";
 import TheatreSelection from "./pages/TheatreSelection";
@@ -14,7 +13,7 @@ import Failure from "./pages/Payments/Failure";
 import AdminMovie from "./pages/Admin/Movie";
 import AdminFood from "./pages/Admin/Food";
 import parties from "./components/parties/PartyPage";
-import longtermrental from "./components/parties/longtermrental";
+// import longtermrental from "./components/parties/longtermrental";
 import ForgotPassword from "./pages/Authentication/forgotPassword";
 
 const routes = [

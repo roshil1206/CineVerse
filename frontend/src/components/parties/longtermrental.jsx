@@ -1,12 +1,10 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-undef */
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "@emotion/styled";
-import { Box, Grid, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import CustomButton from "../UI/CustomButton";
 
-const Container = styled(Box)(({ theme }) => ({
+const Container = styled(Box)(() => ({
   margin: "2rem 0",
   "& .rental-card": {
     border: "1px solid #ccc",
