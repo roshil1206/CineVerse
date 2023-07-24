@@ -1,9 +1,12 @@
 import React, { useState } from "react";
+import axios from "axios";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
@@ -14,17 +17,26 @@ const ForgotPassword = () => {
   const [otpError, setOtpError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
+  const [open, setOpen] = useState(false);
+  const [snackBarMessage, setSnackBarMessage] = useState("");
+  const [errorType, setErrorType] = useState("success");
 
   const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
 
-  const redirectToLogin = () => {
-    window.location.href = "/login";
+  const handleCloseSnackbar = () => {
+    setOpen(false);
   };
 
-  const handleSubmit = (e) => {
+  const handleOpenSnackbar = (message, type) => {
+    setSnackBarMessage(message);
+    setErrorType(type);
+    setOpen(true);
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (showEmailField) {
@@ -38,11 +50,20 @@ const ForgotPassword = () => {
         return;
       }
 
-      console.log(`OTP requested for email: ${email}`);
-      setShowEmailField(false);
-      setOtpError("");
-      setPasswordError("");
-      setConfirmPasswordError("");
+      try {
+        const response = await axios.post(
+          `${process.env.REACT_APP_BACKEND_BASE_URL}/user/forgotpassword`,
+          { email }
+        );
+        console.log(response.data);
+        setShowEmailField(false);
+        setOtpError("");
+        setPasswordError("");
+        setConfirmPasswordError("");
+      } catch (error) {
+        console.error("Error requesting OTP:", error);
+        handleOpenSnackbar("Email address is not exist", "error");
+      }
     } else {
       if (!otp.trim()) {
         setOtpError("OTP field cannot be empty");
@@ -74,18 +95,25 @@ const ForgotPassword = () => {
         return;
       }
 
-      console.log(`Changing password for email: ${email}, OTP: ${otp}, Password: ${newPassword}`);
-      setEmail("");
-      setOtp("");
-      setNewPassword("");
-      setConfirmPassword("");
-      setShowEmailField(true);
-      setOtpError("");
-      setPasswordError("");
-      setConfirmPasswordError("");
-
-      // Redirect to the login page after changing the password
-      redirectToLogin();
+      try {
+        const response = await axios.post(
+          `${process.env.REACT_APP_BACKEND_BASE_URL}/user/resetpassword`,
+          { email, otp, password: newPassword, confirmPassword }
+        );
+        console.log(response.data);
+        setEmail("");
+        setOtp("");
+        setNewPassword("");
+        setConfirmPassword("");
+        setShowEmailField(true);
+        setOtpError("");
+        setPasswordError("");
+        setConfirmPasswordError("");
+        handleOpenSnackbar("Password reset successful. You can now login.", "success");
+      } catch (error) {
+        console.error("Error resetting password:", error);
+        handleOpenSnackbar("Failed to reset password. Please try again.", "error");
+      }
     }
   };
 
@@ -182,6 +210,14 @@ const ForgotPassword = () => {
           )}
         </CardContent>
       </Card>
+      <Snackbar open={open} autoHideDuration={2000} onClose={handleCloseSnackbar}>
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity={errorType}
+          sx={{ width: "100%", letterSpacing: "0em" }}>
+          {snackBarMessage}
+        </Alert>
+      </Snackbar>
     </div>
   );
 };
