@@ -18,6 +18,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useTheme } from "@emotion/react";
 import { MdOutlineMenu } from "react-icons/md";
 import CustomListItem from "../Header/CustomListItem";
+import { useDispatch } from "react-redux";
+import { removeUserAction } from "../../store/Auth/actions";
 
 const StyledAppBar = styled(AppBar)(({ theme }) => ({
   backgroundColor: theme.palette.white,
@@ -49,7 +51,6 @@ function a11yProps(index) {
 }
 
 const links = [
-  { name: "Users", link: "/admin/user" },
   { name: "Movies", link: "/admin/movie" },
   { name: "Theatres", link: "/admin/theatre" },
   { name: "Foods", link: "/admin/food" },
@@ -61,6 +62,7 @@ const Header = () => {
   const { pathname, search } = useLocation();
   const activePath = "/" + pathname.split("/")[1];
   const isMobileScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const dispatch = useDispatch();
 
   const currentTabURL = pathname.concat(search);
   const isMainTabs = links.some((link) => link.link === activePath);
@@ -81,7 +83,11 @@ const Header = () => {
   };
 
   const handleHomeRedirect = () => {
-    navigate("/admin");
+    navigate("/admin/movie");
+  };
+
+  const handleSignOut = () => {
+    dispatch(removeUserAction());
   };
 
   return (
@@ -115,11 +121,7 @@ const Header = () => {
                   />
                 ))}
                 <Divider />
-                <CustomListItem
-                  name="Login / Register"
-                  link="/login"
-                  isActive={"/login" === activePath}
-                />
+                <CustomListItem name="Logout" link="/logout" handleCLick={handleSignOut} />
               </List>
             </Box>
           </Drawer>
@@ -144,12 +146,7 @@ const Header = () => {
               </Tabs>
             </Grid>
             <div>
-              <StyledButtonOutline
-                variant="outlined"
-                color="secondary"
-                onClick={() => {
-                  console.log("Sign Out");
-                }}>
+              <StyledButtonOutline variant="outlined" color="secondary" onClick={handleSignOut}>
                 Sign Out
               </StyledButtonOutline>
             </div>

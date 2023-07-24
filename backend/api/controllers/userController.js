@@ -30,7 +30,7 @@ const forgotPassword = async (req, res) => {
     const mailSubject = "OTP for Password Reset";
     const mailBody = `Your OTP for password reset is: ${otp}`;
 
-    await sendEmail(email, mailSubject, mailBody); 
+    await sendEmail(email, mailSubject, mailBody);
 
     user.save();
     return response(res, 200, true, { message: "OTP sent via email" });
@@ -45,9 +45,8 @@ const resetPassword = async (req, res) => {
     const { otp, password, confirmPassword } = req.body;
     const email = req.params.email;
 
-    console.log("EMAIL===>", email);
     const user = await User.findOne({ email });
-    console.log("USER===>", user)
+
     if (!user) {
       return response(res, 404, false, { message: "User not found" });
     }
@@ -68,7 +67,7 @@ const resetPassword = async (req, res) => {
     const mailSubject = "Password Reset Successful";
     const mailBody = "Your password has been successfully reset.";
 
-    await sendEmail(email, mailSubject, mailBody); 
+    await sendEmail(email, mailSubject, mailBody);
 
     return response(res, 200, true, { message: "Password reset successful" });
   } catch (error) {
@@ -77,10 +76,8 @@ const resetPassword = async (req, res) => {
   }
 };
 
-
 const register = async (req, res) => {
   try {
-    console.log(req.body);
     const { name, email, password, confirmPassword } = req.body;
 
     const existingUser = await User.findOne({ email });
@@ -103,6 +100,7 @@ const register = async (req, res) => {
       password: hashedPassword,
       repassword: hashedPassword,
       stripeCustomerId: customer.id,
+      role: "user",
     });
     await newUser.save();
     return response(res, 201, true, { message: "User created successfully" });
@@ -131,6 +129,7 @@ const login = async (req, res) => {
       token,
       email: user.email,
       name: user.name,
+      role: user.role,
     });
   } catch (error) {
     return response(res, 500, false, { message: "Login failed" });
@@ -196,7 +195,7 @@ const updateUserInfo = async (req, res) => {
 const getUserInfo = async (req, res) => {
   try {
     const userId = req.params.email;
-    const user = await User.findOne({email: userId});
+    const user = await User.findOne({ email: userId });
 
     const userInfo = {
       user: {
@@ -227,5 +226,5 @@ module.exports = {
   updateUserInfo,
   getUserInfo,
   forgotPassword,
-  resetPassword
+  resetPassword,
 };

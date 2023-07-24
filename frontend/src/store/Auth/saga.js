@@ -16,7 +16,7 @@ function* setUserSaga({ payload }) {
     if (data.success) {
       yield put({
         type: SET_USER_SUCCESS,
-        payload: { ...data.data, email: payload.email, role: "user" },
+        payload: data.data,
       });
     } else {
       yield put({ type: SET_USER_FAIL, message: data.message });
