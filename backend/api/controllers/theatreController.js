@@ -45,10 +45,10 @@ const updateTheatre = async (req, res) => {
     const theatreData = req.body;
     const theatre = await Theatre.findByIdAndUpdate(theatreId, theatreData, {
       new: true,
-    }).populate(["movieDetails"]);
+    });
 
     if (!theatre) {
-      return response(res, 404, false, { error: "Movie not found" });
+      return response(res, 404, false, { error: "Theatre not found" });
     }
 
     return response(res, 200, true, theatre);
@@ -60,10 +60,10 @@ const updateTheatre = async (req, res) => {
 const deleteTheatre = async (req, res) => {
   try {
     const theatreId = req.params.id;
-    const theatre = await Theatre.findByIdAndDelete(theatreId).populate(["movieDetails"]);
+    const theatre = await Theatre.findByIdAndDelete(theatreId);
 
     if (!theatre) {
-      return response(res, 404, false, { error: "Movie not found" });
+      return response(res, 404, false, { error: "Theatre not found" });
     }
 
     return response(res, 200, true, theatre);

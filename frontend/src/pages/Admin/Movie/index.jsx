@@ -51,7 +51,6 @@ const Movie = () => {
   );
 
   const fetchMovieData = async () => {
-    console.log(`${process.env.REACT_APP_BACKEND_BASE_URL}`);
     try {
       const { data } = await axios.get(`${process.env.REACT_APP_BACKEND_BASE_URL}/admin/movie`);
       setMovieData(data.data);

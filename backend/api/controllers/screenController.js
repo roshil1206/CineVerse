@@ -4,12 +4,12 @@ const response = require("../../utils/response");
 // Add a new screen
 const addScreen = async (req, res) => {
   try {
-    const { movie, theatre, ticketPrice } = req.body;
+    const { movie, theatre, price } = req.body;
 
     const screen = new Screen({
       movie,
       theatre,
-      ticketPrice,
+      price,
     });
 
     await screen.save();
@@ -82,7 +82,7 @@ const deleteScreen = async (req, res) => {
 // Get all screens
 const getAllScreens = async (req, res) => {
   try {
-    const screens = await Screen.find({}).populate(["movie", "theatre"]);
+    const screens = await Screen.find({});
     response(res, 200, true, screens);
   } catch (err) {
     response(res, 500, false, { error: err.message });
@@ -114,7 +114,7 @@ const getBookedSeats = async (req, res) => {
       bookingDetail: bookedSeats[0].bookedSeats,
       movie: screen.movie,
       theatre: screen.theatre,
-      ticketPrice: screen.ticketPrice,
+      price: screen.price,
 
     });
   } catch (err) {
