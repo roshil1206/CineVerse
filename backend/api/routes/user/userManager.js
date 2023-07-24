@@ -9,7 +9,7 @@ router.post("/register", userController.register);
 router.post("/login", userController.login);
 router.post("/:id/updateuserinfo", [multer.single("file"), authenticateUser] ,userController.updateUserInfo);
 router.get("/:email/getuserinfo",authenticateUser, userController.getUserInfo);
-router.post("/:email/forgotpassword", userController.forgotPassword); 
-router.post("/:email/resetpassword", userController.resetPassword); 
+router.post("/forgotpassword", userController.forgotPassword); 
+router.post("/resetpassword", userController.resetPassword); 
 
 module.exports = router;
