@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import Landing from "./pages/Landing";
 import MovieDetails from "./pages/MovieDetails";
 import TheatreSelection from "./pages/TheatreSelection";
@@ -12,6 +13,8 @@ import Success from "./pages/Payments/Success";
 import Failure from "./pages/Payments/Failure";
 import AdminMovie from "./pages/Admin/Movie";
 import AdminFood from "./pages/Admin/Food";
+import parties from "./components/parties/PartyPage";
+import longtermrental from "./components/parties/longtermrental";
 
 const routes = [
   {
@@ -61,6 +64,12 @@ const routes = [
     path: "/faq",
     name: "FAQ",
     component: FAQ,
+    layout: "public",
+  },
+  {
+    path: "/parties",
+    name: "Parties at Cineverse",
+    component: parties,
     layout: "public",
   },
   {
