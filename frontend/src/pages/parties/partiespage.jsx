@@ -13,20 +13,42 @@ const ImageContainer = styled.div`
   margin: 2rem 0;
 
   .image-container {
+    position: relative;
     width: 80%; /* Adjust the width as per your preference */
     height: 400px; /* Adjust the height to your desired value */
     max-width: 10000px; /* Optional: You can set a maximum width if needed */
     overflow: hidden;
     border-radius: 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
   }
 
   img {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
     border-radius: 15px;
+    animation: slideFade 5s linear infinite;
+    opacity: 0.5; /* Start with a faded-out image */
+    transition: opacity 0.3s ease; /* Add a short transition for a fast fade-out effect */
+  }
+
+  @keyframes slideFade {
+    0%,
+    100% {
+      transform: translateY(0%);
+      opacity: 0.5;
+    }
+    25% {
+      transform: translateY(-5%);
+      opacity: 1;
+    }
+    75% {
+      transform: translateY(5%);
+      opacity: 1;
+    }
   }
 
   .slick-slider {
@@ -40,7 +62,6 @@ const ImageContainer = styled.div`
     border-radius: 15px;
   }
 `;
-
 const ImageSlider = () => {
   const settings = {
     dots: true,
@@ -171,7 +192,9 @@ const TicketContent = styled.div`
   flex-direction: column;
   padding: 1rem;
   text-align: center;
-  font-weight: bold;
+  font-weight: 300;
+  font-family: "Chewy";
+
   & ul {
     list-style: none;
     padding: 0;
@@ -307,6 +330,9 @@ const partiespage = () => {
       navigate("/login");
     }
   };
+  const navigateToXSCAPE = () => {
+    window.location.href = "https://www.playdium.com/";
+  };
   return (
     <Container>
       <ImageContainer>
@@ -349,8 +375,14 @@ const partiespage = () => {
             friends to exciting competitions. Our comfortable gaming lounges and party packages will
             ensure that everyone has a blast!
           </p>
+          <p>
+            **Paid Partnership with Playdium:** We are proud to announce that we have a paid
+            partnership with Playdium, a leading gaming company. This partnership allows us to
+            provide you with exclusive games, offers, and discounts, making your XSCAPE Arcade party
+            even more enjoyable and memorable.
+          </p>
         </TicketContent>
-        <CardButton onClick={() => navigate("/parties/xscape")}>Go to XSCAPE Arcade</CardButton>
+        <CardButton onClick={navigateToXSCAPE}>Go to XSCAPE Arcade</CardButton>
       </TicketWrapper>
       {/* First Testimonial Slider */}
       <TestimonialSlider />

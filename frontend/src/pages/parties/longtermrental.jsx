@@ -10,7 +10,7 @@ const Container = styled(Box)(() => ({
 const RentalCard = styled.div`
   /* Styles for the rental card */
   position: relative;
-  width: 200px;
+  width: calc(33.33% - 10px); /* Adjust the width to fill the available space in the row */
   height: 250px;
   border-radius: 14px;
   z-index: 1111;
@@ -41,12 +41,12 @@ const ScreeningCard = styled.div`
   transform-origin: right bottom;
   transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
   margin: 5px; /* Adjusted margin to create space between the cards */
+  position: relative; /* Change the position to relative */
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  transform-origin: left;
+  transform-style: preserve-3d; /* Enable 3D transform */
+  z-index: 1;
 
-  &:hover {
-    transform: rotate(8deg);
-  }
-
-  /* Add styles for the main content of the card */
   .main-content {
     flex: 1;
   }
@@ -82,11 +82,6 @@ const ScreeningCard = styled.div`
     color: #ffffff;
     margin-right: 4px;
   }
-  position: relative; /* Change the position to relative */
-  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-  transform-origin: left;
-  transform-style: preserve-3d; /* Enable 3D transform */
-  z-index: 1;
 
   &:hover {
     z-index: 2; /* Bring the hovered card to the front */
@@ -130,7 +125,7 @@ const SocialGroupsCardContent = () => (
       <p>
         Looking to celebrate a loved one or make your night a little extra special? Rent out a
         theatre for a private screening of the latest films, or share your favourite classic with
-        your loved ones – in an auditorium all to yourselves. Pre-order your favourite snacks and
+        your loved ones in an auditorium all to yourselves. Pre-order your favourite snacks and
         concession items.
       </p>
     </div>
@@ -154,6 +149,7 @@ const MondayFrancoPhoneCardContent = () => (
 const TypesOfScreeningsContainer = styled.div`
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
 `;
 
 const TypesOfScreeningsHeading = styled.h2`
@@ -163,7 +159,6 @@ const TypesOfScreeningsHeading = styled.h2`
   color: #222;
   margin-bottom: 20px;
 `;
-
 // Combine the three cards in a container
 const TypesOfScreenings = () => {
   return (
@@ -180,7 +175,6 @@ const TypesOfScreenings = () => {
     </TypesOfScreeningsContainer>
   );
 };
-
 const CardButton = styled.button`
   /* Add your CardButton styles here */
   display: inline-block;
@@ -199,7 +193,6 @@ const CardButton = styled.button`
     transform: scale(1.1);
   }
 `;
-
 const longtermrental = () => {
   const navigate = useNavigate();
   const handleButtonClick = () => {
@@ -224,7 +217,7 @@ const longtermrental = () => {
         <p> Interested in organizing a special screening event?</p>
         <CardButton onClick={handleButtonClick}>Inquire Now</CardButton>
       </RentalCard>
-      <RentalCard>
+      <div className="rental-card">
         <h3>Class in Session - Education Rentals</h3>
         <p>
           Need more space? Enhance your daytime classes with state-of-the-art audio and visuals.
@@ -232,7 +225,7 @@ const longtermrental = () => {
           screen.
         </p>
         <Link to="/long-term-rentals/education">Learn More</Link>
-      </RentalCard>
+      </div>
       <div className="rental-card">
         <h3>A Place to Worship - Faith-Based Rentals</h3>
         <p>
