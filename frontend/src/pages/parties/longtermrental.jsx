@@ -2,7 +2,7 @@ import React from "react";
 import styled from "@emotion/styled";
 import { Box, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { keyframes } from "styled-components";
+import { keyframes } from "@emotion/react";
 
 const Container = styled(Box)(() => ({
   margin: "2rem 0",
