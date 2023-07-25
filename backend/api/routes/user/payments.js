@@ -25,9 +25,8 @@ router.post("/createSesssion", async (req, res) => {
       },
     })),
     mode: "payment",
-    success_url:
-      "http://localhost:3000/paymentSuccess?session_id={CHECKOUT_SESSION_ID}",
-    cancel_url: "http://localhost:3000/paymentFail",
+    success_url: `${process.env.FRONTEND_URL}/paymentSuccess?session_id={CHECKOUT_SESSION_ID}`,
+    cancel_url: `${process.env.FRONTEND_URL}/paymentFail`,
   });
   const paymentObj = new PaymentsModel({
     user_id: user._id,
