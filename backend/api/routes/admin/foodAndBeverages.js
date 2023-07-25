@@ -14,6 +14,6 @@ router.get("/get/:id", getFoodItem);
 router.post("/addItem", multer.single("file"), addFoodItem);
 router.put("/updateItem", multer.single("file"), updateFoodItem);
 router.put("/chageItemStatus", changeItemStatus);
-router.delete("/deleteItem", deleteItem);
+router.delete("/deleteItem/:id", deleteItem);
 
 module.exports = router;
