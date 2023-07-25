@@ -4,6 +4,7 @@ import axios from "axios";
 import { Container, Button, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import styled from "@emotion/styled";
 import ScreenModal from "../../../components/ScreenModal";
+import { toast } from "react-toastify";
 
 const Heading = styled("h1")({
   fontSize: "24px",
@@ -80,7 +81,7 @@ const Theatre = () => {
       const { data } = await axios.get(`${process.env.REACT_APP_BACKEND_BASE_URL}/admin/movie`);
       setMovies(data.data);
     } catch (error) {
-      console.log(error);
+      toast.error(error.message);
     }
   };
 
@@ -97,7 +98,7 @@ const Theatre = () => {
         });
       setMovieList(mList);
     } catch (error) {
-      console.log(error);
+      toast.error(error.message);
     }
   };
 
@@ -107,19 +108,24 @@ const Theatre = () => {
       setTheatres(data.data);
       setSelectedTheatre(data.data.filter((theatre) => theatre._id === selectedTheatre?._id)[0]);
     } catch (error) {
-      console.log(error);
+      toast.error(error.message);
     }
   };
 
-  const handleDelete = (data) => {
+  const handleDelete = async (data) => {
     try {
-      axios.delete(`${process.env.REACT_APP_BACKEND_BASE_URL}/admin/screen/${data._id}`);
-      axios.delete(
+      const res = await axios.delete(
+        `${process.env.REACT_APP_BACKEND_BASE_URL}/admin/screen/${data._id}`
+      );
+      const resp = await axios.delete(
         `${process.env.REACT_APP_BACKEND_BASE_URL}/admin/theatre/${selectedTheatre._id}/${data.movie._id}`
       );
-      fetchScreenData();
+      if (res.data.success && resp.data.success) {
+        fetchScreenData();
+        toast.success("Screen Deleted Successfully");
+      }
     } catch (error) {
-      console.log(error);
+      toast.error(error.message);
     }
   };
 
@@ -150,24 +156,33 @@ const Theatre = () => {
       },
     };
     try {
+      let success = false;
       if (isUpdate) {
-        await axios.put(
+        const res = await axios.put(
           `${process.env.REACT_APP_BACKEND_BASE_URL}/admin/screen/${data._id}`,
           screenPayload
         );
+        success = res.data.success;
       } else {
-        await axios.post(`${process.env.REACT_APP_BACKEND_BASE_URL}/admin/screen`, screenPayload);
+        const resp = await axios.post(
+          `${process.env.REACT_APP_BACKEND_BASE_URL}/admin/screen`,
+          screenPayload
+        );
+        success = resp.data.success;
       }
-      await axios.post(
+      const response = await axios.post(
         `${process.env.REACT_APP_BACKEND_BASE_URL}/admin/theatre/${selectedTheatre._id}/addMovie`,
         theatrePayload
       );
-      fetchScreenData();
-      fetchTheatreData();
-      fetchMovieData();
-      setSelectedTheatre(theatres.filter((theatre) => theatre._id === selectedTheatre._id)[0]);
+      if (success && response.data.success) {
+        fetchScreenData();
+        fetchTheatreData();
+        fetchMovieData();
+        setSelectedTheatre(theatres.filter((theatre) => theatre._id === selectedTheatre._id)[0]);
+        toast.success(`Screen ${isUpdate ? "Updated" : "Added"} Successfully`);
+      }
     } catch (error) {
-      console.log(error);
+      toast.error(error.message);
     }
   };
 

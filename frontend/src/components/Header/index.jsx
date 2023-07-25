@@ -23,6 +23,7 @@ import CustomListItem from "./CustomListItem";
 import { isLogin } from "../../utils/functions";
 import { useDispatch, useSelector } from "react-redux";
 import { removeUserAction } from "../../store/Auth/actions";
+import { clearCartAction } from "../../store/Cart/actionTypes";
 
 const StyledAppBar = styled(AppBar)(({ theme }) => ({
   backgroundColor: theme.palette.white,
@@ -117,6 +118,7 @@ const Header = () => {
   };
 
   const handleLogOut = () => {
+    dispatch(clearCartAction());
     dispatch(removeUserAction());
     navigate("/");
   };
@@ -208,10 +210,17 @@ const Header = () => {
                     }}>
                     <MenuItem
                       onClick={() => {
+                        navigate("/profile");
+                        handleClose();
+                      }}>
+                      My Profile
+                    </MenuItem>
+                    <MenuItem
+                      onClick={() => {
                         navigate("/summary");
                         handleClose();
                       }}>
-                      My cart
+                      My Cart
                     </MenuItem>
                     <MenuItem
                       onClick={() => {

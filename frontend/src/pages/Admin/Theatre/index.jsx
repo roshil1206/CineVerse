@@ -4,6 +4,7 @@ import axios from "axios";
 import { Container, Button } from "@mui/material";
 import styled from "@emotion/styled";
 import TheatreModal from "../../../components/TheatreModal";
+import { toast } from "react-toastify";
 
 const Heading = styled("h1")({
   fontSize: "24px",
@@ -49,7 +50,7 @@ const Theatre = () => {
       const { data } = await axios.get(`${process.env.REACT_APP_BACKEND_BASE_URL}/admin/screen`);
       setScreens(data.data);
     } catch (error) {
-      console.log(error);
+      toast.error(error.message);
     }
   };
 
@@ -58,13 +59,15 @@ const Theatre = () => {
       const { data } = await axios.get(`${process.env.REACT_APP_BACKEND_BASE_URL}/admin/theatre`);
       setTheatres(data.data);
     } catch (error) {
-      console.log(error);
+      toast.error(error.message);
     }
   };
 
-  const handleDelete = (theatreData) => {
+  const handleDelete = async (theatreData) => {
     try {
-      axios.delete(`${process.env.REACT_APP_BACKEND_BASE_URL}/admin/theatre/${theatreData._id}`);
+      const { data } = await axios.delete(
+        `${process.env.REACT_APP_BACKEND_BASE_URL}/admin/theatre/${theatreData._id}`
+      );
       screens.forEach(async (screen) => {
         if (screen.theatre === theatreData._id) {
           await axios.delete(
@@ -72,10 +75,13 @@ const Theatre = () => {
           );
         }
       });
-      fetchTheatreData();
-      fetchScreenData();
+      if (data.success) {
+        fetchTheatreData();
+        fetchScreenData();
+        toast.success("Theatre Deleted Successfully");
+      }
     } catch (error) {
-      console.log(error);
+      toast.error(error.message);
     }
   };
 
@@ -87,17 +93,26 @@ const Theatre = () => {
 
   const handleSubmit = async (theatreData) => {
     try {
+      let success = false;
       if (isUpdate) {
-        await axios.put(
+        const { data } = await axios.put(
           `${process.env.REACT_APP_BACKEND_BASE_URL}/admin/theatre/${theatreData._id}`,
           theatreData
         );
+        success = data.success;
       } else {
-        await axios.post(`${process.env.REACT_APP_BACKEND_BASE_URL}/admin/theatre`, theatreData);
+        const { data } = await axios.post(
+          `${process.env.REACT_APP_BACKEND_BASE_URL}/admin/theatre`,
+          theatreData
+        );
+        success = data.success;
       }
-      fetchTheatreData();
+      if (success) {
+        fetchTheatreData();
+        toast.success(`Theatre ${isUpdate ? "Updated" : "Added"} Successfully`);
+      }
     } catch (error) {
-      console.log(error);
+      toast.error(error.message);
     }
   };
 
