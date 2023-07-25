@@ -65,6 +65,7 @@ const BookingWindow = () => {
     price: 0,
     count: 0,
     seatNumbers: [],
+    type: "movie",
   });
 
   dispatch(addItemAction(ticketData));

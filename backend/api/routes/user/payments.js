@@ -3,13 +3,14 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const response = require("../../../utils/response");
 const { authenticateUser } = require("../../../middleware/authmiddleware");
 const PaymentsModel = require("../../../models/PaymentsModel");
+const sendEmail = require("../../../utils/nodemail");
 
 router.use(authenticateUser);
 
 router.post("/createSesssion", async (req, res) => {
   const { user } = req;
-  console.log(user);
   const { items } = req.body;
+  console.log(items);
   const session = await stripe.checkout.sessions.create({
     customer: user.stripeCustomerId,
     payment_method_types: ["card"],
@@ -18,7 +19,7 @@ router.post("/createSesssion", async (req, res) => {
       price_data: {
         currency: "cad",
         product_data: {
-          name: item.name,
+          name: item.type === "movie" ? "Movie" : item.name,
         },
         unit_amount: item.price * 100,
       },
@@ -33,10 +34,11 @@ router.post("/createSesssion", async (req, res) => {
     session_id: session.id,
     total_price: session.amount_total / 100,
     items: items.map((item) => ({
-      name: item.name,
-      id: item._id,
+      name: item.type === "movie" ? "Movie" : item.name,
+      id: item.type === "movie" ? item.movieId : item._id,
       quantity: item.count,
       price: item.price,
+      type: item.type === "movie" ? "movie" : "food",
     })),
   });
   await paymentObj.save();
@@ -58,6 +60,11 @@ router.post("/success", async (req, res) => {
     });
     paymentData.paymentSuccess = true;
     await paymentData.save();
+    await sendEmail(
+      user.email,
+      "Booking Confirmation",
+      `<b>Dear customer,</b> <br/> <p>Your booking is confirmed, your ticket number is:<b> ${paymentData._id}</b>.</p><p>Payment of $ ${paymentData.total_price} is successfull.</p>`
+    );
     return response(res, 200, true, {
       message: "Payment successfull.",
       paymentData,

@@ -93,7 +93,6 @@ const changeItemStatus = async (req, res) => {
         isActive: status === "true" ? true : false,
       },
     });
-    console.log(updatedData);
 
     return response(res, 200, true, {
       message: "Item updated successfully",
