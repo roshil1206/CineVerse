@@ -99,7 +99,6 @@ const FoodModal = ({ open, onClose, loading, updateItem, setUpdateItem }) => {
         dispatch(
           updateFoodItemAction(fd, () => {
             handleCancel();
-            setUpdateItem(null);
           })
         );
       } else {
@@ -112,6 +111,7 @@ const FoodModal = ({ open, onClose, loading, updateItem, setUpdateItem }) => {
     setFormData({ ...data });
     setErrors({});
     setImage(null);
+    setUpdateItem(null);
     onClose();
   };
 

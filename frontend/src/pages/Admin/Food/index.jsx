@@ -25,6 +25,7 @@ const Colums = [
     label: "Description",
     field: "description",
   },
+  { label: "Type", field: "type" },
   {
     label: "Price",
     field: "price",
@@ -63,6 +64,7 @@ const index = () => {
   const getFoodItems = useMemo(() => {
     const data = foodItems.map((item) => ({
       ...item,
+      type: item?.category?.charAt(0)?.toUpperCase() + item?.category?.slice(1),
       isActive: item.isActive ? (
         <Chip label="Active" color="success" />
       ) : (
@@ -107,7 +109,11 @@ const index = () => {
         setUpdateItem={setUpdateItem}
         updateItem={updateItem}
       />
-      <Grid container alignItems="center" justifyContent="space-between">
+      <Grid
+        container
+        alignItems="center"
+        justifyContent="space-between"
+        style={{ marginBottom: "1rem" }}>
         <Typography variant="h2" color="secondary">
           Food And Beverages
         </Typography>
@@ -123,7 +129,7 @@ const index = () => {
           bordered
           responsive
           hover
-          entriesOptions={[10, 20, 30]}
+          displayEntries={false}
           entries={10}
           pagesAmount={4}
           data={{ columns: Colums, rows: getFoodItems }}
