@@ -52,6 +52,7 @@ const links = [
   { name: "Users", link: "/admin/user" },
   { name: "Movies", link: "/admin/movie" },
   { name: "Theatres", link: "/admin/theatre" },
+  { name: "Screens", link: "/admin/screen" },
   { name: "Foods", link: "/admin/food" },
 ];
 

@@ -47,7 +47,7 @@ const addBooking = async (req, res) => {
 // Update a screen
 const updateScreen = async (req, res) => {
   try {
-    const { screenId } = req.params.id;
+    const screenId = req.params.id;
     const updates = req.body;
     const screen = await Screen.findByIdAndUpdate(screenId, updates, {
       new: true,
@@ -66,7 +66,7 @@ const updateScreen = async (req, res) => {
 // Delete a screen
 const deleteScreen = async (req, res) => {
   try {
-    const { screenId } = req.params.id;
+    const screenId = req.params.id;
     const screen = await Screen.findByIdAndDelete(screenId);
 
     if (!screen) {
@@ -82,7 +82,7 @@ const deleteScreen = async (req, res) => {
 // Get all screens
 const getAllScreens = async (req, res) => {
   try {
-    const screens = await Screen.find({});
+    const screens = await Screen.find({}).populate(["movie", "theatre"]);;
     response(res, 200, true, screens);
   } catch (err) {
     response(res, 500, false, { error: err.message });
@@ -115,7 +115,6 @@ const getBookedSeats = async (req, res) => {
       movie: screen.movie,
       theatre: screen.theatre,
       price: screen.price,
-
     });
   } catch (err) {
     response(res, 500, false, { error: "Failed to get available seats" });

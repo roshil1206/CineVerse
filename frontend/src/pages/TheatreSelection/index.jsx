@@ -122,12 +122,12 @@ export default function TheatreSelection() {
               </Typography>
             ) : (
               theatres.map((theatre, index) => {
-                const { showtimes } = theatre.movieDetails.find((m) => m.movie === movieId);
+                const { showTimes } = theatre.movieDetails.find((m) => m.movie === movieId);
                 return (
                   <TheatreCard
                     key={index}
                     theatreName={theatre.name}
-                    showtimes={showtimes || []}
+                    showTimes={showTimes || []}
                     theatreId={theatre._id}
                     handleClick={handleClick}
                   />

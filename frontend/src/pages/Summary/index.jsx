@@ -51,23 +51,23 @@ const Summary = () => {
 
   const startCheckout = async () => {
     addSeats();
-    axios
-      .post(
-        "/payments/createSesssion",
-        { items },
-        {
-          headers: {
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YjhkNDMwNDI0YzEyOTkwNmFmZmIwMSIsImlhdCI6MTY4OTgzNTM2MywiZXhwIjoxNjkyNDI3MzYzfQ.Ao4p8ZoVmMkiWqK6cTYKZaanB8nQ8uocZI7sxOM1OPk",
-          },
-        }
-      )
-      .then(({ data }) => {
-        if (data.data.link) {
-          window.location.href = data.data.link;
-        }
-      })
-      .catch((error) => console.error(error));
+    // axios
+    //   .post(
+    //     "/payments/createSesssion",
+    //     { items },
+    //     {
+    //       headers: {
+    //         Authorization:
+    //           "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YjhkNDMwNDI0YzEyOTkwNmFmZmIwMSIsImlhdCI6MTY4OTgzNTM2MywiZXhwIjoxNjkyNDI3MzYzfQ.Ao4p8ZoVmMkiWqK6cTYKZaanB8nQ8uocZI7sxOM1OPk",
+    //       },
+    //     }
+    //   )
+    //   .then(({ data }) => {
+    //     if (data.data.link) {
+    //       window.location.href = data.data.link;
+    //     }
+    //   })
+    //   .catch((error) => console.error(error));
   };
 
   return (
