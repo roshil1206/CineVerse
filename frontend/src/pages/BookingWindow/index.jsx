@@ -8,7 +8,7 @@ import theme from "../../theme";
 import CustomButton from "../../components/UI/CustomButton";
 import axios from "axios";
 import { addItemAction, updateItemAction } from "../../store/Cart/actionTypes";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const TabsContainer = styled(Tabs)({
   width: "80%",
@@ -66,13 +66,25 @@ const BookingWindow = () => {
     count: 0,
     seatNumbers: [],
     type: "movie",
+    imageUrl: "",
   });
 
-  dispatch(addItemAction(ticketData));
+  const { items } = useSelector((state) => state.cartReducer);
 
   useEffect(() => {
     getBookedSeats();
   }, [dispatch]);
+
+  useEffect(() => {
+    const currentShow = items.find(
+      (item) =>
+        item.movieId === movieId &&
+        item.theatreId === theatreId &&
+        item.date === date &&
+        item.showTime === showTime
+    );
+    handleSelectedSeats(currentShow?.seatNumbers || []);
+  }, [items]);
 
   const getBookedSeats = async () => {
     try {
@@ -84,8 +96,11 @@ const BookingWindow = () => {
       setBookedSeates(data.data.bookingDetail);
       setMovie(data.data.movie);
       setTheatre(data.data.theatre);
-      setTicketData({ ...ticketData, price: data.data.price });
-      dispatch(updateItemAction({ ...ticketData, price: data.data.price }));
+      setTicketData({
+        ...ticketData,
+        price: data.data.price,
+        imageUrl: data.data.movie.image,
+      });
       setIsLoading(false);
     } catch (error) {
       if (error.response.status === 404) {
@@ -103,7 +118,6 @@ const BookingWindow = () => {
           setMovie(data.data.movie);
           setTheatre(data.data.theatre);
           setTicketData({ ...ticketData, price: data.data.price });
-          dispatch(updateItemAction({ ...ticketData, price: data.data.price }));
           setIsLoading(false);
         } catch (error) {
           console.error("Error fetching seats:", error);
@@ -117,7 +131,6 @@ const BookingWindow = () => {
   };
 
   const handleProceed = () => {
-    dispatch(updateItemAction(ticketData));
     navigate("/food");
   };
 
@@ -129,13 +142,30 @@ const BookingWindow = () => {
         count: ticketData.count - 1,
         seatNumbers: ticketData.seatNumbers.filter((seat) => seat !== seatNo),
       });
+      dispatch(
+        updateItemAction({
+          ...ticketData,
+          count: ticketData.count - 1,
+          seatNumbers: ticketData.seatNumbers.filter((seat) => seat !== seatNo),
+        })
+      );
     } else {
+      if (selectedSeats.length === 0) {
+        dispatch(addItemAction(ticketData));
+      }
       handleSelectedSeats([...selectedSeats, seatNo]);
       setTicketData({
         ...ticketData,
         count: ticketData.count + 1,
         seatNumbers: [...ticketData.seatNumbers, seatNo],
       });
+      dispatch(
+        updateItemAction({
+          ...ticketData,
+          count: ticketData.count + 1,
+          seatNumbers: [...ticketData.seatNumbers, seatNo],
+        })
+      );
     }
   };
 

@@ -24,7 +24,6 @@ const contactReducer = (state = initialState, action) => {
         message: action.payload,
       };
     case ADD_CONTACT_REQUEST_FAIL:
-      console.log(action);
       return {
         ...state,
         loading: false,
