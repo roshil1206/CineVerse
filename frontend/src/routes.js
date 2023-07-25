@@ -12,6 +12,7 @@ import Success from "./pages/Payments/Success";
 import Failure from "./pages/Payments/Failure";
 import AdminMovie from "./pages/Admin/Movie";
 import AdminTheatre from "./pages/Admin/Theatre";
+import AdminScreen from "./pages/Admin/Screen";
 import AdminFood from "./pages/Admin/Food";
 import ForgotPassword from "./pages/Authentication/forgotPassword";
 
@@ -105,6 +106,12 @@ const routes = [
     path: "/admin/theatre",
     name: "Theatre",
     component: AdminTheatre,
+    layout: "admin",
+  },
+  {
+    path: "/admin/screen",
+    name: "Screen",
+    component: AdminScreen,
     layout: "admin",
   },
 ];

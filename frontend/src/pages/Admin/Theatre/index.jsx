@@ -32,35 +32,17 @@ const AddButton = styled(Button)({
 
 const Theatre = () => {
   const [theatreData, setTheatres] = useState([]);
-  const [movies, setMovies] = useState([]);
   const [screens, setScreens] = useState([]);
   const [open, setOpen] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
   const [selectedTheatre, setSelectedTheatre] = useState({});
 
   useEffect(() => {
-    fetchMovieData();
-    fetchTheatreData();
     fetchScreenData();
+    fetchTheatreData();
   }, []);
 
-  const columns = React.useMemo(
-    () => [
-      { Header: "Name", accessor: "name" },
-      { Header: "Movie", accessor: "movieDetails.name" },
-      { Header: "Price", accessor: "price" },
-    ],
-    []
-  );
-
-  const fetchMovieData = async () => {
-    try {
-      const { data } = await axios.get(`${process.env.REACT_APP_BACKEND_BASE_URL}/admin/movie`);
-      setMovies(data.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const columns = React.useMemo(() => [{ Header: "Name", accessor: "name" }], []);
 
   const fetchScreenData = async () => {
     try {
@@ -108,30 +90,12 @@ const Theatre = () => {
       if (isUpdate) {
         await axios.put(
           `${process.env.REACT_APP_BACKEND_BASE_URL}/admin/theatre/${theatreData._id}`,
-          { ...theatreData, movieDetails: theatreData.movieDetails._id }
-        );
-
-        screens.forEach(async (screen) => {
-          if (screen.theatre === theatreData._id) {
-            await axios.put(
-              `${process.env.REACT_APP_BACKEND_BASE_URL}/admin/screen/${screen._id}`,
-              { movie: theatreData.movieDetails._id, price: theatreData.price }
-            );
-          }
-        });
-      } else {
-        const { data } = await axios.post(
-          `${process.env.REACT_APP_BACKEND_BASE_URL}/admin/theatre`,
           theatreData
         );
-        await axios.post(`${process.env.REACT_APP_BACKEND_BASE_URL}/admin/screen`, {
-          movie: theatreData.movieDetails,
-          theatre: data.data._id,
-          price: theatreData.price,
-        });
+      } else {
+        await axios.post(`${process.env.REACT_APP_BACKEND_BASE_URL}/admin/theatre`, theatreData);
       }
       fetchTheatreData();
-      fetchScreenData();
     } catch (error) {
       console.log(error);
     }
@@ -147,7 +111,6 @@ const Theatre = () => {
         }}
         isUpdate={isUpdate}
         theatreData={selectedTheatre}
-        movies={movies}
         onSubmit={handleSubmit}
       />
       <Container justifyContent="center">
