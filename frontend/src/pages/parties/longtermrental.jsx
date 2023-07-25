@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "@emotion/styled";
-import { Box, Typography, Link } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { keyframes } from "styled-components";
 
@@ -81,24 +81,7 @@ const RentalCard = styled.div`
     border-radius: 0 0 8px 8px; /* Rounded bottom stand corners */
   }
 `;
-const TheaterSeats = styled.div`
-  position: absolute;
-  bottom: 15px; /* Adjusted position to place seats below the rental card */
-  left: 50%;
-  transform: translateX(-50%);
-  width: 80%; /* Adjusted width to make three lines of seats */
-  height: 60px; /* Adjusted height to create three lines of seats */
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-`;
 
-const SeatLine = styled.div`
-  width: 20px;
-  height: 20px;
-  background-color: #444;
-  border-radius: 4px;
-`;
 const ScreeningCard = styled.div`
   width: 320px;
   height: 350px;
@@ -282,7 +265,6 @@ const TypesOfScreenings = () => {
   );
 };
 const CardButton = styled.button`
-  /* Add your CardButton styles here */
   display: inline-block;
   padding: 0.8rem 1.5rem;
   margin-top: 1rem;
@@ -322,47 +304,6 @@ const longtermrental = () => {
         <p>Interested in organizing a special screening event?</p>
         <CardButton onClick={handleButtonClick}>Inquire Now</CardButton>
       </RentalCard>
-      <TheaterSeats>
-        <SeatLine />
-        <SeatLine />
-        <SeatLine />
-      </TheaterSeats>
-      <div className="rental-card">
-        <h3>Class in Session - Education Rentals</h3>
-        <p>
-          Need more space? Enhance your daytime classes with state-of-the-art audio and visuals.
-          Your PowerPoint presentations and videos will have an even greater impact on the big
-          screen.
-        </p>
-        <Link to="/long-term-rentals/education">Learn More</Link>
-      </div>
-      <div className="rental-card">
-        <h3>A Place to Worship - Faith-Based Rentals</h3>
-        <p>
-          Bring the community together with plenty of space, comfy seating, and excellent acoustics.
-          We offer a unique set-up for special programs, stage space for a live band, and a
-          delicious selection of post-service refreshments.
-        </p>
-        <Link to="/long-term-rentals/faith-based">Learn More</Link>
-      </div>
-
-      <div className="rental-card">
-        <h3>Food and Drink - Classic Snack</h3>
-        <p>
-          Choose from our classic concession items, or upgrade your meeting with Cineplex catering.
-        </p>
-        <ul>
-          <li>Small Popcorn and Small Fountain Drink - $9.50</li>
-          <li>Regular Popcorn and Regular Fountain Drink - $10.50</li>
-          <li>Small Popcorn and Bottled Drink - $9.50</li>
-          <li>Large Popcorn, Large Fountain Drink & Candy - $16.00</li>
-          <li>Regular Popcorn and Bottled Water - $10.00</li>
-          <li>Large Popcorn and Large Fountain Drink - $12.00</li>
-          <li>Regular Popcorn, Regular Fountain Drink & Candy - $14.50</li>
-        </ul>
-        {/* Add the CardButton component with the Link for redirection */}
-        <CardButton onClick={() => navigate("/food")}>Go to Food and Drinks </CardButton>
-      </div>
     </Container>
   );
 };
