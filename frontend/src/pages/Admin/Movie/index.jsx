@@ -44,7 +44,6 @@ const Movie = () => {
     () => [
       { Header: "Name", accessor: "name" },
       { Header: "Genre", accessor: "genre" },
-      { Header: "Rating", accessor: "rating" },
       { Header: "Duration", accessor: "duration" },
     ],
     []

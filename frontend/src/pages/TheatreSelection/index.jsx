@@ -173,7 +173,7 @@ export default function TheatreSelection() {
               </Typography>
             ) : (
               theatres.map((theatre, index) => {
-                const { showTimes } = theatre.movieDetails.find((m) => m.movie === movieId);
+                const { showTimes } = theatre.movieDetails.find((m) => m.movie._id === movieId);
                 return (
                   <TheatreCard
                     key={index}

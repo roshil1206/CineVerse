@@ -52,7 +52,11 @@ function Authentication() {
 
   useEffect(() => {
     if (isLogin()) {
-      navigate("/");
+      if (user.role === "admin") {
+        navigate("/admin/movie");
+      } else {
+        navigate("/");
+      }
     }
   }, [user]);
 
