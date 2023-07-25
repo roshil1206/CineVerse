@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import * as Components from "../../components/Authentication/Auth";
-import { Alert, Snackbar } from "@mui/material";
+import { Alert, Box, Snackbar, styled, useMediaQuery, Typography } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "../../utils/axios";
 import { useDispatch, useSelector } from "react-redux";
@@ -27,6 +27,28 @@ function Authentication() {
 
   const { user } = useSelector((state) => state.authReducer);
   const { error, message } = useSelector((state) => state.authReducer);
+
+  const isMobileScreen = useMediaQuery((theme) => theme.breakpoints.down(700));
+
+  const Container = styled(Box)(() => ({
+    minHeight: "calc(100vh - 48px)",
+
+    display: "flex",
+
+    justifyContent: "center",
+
+    alignItems: "center",
+
+    padding: "10px",
+  }));
+
+  const Card = styled(Box)(() => ({
+    borderRadius: "10px",
+
+    boxShadow: "0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22)",
+
+    padding: "20px",
+  }));
 
   useEffect(() => {
     if (isLogin()) {
@@ -145,103 +167,195 @@ function Authentication() {
   };
 
   return (
-    <Components.MainContainer>
-      <Components.Container>
-        <Components.SignUpContainer signinIn={signIn}>
-          <Components.Form>
-            <Components.Title>Sign Up</Components.Title>
+    <>
+      {isMobileScreen ? (
+        <Container>
+          <Card>
+            {signIn ? (
+              <>
+                <Components.Form>
+                  <Components.Title>Sign in</Components.Title>
 
-            <Components.Input
-              type="text"
-              placeholder="Name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-            {errors && <Components.Error>{errors.name}</Components.Error>}
+                  <Components.Input
+                    type="email"
+                    placeholder="Email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
 
-            <Components.Input
-              type="email"
-              placeholder="Email"
-              value={registerEmail}
-              onChange={(e) => setRegisterEmail(e.target.value)}
-            />
-            {errors && <Components.Error>{errors.registerEmail}</Components.Error>}
+                  {errors && <Components.Error>{errors.email}</Components.Error>}
 
-            <Components.Input
-              type="password"
-              placeholder="Password"
-              value={registerPassword}
-              onChange={(e) => setRegisterPassword(e.target.value)}
-            />
-            {errors && <Components.Error>{errors.registerPassword}</Components.Error>}
+                  <Components.Input
+                    type="password"
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
 
-            <Components.Input
-              type="password"
-              placeholder="Re-Password"
-              value={rePassword}
-              onChange={(e) => setRePassword(e.target.value)}
-            />
-            {errors && <Components.Error>{errors.rePassword}</Components.Error>}
+                  {errors && <Components.Error>{errors.password}</Components.Error>}
 
-            <Components.Button onClick={(e) => handleRegister(e)}>Register</Components.Button>
-          </Components.Form>
-        </Components.SignUpContainer>
+                  <Components.Button onClick={(e) => handleLogin(e)}>Login</Components.Button>
 
-        <Components.SignInContainer signinIn={signIn}>
-          <Components.Form>
-            <Components.Title>Sign in</Components.Title>
+                  <Components.Anchor href="/forgotpassword" style={{ textDecoration: "underline" }}>
+                    Forgot your password?
+                  </Components.Anchor>
 
-            <Components.Input
-              type="email"
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            {errors && <Components.Error>{errors.email}</Components.Error>}
+                  <Typography style={{ marginTop: "20px" }} onClick={() => handleToggle()}>
+                    Not a user? Register here.
+                  </Typography>
+                </Components.Form>
+              </>
+            ) : (
+              <Components.Form>
+                <Components.Title>Sign Up</Components.Title>
 
-            <Components.Input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            {errors && <Components.Error>{errors.password}</Components.Error>}
+                <Components.Input
+                  type="text"
+                  placeholder="Name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
 
-            <Components.Anchor href="/forgotpassword" style={{ textDecoration: "underline" }}>
-              Forgot your password?
-            </Components.Anchor>
+                {errors && <Components.Error>{errors.name}</Components.Error>}
 
-            <Components.Button onClick={(e) => handleLogin(e)}>Login</Components.Button>
-          </Components.Form>
-        </Components.SignInContainer>
+                <Components.Input
+                  type="email"
+                  placeholder="Email"
+                  value={registerEmail}
+                  onChange={(e) => setRegisterEmail(e.target.value)}
+                />
 
-        <Components.OverlayContainer signinIn={signIn}>
-          <Components.Overlay signinIn={signIn}>
-            <Components.LeftOverlayPanel signinIn={signIn}>
-              <Components.Title>Welcome to Cineverse!</Components.Title>
+                {errors && <Components.Error>{errors.registerEmail}</Components.Error>}
 
-              <Components.Paragraph>Login with Your Details</Components.Paragraph>
+                <Components.Input
+                  type="password"
+                  placeholder="Password"
+                  value={registerPassword}
+                  onChange={(e) => setRegisterPassword(e.target.value)}
+                />
 
-              <Components.GhostButton onClick={() => handleToggle()}>Login</Components.GhostButton>
-            </Components.LeftOverlayPanel>
-            <Components.RightOverlayPanel signinIn={signIn}>
-              <Components.Title>Namaste!</Components.Title>
+                {errors && <Components.Error>{errors.registerPassword}</Components.Error>}
 
-              <Components.Paragraph>Register with Cineverse</Components.Paragraph>
+                <Components.Input
+                  type="password"
+                  placeholder="Re-Password"
+                  value={rePassword}
+                  onChange={(e) => setRePassword(e.target.value)}
+                />
 
-              <Components.GhostButton onClick={() => handleToggle()}>
-                Register
-              </Components.GhostButton>
-            </Components.RightOverlayPanel>
-          </Components.Overlay>
-        </Components.OverlayContainer>
-      </Components.Container>
-      <Snackbar open={open} autoHideDuration={2000} onClose={closeSnackbar}>
-        <Alert severity={errorType} sx={{ width: "100%", letterSpacing: "0em" }}>
-          {snackBarMessage}
-        </Alert>
-      </Snackbar>
-    </Components.MainContainer>
+                {errors && <Components.Error>{errors.rePassword}</Components.Error>}
+
+                <Components.Button onClick={(e) => handleRegister(e)}>Register</Components.Button>
+
+                <Typography style={{ marginTop: "20px" }} onClick={() => handleToggle()}>
+                  Already User? Sign in
+                </Typography>
+              </Components.Form>
+            )}
+          </Card>
+        </Container>
+      ) : (
+        <Components.MainContainer>
+          <Components.Container>
+            <Components.SignUpContainer signinIn={signIn}>
+              <Components.Form>
+                <Components.Title>Sign Up</Components.Title>
+
+                <Components.Input
+                  type="text"
+                  placeholder="Name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+                {errors && <Components.Error>{errors.name}</Components.Error>}
+
+                <Components.Input
+                  type="email"
+                  placeholder="Email"
+                  value={registerEmail}
+                  onChange={(e) => setRegisterEmail(e.target.value)}
+                />
+                {errors && <Components.Error>{errors.registerEmail}</Components.Error>}
+
+                <Components.Input
+                  type="password"
+                  placeholder="Password"
+                  value={registerPassword}
+                  onChange={(e) => setRegisterPassword(e.target.value)}
+                />
+                {errors && <Components.Error>{errors.registerPassword}</Components.Error>}
+
+                <Components.Input
+                  type="password"
+                  placeholder="Re-Password"
+                  value={rePassword}
+                  onChange={(e) => setRePassword(e.target.value)}
+                />
+                {errors && <Components.Error>{errors.rePassword}</Components.Error>}
+
+                <Components.Button onClick={(e) => handleRegister(e)}>Register</Components.Button>
+              </Components.Form>
+            </Components.SignUpContainer>
+
+            <Components.SignInContainer signinIn={signIn}>
+              <Components.Form>
+                <Components.Title>Sign in</Components.Title>
+
+                <Components.Input
+                  type="email"
+                  placeholder="Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+                {errors && <Components.Error>{errors.email}</Components.Error>}
+
+                <Components.Input
+                  type="password"
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                {errors && <Components.Error>{errors.password}</Components.Error>}
+
+                <Components.Anchor href="/forgotpassword" style={{ textDecoration: "underline" }}>
+                  Forgot your password?
+                </Components.Anchor>
+
+                <Components.Button onClick={(e) => handleLogin(e)}>Login</Components.Button>
+              </Components.Form>
+            </Components.SignInContainer>
+
+            <Components.OverlayContainer signinIn={signIn}>
+              <Components.Overlay signinIn={signIn}>
+                <Components.LeftOverlayPanel signinIn={signIn}>
+                  <Components.Title>Welcome to Cineverse!</Components.Title>
+
+                  <Components.Paragraph>Login with Your Details</Components.Paragraph>
+
+                  <Components.GhostButton onClick={() => handleToggle()}>
+                    Login
+                  </Components.GhostButton>
+                </Components.LeftOverlayPanel>
+                <Components.RightOverlayPanel signinIn={signIn}>
+                  <Components.Title>Namaste!</Components.Title>
+
+                  <Components.Paragraph>Register with Cineverse</Components.Paragraph>
+
+                  <Components.GhostButton onClick={() => handleToggle()}>
+                    Register
+                  </Components.GhostButton>
+                </Components.RightOverlayPanel>
+              </Components.Overlay>
+            </Components.OverlayContainer>
+          </Components.Container>
+          <Snackbar open={open} autoHideDuration={2000} onClose={closeSnackbar}>
+            <Alert severity={errorType} sx={{ width: "100%", letterSpacing: "0em" }}>
+              {snackBarMessage}
+            </Alert>
+          </Snackbar>
+        </Components.MainContainer>
+      )}
+    </>
   );
 }
 
