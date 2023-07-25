@@ -140,25 +140,22 @@ const ScreeningCard = styled.div`
   }
 
   &:hover {
-    z-index: 2; /* Bring the hovered card to the front */
-    transform: perspective(1000px) rotateY(-15deg); /* Apply the opening book effect on hover */
+    z-index: 2;
+    transform: perspective(1000px) rotateY(-15deg);
     transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
   }
 `;
 
 const CorporateScreeningCard = styled(ScreeningCard)`
-  /* Styles for the first card */
-  background: linear-gradient(180deg, lightblue 0%, white 100%);
+  background: linear-gradient(white 100%);
 `;
 
 const SocialGroupsCard = styled(ScreeningCard)`
-  /* Styles for the second card */
-  background: linear-gradient(180deg, lightblue 0%, white 100%);
+  background: linear-gradient(white 100%);
 `;
 
 const MondayFrancoPhoneCard = styled(ScreeningCard)`
-  /* Styles for the third card */
-  background: linear-gradient(180deg, lightblue 0%, white 100%);
+  background: linear-gradient(white 100%);
 `;
 
 const CorporateScreeningCardContent = () => (
