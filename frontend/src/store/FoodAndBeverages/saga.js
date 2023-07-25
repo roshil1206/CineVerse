@@ -74,7 +74,6 @@ function* updateFoodItemSaga({ payload, callback }) {
       yield put({ type: UPDATE_FOOD_ITEM_SUCCESS, payload: data.data });
       yield put({ type: GET_FOOD_ITEMS });
       callback();
-      console.log("J", data.data.message);
       toast.success(data.data.message);
     } else {
       yield put({ type: UPDATE_FOOD_ITEM_FAIL, message: data.message });

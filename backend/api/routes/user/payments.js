@@ -10,7 +10,6 @@ router.use(authenticateUser);
 router.post("/createSesssion", async (req, res) => {
   const { user } = req;
   const { items } = req.body;
-  console.log(items);
   const session = await stripe.checkout.sessions.create({
     customer: user.stripeCustomerId,
     payment_method_types: ["card"],

@@ -96,11 +96,12 @@ const ForgotPassword = () => {
       }
 
       try {
-        const response = await axios.post(
-          `${process.env.REACT_APP_BACKEND_BASE_URL}/user/resetpassword`,
-          { email, otp, password: newPassword, confirmPassword }
-        );
-        console.log(response.data);
+        await axios.post(`${process.env.REACT_APP_BACKEND_BASE_URL}/user/resetpassword`, {
+          email,
+          otp,
+          password: newPassword,
+          confirmPassword,
+        });
         setEmail("");
         setOtp("");
         setNewPassword("");

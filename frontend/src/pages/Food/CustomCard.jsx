@@ -1,11 +1,9 @@
 import React from "react";
 import { Card, CardMedia, CardContent, Typography, Grid } from "@mui/material";
-// import SuccessButton from "./SuccessButton";
 import CustomButton from "../../components/UI/CustomButton";
 import PlusMinus from "../../components/UI/PlusMinus/PlusMinus";
 
 function CustomCard({ data, onAdd, onIncrement, onDecrement, cartData }) {
-  // console.log(data, cartData);
   return (
     <Card sx={{ margin: "10px" }}>
       <CardMedia
