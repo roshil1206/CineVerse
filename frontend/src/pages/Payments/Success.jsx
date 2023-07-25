@@ -5,6 +5,8 @@ import axios from "../../utils/axios";
 import { useLocation } from "react-router";
 import { MdOutlineCheckCircleOutline, MdOutlineClose } from "react-icons/md";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { clearCartAction } from "../../store/Cart/actionTypes";
 
 const Container = styled(Box)(() => ({
   minHeight: "calc(100vh - 44px)",
@@ -19,6 +21,8 @@ const Success = () => {
   const sessionId = search.split("session_id=")[1];
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const dispatch = useDispatch();
+
   const apiCheck = async () => {
     await axios
       .post("/payments/success", { sessionId })
@@ -36,6 +40,7 @@ const Success = () => {
 
   useEffect(() => {
     apiCheck();
+    dispatch(clearCartAction());
   }, []);
 
   return (

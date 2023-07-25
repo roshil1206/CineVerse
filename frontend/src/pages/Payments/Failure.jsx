@@ -1,7 +1,9 @@
 import { Box, Typography, styled } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import { MdOutlineClose } from "react-icons/md";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { clearCartAction } from "../../store/Cart/actionTypes";
 
 const Container = styled(Box)(() => ({
   minHeight: "calc(100vh - 44px)",
@@ -12,6 +14,11 @@ const Container = styled(Box)(() => ({
 }));
 
 const Failure = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(clearCartAction());
+  }, []);
+
   return (
     <Container>
       <MdOutlineClose style={{ fontSize: "5rem", color: "#d32f2f", marginBottom: "20px" }} />
