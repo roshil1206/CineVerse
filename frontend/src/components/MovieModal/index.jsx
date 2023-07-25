@@ -18,7 +18,7 @@ const MovieModal = ({ open, onClose, isUpdate, movieData, onSubmit }) => {
     name: "",
     duration: "",
     languages: [],
-    releaseDate: "",
+    releaseDate: new Date().toISOString().slice(0, 10),
     description: "",
     genre: "",
     image: "",
@@ -28,7 +28,12 @@ const MovieModal = ({ open, onClose, isUpdate, movieData, onSubmit }) => {
   const [errors, setErrors] = React.useState({});
 
   useEffect(() => {
-    if (isUpdate) setFormData({ ...movieData });
+    if (isUpdate) {
+      setFormData({
+        ...movieData,
+        releaseDate: new Date(movieData?.releaseDate).toISOString().slice(0, 10),
+      });
+    }
   }, [movieData, isUpdate]);
 
   const Languages = ["English", "Spanish", "French", "German", "Chinese"];
@@ -72,13 +77,9 @@ const MovieModal = ({ open, onClose, isUpdate, movieData, onSubmit }) => {
     onClose();
   };
 
-  const date = isUpdate
-    ? new Date(movieData?.releaseDate).toISOString().slice(0, 10)
-    : new Date().toISOString().slice(0, 10);
-
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle>{isUpdate ? "Update Movie" : "Create Movie"}</DialogTitle>
+      <DialogTitle variant="h2">{isUpdate ? "Update Movie" : "Create Movie"}</DialogTitle>
       <DialogContent>
         <TextField
           label="Name"
@@ -127,7 +128,7 @@ const MovieModal = ({ open, onClose, isUpdate, movieData, onSubmit }) => {
           label="Release Date"
           name="releaseDate"
           type="date"
-          value={date}
+          value={formData.releaseDate}
           onChange={handleChange}
           fullWidth
           margin="normal"

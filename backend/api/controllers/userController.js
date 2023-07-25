@@ -4,10 +4,79 @@ const User = require("../../models/UserModel");
 const response = require("../../utils/response");
 const uploadImage = require("../../utils/cloudinary");
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+const sendEmail = require("../../utils/nodemail");
+
+const generateOTP = () => {
+  const digits = "0123456789";
+  let otp = "";
+  for (let i = 0; i < 6; i++) {
+    otp += digits[Math.floor(Math.random() * 10)];
+  }
+  return otp;
+};
+
+const forgotPassword = async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      return response(res, 404, false, { message: "User not found" });
+    }
+
+    const otp = generateOTP();
+    user.otp = otp;
+
+    const mailSubject = "OTP for Password Reset";
+    const mailBody = `Your OTP for password reset is: ${otp}`;
+
+    await sendEmail(email, mailSubject, mailBody);
+
+    user.save();
+    return response(res, 200, true, { message: "OTP sent via email" });
+  } catch (error) {
+    console.error("Error during forgot password", error);
+    return response(res, 500, false, { message: "Forgot password failed" });
+  }
+};
+
+const resetPassword = async (req, res) => {
+  try {
+    const { otp, email, password, confirmPassword } = req.body;
+    // const email = req.params.email;
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      return response(res, 404, false, { message: "User not found" });
+    }
+
+    if (user.otp !== otp) {
+      return response(res, 400, false, { message: "Invalid OTP" });
+    }
+
+    if (password !== confirmPassword) {
+      return response(res, 409, false, { message: "Password doesn't match" });
+    }
+
+    const hashedPassword = await bcrypt.hash(confirmPassword, 10);
+
+    user.password = hashedPassword;
+    user.otp = null;
+    await user.save();
+    const mailSubject = "Password Reset Successful";
+    const mailBody = "Your password has been successfully reset.";
+
+    await sendEmail(email, mailSubject, mailBody);
+
+    return response(res, 200, true, { message: "Password reset successful" });
+  } catch (error) {
+    console.error("Error during password reset", error);
+    return response(res, 500, false, { message: "Password reset failed" });
+  }
+};
 
 const register = async (req, res) => {
   try {
-    console.log(req.body);
     const { name, email, password, confirmPassword } = req.body;
 
     const existingUser = await User.findOne({ email });
@@ -30,6 +99,7 @@ const register = async (req, res) => {
       password: hashedPassword,
       repassword: hashedPassword,
       stripeCustomerId: customer.id,
+      role: "user",
     });
     await newUser.save();
     return response(res, 201, true, { message: "User created successfully" });
@@ -58,6 +128,7 @@ const login = async (req, res) => {
       token,
       email: user.email,
       name: user.name,
+      role: user.role,
     });
   } catch (error) {
     return response(res, 500, false, { message: "Login failed" });
@@ -123,7 +194,7 @@ const updateUserInfo = async (req, res) => {
 const getUserInfo = async (req, res) => {
   try {
     const userId = req.params.email;
-    const user = await User.findOne({email: userId});
+    const user = await User.findOne({ email: userId });
 
     const userInfo = {
       user: {
@@ -153,4 +224,6 @@ module.exports = {
   login,
   updateUserInfo,
   getUserInfo,
+  forgotPassword,
+  resetPassword,
 };

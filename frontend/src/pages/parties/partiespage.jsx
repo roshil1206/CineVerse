@@ -76,7 +76,6 @@ const ImageSlider = () => {
     require("./partyimage3.jpg"),
     require("./partyimage1.jpg"),
     require("./partyimage2.jpg"),
-    // Add more image URLs as needed
   ];
 
   return (

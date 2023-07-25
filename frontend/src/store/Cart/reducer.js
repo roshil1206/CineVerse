@@ -1,4 +1,4 @@
-import { ADD_ITEM, UPDATE_ITEM } from "./actions";
+import { ADD_ITEM, CLEAR_CART, UPDATE_ITEM } from "./actions";
 
 const initialState = {
   items: [],
@@ -36,6 +36,11 @@ const cartReducer = (state = initialState, action) => {
           }
           return item;
         }),
+      };
+
+    case CLEAR_CART:
+      return {
+        ...initialState,
       };
 
     default:

@@ -1,10 +1,9 @@
-/* eslint-disable no-undef */
 import React, { useEffect, useState } from "react";
 import Table from "../../../components/Table";
 import axios from "axios";
 import { Container, Button } from "@mui/material";
 import styled from "@emotion/styled";
-import MovieModal from "../../../components/MovieModal";
+import TheatreModal from "../../../components/TheatreModal";
 import { toast } from "react-toastify";
 
 const Heading = styled("h1")({
@@ -32,42 +31,54 @@ const AddButton = styled(Button)({
   marginLeft: "1rem",
 });
 
-const Movie = () => {
-  const [movieData, setMovieData] = useState([]);
+const Theatre = () => {
+  const [theatreData, setTheatres] = useState([]);
+  const [screens, setScreens] = useState([]);
   const [open, setOpen] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
-  const [selectedMovie, setSelectedMovie] = useState({});
+  const [selectedTheatre, setSelectedTheatre] = useState({});
 
   useEffect(() => {
-    fetchMovieData();
+    fetchScreenData();
+    fetchTheatreData();
   }, []);
 
-  const columns = React.useMemo(
-    () => [
-      { Header: "Name", accessor: "name" },
-      { Header: "Genre", accessor: "genre" },
-      { Header: "Duration", accessor: "duration" },
-    ],
-    []
-  );
+  const columns = React.useMemo(() => [{ Header: "Name", accessor: "name" }], []);
 
-  const fetchMovieData = async () => {
+  const fetchScreenData = async () => {
     try {
-      const { data } = await axios.get(`${process.env.REACT_APP_BACKEND_BASE_URL}/admin/movie`);
-      setMovieData(data.data);
+      const { data } = await axios.get(`${process.env.REACT_APP_BACKEND_BASE_URL}/admin/screen`);
+      setScreens(data.data);
     } catch (error) {
       toast.error(error.message);
     }
   };
 
-  const handleDelete = async (movieData) => {
+  const fetchTheatreData = async () => {
+    try {
+      const { data } = await axios.get(`${process.env.REACT_APP_BACKEND_BASE_URL}/admin/theatre`);
+      setTheatres(data.data);
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
+  const handleDelete = async (theatreData) => {
     try {
       const { data } = await axios.delete(
-        `${process.env.REACT_APP_BACKEND_BASE_URL}/admin/movie/${movieData._id}`
+        `${process.env.REACT_APP_BACKEND_BASE_URL}/admin/theatre/${theatreData._id}`
       );
+      screens.forEach(async (screen) => {
+        if (screen.theatre === theatreData._id) {
+          await axios.delete(
+            `${process.env.REACT_APP_BACKEND_BASE_URL}/admin/screen/${screen._id}`
+          );
+        }
+      });
       if (data.success) {
-        fetchMovieData();
-        toast.success("Movie Deleted Successfully");
+        fetchTheatreData();
+        fetchScreenData();
+        toast.success("Theatre Deleted Successfully");
       }
     } catch (error) {
       toast.error(error.message);
@@ -77,28 +88,28 @@ const Movie = () => {
   const handleUpdate = (data) => {
     setOpen(true);
     setIsUpdate(true);
-    setSelectedMovie(data);
+    setSelectedTheatre(data);
   };
 
-  const handleSubmit = async (data) => {
+  const handleSubmit = async (theatreData) => {
     try {
       let success = false;
       if (isUpdate) {
-        const res = await axios.put(
-          `${process.env.REACT_APP_BACKEND_BASE_URL}/admin/movie/${data._id}`,
-          data
+        const { data } = await axios.put(
+          `${process.env.REACT_APP_BACKEND_BASE_URL}/admin/theatre/${theatreData._id}`,
+          theatreData
         );
-        success = res.data.success;
+        success = data.success;
       } else {
-        const resp = await axios.post(
-          `${process.env.REACT_APP_BACKEND_BASE_URL}/admin/movie`,
-          data
+        const { data } = await axios.post(
+          `${process.env.REACT_APP_BACKEND_BASE_URL}/admin/theatre`,
+          theatreData
         );
-        success = resp.data.success;
+        success = data.success;
       }
       if (success) {
-        toast.success(`Movie ${isUpdate ? "Updated" : "Added"} Successfully`);
-        fetchMovieData();
+        fetchTheatreData();
+        toast.success(`Theatre ${isUpdate ? "Updated" : "Added"} Successfully`);
       }
     } catch (error) {
       toast.error(error.message);
@@ -107,32 +118,32 @@ const Movie = () => {
 
   return (
     <>
-      <MovieModal
+      <TheatreModal
         open={open}
         onClose={() => {
           setOpen(false);
           setIsUpdate(false);
         }}
         isUpdate={isUpdate}
-        movieData={selectedMovie}
+        theatreData={selectedTheatre}
         onSubmit={handleSubmit}
       />
       <Container justifyContent="center">
         <HeadingWrapper>
-          <Heading>Movie Management</Heading>
+          <Heading>Theatre Management</Heading>
           <AddButton
             variant="contained"
             color="primary"
             onClick={() => {
               setOpen(true);
             }}>
-            Add Movie
+            Add Theatre
           </AddButton>
         </HeadingWrapper>
         <TableWrapper>
           <Table
             columns={columns}
-            data={movieData}
+            data={theatreData}
             handleDelete={handleDelete}
             handleUpdate={handleUpdate}
           />
@@ -142,4 +153,4 @@ const Movie = () => {
   );
 };
 
-export default Movie;
+export default Theatre;

@@ -2,7 +2,7 @@
 
 CineVerse is a user-friendly movie-booking website that provides a seamless platform for users to search,
 book tickets, and organize their movie-related activities. With its easy-to-use layout and efficient operation,
-CineVerse enhances the movie-booking experience. Users can explore various movies, check showtimes, and select
+CineVerse enhances the movie-booking experience. Users can explore various movies, check showTimes, and select
 their preferred seats. Real-time seat availability updates enable informed ticket purchases. CineVerse aims to save
 consumers' time and effort by delivering a user-friendly and efficient platform, ultimately creating an enjoyable movie
 experience for all moviegoers.

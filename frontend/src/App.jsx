@@ -12,7 +12,18 @@ import { isLogin } from "./utils/functions";
 import { useSelector } from "react-redux";
 
 const App = () => {
+  const { user } = useSelector((state) => state.authReducer);
+
+  const [isAdmin, setIsAdmin] = useState(user.role === "admin" || false);
+  const [isLoggedIn, setIsLoggedIn] = useState(isLogin());
   const location = useLocation();
+
+  useEffect(() => {
+    if (user) {
+      setIsAdmin(user.role === "admin");
+    }
+    setIsLoggedIn(isLogin());
+  }, [user]);
 
   useEffect(() => {
     window.scrollTo({
@@ -23,36 +34,16 @@ const App = () => {
   }, [location]);
 
   const renderRoutes = () => {
-    const [isAdmin, setIsAdmin] = useState(false);
-    const [isLoggedIn, setIsLoggedIn] = useState(isLogin());
-    const { user } = useSelector((state) => state.authReducer);
-    console.log("isAdmin", isAdmin);
-
-    useEffect(() => {
-      if (user) {
-        setIsAdmin(user.role === "admin");
-      }
-      setIsLoggedIn(isLogin());
-    }, [user]);
-
     const renderRoute = (Component, layout) => {
       if (Component) {
         switch (layout) {
-          // case "admin":
-          //   return isAdmin ? (
-          //     <AdminWrapper>
-          //       <Component />
-          //     </AdminWrapper>
-          //   ) : isLoggedIn ? (
-          //     <Navigate to="/" />
-          //   ) : (
-          //     <Navigate to="/login" />
-          //   );
           case "admin":
-            return isLoggedIn ? (
+            return isAdmin ? (
               <AdminLayout>
                 <Component />
               </AdminLayout>
+            ) : isLoggedIn ? (
+              <Navigate to="/" />
             ) : (
               <Navigate to="/login" />
             );
@@ -78,7 +69,11 @@ const App = () => {
       return null;
     };
 
-    return RoutesList.map((route) => (
+    const routes = isAdmin
+      ? RoutesList.filter((route) => route.layout === "admin")
+      : RoutesList.filter((route) => route.layout !== "admin");
+
+    return routes.map((route) => (
       <Route
         key={route.name}
         path={route.path}
@@ -103,7 +98,7 @@ const App = () => {
       />
       <Routes>
         {renderRoutes()}
-        <Route path="*" element={<Navigate to="/" />} />
+        <Route path="*" element={<Navigate to={isAdmin ? "/admin/movie" : "/"} />} />
       </Routes>
     </div>
   );

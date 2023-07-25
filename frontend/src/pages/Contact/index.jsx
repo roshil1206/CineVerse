@@ -111,7 +111,7 @@ const Contact = () => {
 
   const handleOnSubmit = () => {
     if (isDataValid()) {
-      dispatch(addContactRequestAction({ ...data, firstName: null }));
+      dispatch(addContactRequestAction({ ...data }));
     }
   };
 

@@ -6,7 +6,7 @@ const movieSchema = new mongoose.Schema({
     ref: "Movie",
     required: true,
   },
-  showtimes: {
+  showTimes: {
     type: [String],
     required: true,
   },
