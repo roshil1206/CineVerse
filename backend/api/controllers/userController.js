@@ -99,6 +99,7 @@ const register = async (req, res) => {
       password: hashedPassword,
       repassword: hashedPassword,
       stripeCustomerId: customer.id,
+      role: "user",
     });
     await newUser.save();
     return response(res, 201, true, { message: "User created successfully" });
@@ -127,6 +128,7 @@ const login = async (req, res) => {
       token,
       email: user.email,
       name: user.name,
+      role: user.role,
     });
   } catch (error) {
     return response(res, 500, false, { message: "Login failed" });
