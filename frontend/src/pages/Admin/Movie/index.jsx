@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React, { useEffect, useState } from "react";
 import Table from "../../../components/Table";
 import axios from "axios";

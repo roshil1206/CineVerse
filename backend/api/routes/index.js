@@ -11,6 +11,7 @@ const contact = require("./user/contact");
 const landing = require("./user/landing");
 const theatre = require("./user/theatre");
 const adminTheatreRoutes = require("./admin/theatre");
+const inquireRoutes = require("./user/inquire");
 
 // Admin routes
 router.use("/admin/foodAndBeverages", AdminFoodAndBeverages);
@@ -27,5 +28,6 @@ router.use("/screen", screenRoutes);
 router.use("/contact", contact);
 router.use("/landing", landing);
 router.use("/theatre", theatre);
+router.use("/inquiry", inquireRoutes);
 
 module.exports = router;
