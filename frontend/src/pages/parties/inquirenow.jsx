@@ -36,12 +36,18 @@ const Input = styled.input`
   border-radius: 5px;
 `;
 
+const ErrorMessage = styled.div`
+  color: red;
+  font-size: 0.8rem;
+`;
+
 const TextArea = styled.textarea`
   width: 100%;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
 `;
+
 const SubmitButton = styled.button`
   display: inline-block;
   padding: 0.8rem 1.5rem;
@@ -58,12 +64,13 @@ const SubmitButton = styled.button`
     background: #d81c60;
     transform: scale(1.1);
   }
+
+  &[disabled] {
+    opacity: 0.7;
+    pointer-events: none;
+  }
 `;
-// const SuccessMessage = styled.div`
-//   color: green;
-//   font-weight: bold;
-//   margin-bottom: 10px;
-// `;
+
 const inquirenow = () => {
   const initialFormData = {
     firstName: "",
@@ -76,17 +83,87 @@ const inquirenow = () => {
     theatreCity: "",
     preferredTheatre: "",
     preferredDate: "",
-    alternateDate: "",
     startTime: "",
     numGuests: "",
     howHeard: "",
-    otherHowHeard: "",
-    requireFoodOptions: false,
     eventDetails: "",
-    subscribeNewsletter: false,
   };
 
+  const initialFormErrors = {
+    firstName: "",
+    lastName: "",
+    groupName: "",
+    email: "",
+    phone: "",
+    groupType: "",
+    theatreProvince: "",
+    theatreCity: "",
+    preferredTheatre: "",
+    preferredDate: "",
+    startTime: "",
+    numGuests: "",
+    howHeard: "",
+    eventDetails: "",
+  };
+
+  const initialSubmissionStatus = null;
+
   const [formData, setFormData] = useState(initialFormData);
+  const [formErrors, setFormErrors] = useState(initialFormErrors);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submissionStatus, setSubmissionStatus] = useState(initialSubmissionStatus);
+
+  const validateForm = () => {
+    let isValid = true;
+    const newErrors = { ...initialFormErrors };
+
+    // Validate required fields
+    const validateForm = () => {
+  let isValid = true;
+  const newErrors = { ...initialFormErrors };
+
+  // Validate required fields
+  const requiredFields = [
+    "firstName",
+    "lastName",
+    "groupName",
+    "email",
+    "phone",
+    "groupType",
+    "theatreProvince",
+    "theatreCity",
+    "preferredTheatre",
+    "preferredDate",
+    "startTime",
+    "numGuests",
+    "howHeard",
+    "eventDetails",
+  ];
+
+  requiredFields.forEach((field) => {
+    if (!formData[field].trim()) {
+      newErrors[field] = "This field is required";
+      isValid = false;
+    }
+  });
+
+  // Validate email format
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (formData.email && !emailPattern.test(formData.email)) {
+    newErrors.email = "Please enter a valid email address";
+    isValid = false;
+  }
+
+  // Validate phone format
+  const phonePattern = /^\d{10}$/;
+  if (formData.phone && !phonePattern.test(formData.phone)) {
+    newErrors.phone = "Please enter a valid phone number (10 digits)";
+    isValid = false;
+  }
+
+  setFormErrors(newErrors);
+  return isValid;
+};
 
   const submitForm = (formData) => {
     return new Promise((resolve, reject) => {
@@ -116,25 +193,38 @@ const inquirenow = () => {
   };
 
   const handleSubmit = (event) => {
-    event.preventDefault();
+  event.preventDefault();
+
+  // Validate the form before submitting
+  const isValid = validateForm();
+
+  if (isValid) {
+    // Disable the submit button while submitting to prevent multiple submissions
+    setIsSubmitting(true);
 
     // Send the formData to the server or database here using the submitForm function
     submitForm(formData)
       .then(() => {
         // Reset the form data after successful form submission to the initial values
         setFormData(initialFormData);
+        setSubmissionStatus("success");
+        // Re-enable the submit button after successful submission
+        setIsSubmitting(false);
       })
       .catch((error) => {
         console.error("Error submitting form:", error);
+        setSubmissionStatus("error");
+        // Re-enable the submit button after an error
+        setIsSubmitting(false);
       });
-  };
+  }
+};
 
   const handleInputChange = (event) => {
     const { name, value, type, checked } = event.target;
     const inputValue = type === "checkbox" ? checked : value;
-    setFormData((prevFormData) => Object.assign({}, prevFormData, { [name]: inputValue }));
+    setFormData((prevFormData) => ({ ...prevFormData, [name]: inputValue }));
   };
-
   return (
     <Container>
       <h1>Inquire Now</h1>
@@ -149,6 +239,7 @@ const inquirenow = () => {
             onChange={handleInputChange}
             required
           />
+          {formErrors.firstName && <ErrorMessage>{formErrors.firstName}</ErrorMessage>}
         </FormGroup>
         <FormGroup>
           <Label>Last Name *</Label>
@@ -159,6 +250,7 @@ const inquirenow = () => {
             onChange={handleInputChange}
             required
           />
+          {formErrors.lastName && <ErrorMessage>{formErrors.lastName}</ErrorMessage>}
         </FormGroup>
         <FormGroup>
           <Label>Group Name *</Label>
@@ -169,6 +261,7 @@ const inquirenow = () => {
             onChange={handleInputChange}
             required
           />
+          {formErrors.groupName && <ErrorMessage>{formErrors.groupName}</ErrorMessage>}
         </FormGroup>
         <FormGroup>
           <Label>Email *</Label>
@@ -179,6 +272,7 @@ const inquirenow = () => {
             onChange={handleInputChange}
             required
           />
+          {formErrors.email && <ErrorMessage>{formErrors.email}</ErrorMessage>}
         </FormGroup>
         <FormGroup>
           <Label>Phone *</Label>
@@ -189,6 +283,7 @@ const inquirenow = () => {
             onChange={handleInputChange}
             required
           />
+          {formErrors.phone && <ErrorMessage>{formErrors.phone}</ErrorMessage>}
         </FormGroup>
         <h2>Event Details</h2>
         <FormGroup>
