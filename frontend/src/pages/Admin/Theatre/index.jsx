@@ -69,7 +69,7 @@ const Theatre = () => {
         `${process.env.REACT_APP_BACKEND_BASE_URL}/admin/theatre/${theatreData._id}`
       );
       screens.forEach(async (screen) => {
-        if (screen.theatre === theatreData._id) {
+        if (screen.theatre._id === theatreData._id) {
           await axios.delete(
             `${process.env.REACT_APP_BACKEND_BASE_URL}/admin/screen/${screen._id}`
           );

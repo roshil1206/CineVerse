@@ -1,42 +1,93 @@
-import { Box, Chip, Grid, Typography, styled } from "@mui/material";
+import { Button, Chip, Container, Grid } from "@mui/material";
 import React, { useEffect, useMemo, useState } from "react";
-import CustomButton from "../../../components/UI/CustomButton";
-import { MDBDataTableV5 } from "mdbreact";
+// import CustomButton from "../../../components/UI/CustomButton";
+// import { MDBDataTableV5 } from "mdbreact";
+import Table from "../../../components/Table";
 import { useDispatch, useSelector } from "react-redux";
 import {
   changeActivationStateAction,
   deleteFoodItem,
-  getFoodItemsAction,
+  getAllFoodItemsAction,
 } from "../../../store/FoodAndBeverages/actions";
-import CustomSpinner from "../../../components/UI/CustomSpinner";
+// import CustomSpinner from "../../../components/UI/CustomSpinner";
 import FoodModal from "../../../components/FoodModal";
+import styled from "@emotion/styled";
 
-const Container = styled(Box)(() => ({
-  padding: "20px",
-  marginTop: "2rem",
-}));
+const Heading = styled("h1")({
+  fontSize: "24px",
+  fontWeight: "bold",
+});
+
+const HeadingWrapper = styled("div")({
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "center",
+  marginBottom: "1rem",
+  marginTop: "1rem",
+});
+
+const TableWrapper = styled("div")({
+  width: "100%",
+  border: "1px solid #ddd",
+  boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+  marginBottom: "1rem",
+  padding: "1rem",
+});
+
+const AddButton = styled(Button)({
+  marginLeft: "1rem",
+});
+
+// const Container = styled(Box)(() => ({
+//   padding: "20px",
+//   marginTop: "2rem",
+// }));
+
+// const Colums = [
+//   {
+//     label: "Name",
+//     field: "name",
+//   },
+//   {
+//     label: "Description",
+//     field: "description",
+//   },
+//   { label: "Type", field: "type" },
+//   {
+//     label: "Price",
+//     field: "price",
+//   },
+//   {
+//     label: "Status",
+//     field: "isActive",
+//   },
+//   {
+//     label: "Action",
+//     field: "action",
+//   },
+// ];
 
 const Colums = [
   {
-    label: "Name",
-    field: "name",
+    Header: "Name",
+    accessor: "name",
   },
   {
-    label: "Description",
-    field: "description",
+    Header: "Description",
+    accessor: "description",
   },
-  { label: "Type", field: "type" },
+  { Header: "Type", accessor: "type" },
   {
-    label: "Price",
-    field: "price",
-  },
-  {
-    label: "Status",
-    field: "isActive",
+    Header: "Price",
+    accessor: "price",
   },
   {
-    label: "Action",
-    field: "action",
+    Header: "Status",
+    accessor: "isActive",
+  },
+  {
+    Header: "Action",
+    accessor: "action",
   },
 ];
 
@@ -73,22 +124,22 @@ const index = () => {
       action: (
         <Grid container spacing={2}>
           <Grid item>
-            <CustomButton
+            <Button
               variant="outlined"
               onClick={() => handleActivationChange(item)}
               color={item.isActive ? undefined : "success"}>
               {item.isActive ? "Deactivate" : "Activate"}
-            </CustomButton>
+            </Button>
           </Grid>
           <Grid item>
-            <CustomButton variant="outlined" color="info" onClick={() => handleUpdateItem(item)}>
+            <Button variant="outlined" color="secondary" onClick={() => handleUpdateItem(item)}>
               Update
-            </CustomButton>
+            </Button>
           </Grid>
           <Grid item>
-            <CustomButton variant="outlined" color="error" onClick={() => handleDeleteItem(item)}>
+            <Button variant="outlined" color="error" onClick={() => handleDeleteItem(item)}>
               Delete
-            </CustomButton>
+            </Button>
           </Grid>
         </Grid>
       ),
@@ -97,11 +148,11 @@ const index = () => {
   }, [foodItems]);
 
   useEffect(() => {
-    dispatch(getFoodItemsAction());
+    dispatch(getAllFoodItemsAction());
   }, [dispatch]);
 
   return (
-    <Container>
+    <>
       <FoodModal
         open={showAddCard}
         onClose={() => setShowAddCard(false)}
@@ -109,7 +160,29 @@ const index = () => {
         setUpdateItem={setUpdateItem}
         updateItem={updateItem}
       />
-      <Grid
+      <Container justifyContent="center">
+        <HeadingWrapper>
+          <Heading>Food And Beverages</Heading>
+          <AddButton
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              setShowAddCard(true);
+            }}>
+            Add Item
+          </AddButton>
+        </HeadingWrapper>
+        <TableWrapper>
+          <Table
+            columns={Colums}
+            data={getFoodItems}
+            noAction={true}
+            // handleDelete={handleDelete}
+            // handleUpdate={handleUpdate}
+          />
+        </TableWrapper>
+      </Container>
+      {/* <Grid
         container
         alignItems="center"
         justifyContent="space-between"
@@ -120,9 +193,9 @@ const index = () => {
         <CustomButton variant="contained" onClick={() => setShowAddCard(true)}>
           ADD ITEM
         </CustomButton>
-      </Grid>
+      </Grid> */}
 
-      {loading ? (
+      {/* {loading ? (
         <CustomSpinner center />
       ) : (
         <MDBDataTableV5
@@ -135,8 +208,8 @@ const index = () => {
           data={{ columns: Colums, rows: getFoodItems }}
           fullPagination
         />
-      )}
-    </Container>
+      )} */}
+    </>
   );
 };
 

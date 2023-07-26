@@ -1,8 +1,8 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
-import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import Slider from "react-slick";
 import styled from "@emotion/styled";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
@@ -14,9 +14,9 @@ const ImageContainer = styled.div`
 
   .image-container {
     position: relative;
-    width: 80%; /* Adjust the width as per your preference */
-    height: 400px; /* Adjust the height to your desired value */
-    max-width: 10000px; /* Optional: You can set a maximum width if needed */
+    width: 80%;
+    height: 400px;
+    max-width: 10000px;
     overflow: hidden;
     border-radius: 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -31,8 +31,8 @@ const ImageContainer = styled.div`
     object-fit: cover;
     border-radius: 15px;
     animation: slideFade 5s linear infinite;
-    opacity: 0.5; /* Start with a faded-out image */
-    transition: opacity 0.3s ease; /* Add a short transition for a fast fade-out effect */
+    opacity: 0.5;
+    transition: opacity 0.3s ease;
   }
 
   @keyframes slideFade {

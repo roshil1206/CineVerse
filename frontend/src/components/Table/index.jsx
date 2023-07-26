@@ -43,7 +43,7 @@ const ActionButton = styled(Button)({
   marginRight: "5px",
 });
 
-const TableComponent = ({ columns, data, handleDelete, handleUpdate }) => {
+const TableComponent = ({ columns, data, handleDelete, handleUpdate, noAction }) => {
   const {
     getTableProps,
     getTableBodyProps,
@@ -76,11 +76,17 @@ const TableComponent = ({ columns, data, handleDelete, handleUpdate }) => {
                 {...headerGroup.getHeaderGroupProps()}
                 className="tableHeaderRow">
                 {headerGroup.headers.map((column, i) => (
-                  <TableHeaderCell key={i} {...column.getHeaderProps()} className="tableHeaderCell">
+                  <TableHeaderCell
+                    key={i}
+                    {...column.getHeaderProps()}
+                    className="tableHeaderCell"
+                    style={{ letterSpacing: "0px" }}>
                     {column.render("Header")}
                   </TableHeaderCell>
                 ))}
-                <TableHeaderCell>Action</TableHeaderCell>
+                {!noAction && (
+                  <TableHeaderCell style={{ letterSpacing: "0px" }}>Action</TableHeaderCell>
+                )}
               </TableRow>
             ))}
           </TableHead>
@@ -91,24 +97,32 @@ const TableComponent = ({ columns, data, handleDelete, handleUpdate }) => {
                 return (
                   <TableBodyRow key={index} {...row.getRowProps()} className="tableBodyRow">
                     {row.cells.map((cell, i) => (
-                      <TableCell key={i} {...cell.getCellProps()} className="tableBodyCell">
+                      <TableCell
+                        key={i}
+                        {...cell.getCellProps()}
+                        className="tableBodyCell"
+                        style={{ letterSpacing: "0px" }}>
                         {cell.render("Cell")}
                       </TableCell>
                     ))}
-                    <TableCell>
-                      <ActionButton
-                        variant="outlined"
-                        color="secondary"
-                        onClick={() => handleUpdate(row.original)}>
-                        Update
-                      </ActionButton>
-                      <ActionButton
-                        variant="outlined"
-                        color="primary"
-                        onClick={() => handleDelete(row.original)}>
-                        Delete
-                      </ActionButton>
-                    </TableCell>
+                    {!noAction && (
+                      <>
+                        <TableCell>
+                          <ActionButton
+                            variant="outlined"
+                            color="secondary"
+                            onClick={() => handleUpdate(row.original)}>
+                            Update
+                          </ActionButton>
+                          <ActionButton
+                            variant="outlined"
+                            color="error"
+                            onClick={() => handleDelete(row.original)}>
+                            Delete
+                          </ActionButton>
+                        </TableCell>
+                      </>
+                    )}
                   </TableBodyRow>
                 );
               })}
