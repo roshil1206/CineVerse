@@ -3,6 +3,11 @@ const FoodAndBeveragesModel = require("../../models/FoodAndBevereges");
 const uploadImage = require("../../utils/cloudinary");
 
 const getFoodItems = async (req, res) => {
+  const data = await FoodAndBeveragesModel.find({ isActive: true });
+  return response(res, 200, true, data);
+};
+
+const getAllFoddItems = async (req, res) => {
   const data = await FoodAndBeveragesModel.find();
   return response(res, 200, true, data);
 };
@@ -128,4 +133,5 @@ module.exports = {
   deleteItem,
   changeItemStatus,
   updateFoodItem,
+  getAllFoddItems,
 };

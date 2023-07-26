@@ -43,7 +43,7 @@ const ActionButton = styled(Button)({
   marginRight: "5px",
 });
 
-const TableComponent = ({ columns, data, handleDelete, handleUpdate }) => {
+const TableComponent = ({ columns, data, handleDelete, handleUpdate, noAction }) => {
   const {
     getTableProps,
     getTableBodyProps,
@@ -84,7 +84,9 @@ const TableComponent = ({ columns, data, handleDelete, handleUpdate }) => {
                     {column.render("Header")}
                   </TableHeaderCell>
                 ))}
-                <TableHeaderCell style={{ letterSpacing: "0px" }}>Action</TableHeaderCell>
+                {!noAction && (
+                  <TableHeaderCell style={{ letterSpacing: "0px" }}>Action</TableHeaderCell>
+                )}
               </TableRow>
             ))}
           </TableHead>
@@ -103,20 +105,24 @@ const TableComponent = ({ columns, data, handleDelete, handleUpdate }) => {
                         {cell.render("Cell")}
                       </TableCell>
                     ))}
-                    <TableCell>
-                      <ActionButton
-                        variant="outlined"
-                        color="secondary"
-                        onClick={() => handleUpdate(row.original)}>
-                        Update
-                      </ActionButton>
-                      <ActionButton
-                        variant="outlined"
-                        color="primary"
-                        onClick={() => handleDelete(row.original)}>
-                        Delete
-                      </ActionButton>
-                    </TableCell>
+                    {!noAction && (
+                      <>
+                        <TableCell>
+                          <ActionButton
+                            variant="outlined"
+                            color="secondary"
+                            onClick={() => handleUpdate(row.original)}>
+                            Update
+                          </ActionButton>
+                          <ActionButton
+                            variant="outlined"
+                            color="error"
+                            onClick={() => handleDelete(row.original)}>
+                            Delete
+                          </ActionButton>
+                        </TableCell>
+                      </>
+                    )}
                   </TableBodyRow>
                 );
               })}
