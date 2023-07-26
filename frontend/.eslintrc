@@ -8,7 +8,6 @@
   },
   "extends": [
     "eslint:recommended",
-    "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
     "plugin:import/errors",
     "plugin:import/warnings",
@@ -28,6 +27,8 @@
   "plugins": ["react", "react-hooks", "prettier"],
   "rules": {
     "react/react-in-jsx-scope": "off",
+    "import/no-unresolved": "warn",
+    "no-unused-vars": "warn",
     "react/prop-types": "off",
     "prettier/prettier": [
       "error",
@@ -35,5 +36,12 @@
         "endOfLine": "auto"
       }
     ]
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
   }
 }

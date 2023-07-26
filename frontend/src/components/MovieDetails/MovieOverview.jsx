@@ -55,19 +55,6 @@ const BookButton = styled(Button)(({ theme }) => ({
   marginTop: "1rem",
 }));
 
-const ShareButtonWrapper = styled("div")({
-  position: "absolute",
-  right: 0,
-  top: "24px",
-});
-
-const ShareButton = styled(Button)(({ theme }) => ({
-  backgroundColor: theme.palette.white,
-  padding: "0px",
-  minWidth: "30px",
-  borderRadius: "50%",
-}));
-
 const TextWrapper = styled("div")(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
@@ -114,8 +101,10 @@ const MovieOverview = ({ data }) => {
   const navigate = useNavigate();
 
   const handleBooking = () => {
-    navigate(`/booking?id=${data.id}`);
+    navigate(`/theatre?id=${data._id}`);
   };
+
+  const releaseDate = new Date(data.releaseDate).toISOString().split("T")[0];
 
   return (
     <Wrapper image={data.image}>
@@ -127,18 +116,15 @@ const MovieOverview = ({ data }) => {
           <TextWrapper className="textWrapper">
             <Typography variant="h3">{data.name}</Typography>
             <RatingText variant="p" className="ratingText">
-              Rating: {data.rating}/10
+              Rating: {data.movieRating}/10
             </RatingText>
             <DesText variant="p" className="desText">
-              {data.duration} | {languages} | {data.releaseDate}
+              {data.duration} | {languages} | {releaseDate}
             </DesText>
             <BookButton variant="contained" size="large" onClick={handleBooking}>
               Book Now
             </BookButton>
           </TextWrapper>
-          <ShareButtonWrapper>
-            <ShareButton variant="contained">🔗</ShareButton>
-          </ShareButtonWrapper>
         </Div>
       </Container>
     </Wrapper>

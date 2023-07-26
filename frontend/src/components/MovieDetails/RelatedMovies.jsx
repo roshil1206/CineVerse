@@ -31,10 +31,16 @@ const Text = styled(Typography)(({ theme }) => ({
   fontWeight: "bold",
 }));
 
-const RelatedMovies = ({ currentMovie, movies }) => {
-  const navigate = useNavigate();
+const NoRelatedMoviesWrapper = styled("div")({
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  height: "100px",
+  width: "100%",
+});
 
-  const relatedMovies = movies.filter((movie) => movie.genre === currentMovie.genre);
+const RelatedMovies = ({ relatedMovies }) => {
+  const navigate = useNavigate();
 
   const handleRedirect = (movieId) => {
     navigate(`/movies?id=${movieId}`);
@@ -46,13 +52,19 @@ const RelatedMovies = ({ currentMovie, movies }) => {
         <Box display="flex">
           <Text>You might also like</Text>
         </Box>
-        <Wrapper>
-          {relatedMovies.map((movie, i) => (
-            <Box key={i} onClick={() => handleRedirect(movie.id)}>
-              <MovieTile movie={movie} />
-            </Box>
-          ))}
-        </Wrapper>
+        {relatedMovies.length > 0 ? (
+          <Wrapper>
+            {relatedMovies.map((movie, i) => (
+              <Box key={i} onClick={() => handleRedirect(movie._id)}>
+                <MovieTile movie={movie} />
+              </Box>
+            ))}
+          </Wrapper>
+        ) : (
+          <NoRelatedMoviesWrapper>
+            <Typography variant="h5">No Related Movies</Typography>
+          </NoRelatedMoviesWrapper>
+        )}
       </BoxWrapper>
     </Container>
   );

@@ -2,7 +2,7 @@ import React from "react";
 import { Grid } from "@mui/material";
 import styled from "@emotion/styled";
 import Seat from "./Seat";
-import { Tab, TabList, Tabs } from "react-tabs";
+import { Tabs } from "react-tabs";
 
 const TabsContainer = styled(Tabs)({
   width: "80%",
@@ -13,30 +13,30 @@ const TabsContainer = styled(Tabs)({
   boxShadow: "0px 5px 5px 0px black",
 });
 
-const CustomTabList = styled(TabList)({
-  display: "flex",
-  alignItems: "center",
-  background: "#FFFFFF",
-  listStyle: "none",
-  justifyContent: "space-between",
-  paddingLeft: "0px",
-  color: "#000000",
-  fontSize: "1.25rem",
-  marginTop: "0",
-});
+// const CustomTabList = styled(TabList)({
+//   display: "flex",
+//   alignItems: "center",
+//   background: "#FFFFFF",
+//   listStyle: "none",
+//   justifyContent: "space-between",
+//   paddingLeft: "0px",
+//   color: "#000000",
+//   fontSize: "1.25rem",
+//   marginTop: "0",
+// });
 
-const CustomTab = styled(Tab)(({ isSelected }) => ({
-  width: "50%",
-  padding: "0.75rem",
-  textAlign: "center",
-  color: isSelected ? "black" : "gray",
-  boxShadow: isSelected ? "0px 5px 5px 0px black" : "none",
-  cursor: "pointer",
-  "&:hover": {
-    background: "rgba(50, 224, 196, 0.15)",
-    color: "black",
-  },
-}));
+// const CustomTab = styled(Tab)(({ isSelected }) => ({
+//   width: "50%",
+//   padding: "0.75rem",
+//   textAlign: "center",
+//   color: isSelected ? "black" : "gray",
+//   boxShadow: isSelected ? "0px 5px 5px 0px black" : "none",
+//   cursor: "pointer",
+//   "&:hover": {
+//     background: "rgba(50, 224, 196, 0.15)",
+//     color: "black",
+//   },
+// }));
 
 const ScreenWrapper = styled(`div`)({
   display: "flex",
@@ -50,59 +50,7 @@ const ScreenWrapper = styled(`div`)({
   gap: "60px",
 });
 
-const Screen = ({ selectedSeats, handleSeatClick, handleTabChange }) => {
-  const [isHoverTab1, setHoverTab1] = React.useState(false);
-  const [isHoverTab2, setHoverTab2] = React.useState(false);
-  const [isHoverTab3, setHoverTab3] = React.useState(false);
-  const [isSelectedTab1, setSelectedTab1] = React.useState(true);
-  const [isSelectedTab2, setSelectedTab2] = React.useState(false);
-  const [isSelectedTab3, setSelectedTab3] = React.useState(false);
-
-  const handleMouseEnter1 = () => {
-    setHoverTab1(true);
-  };
-
-  const handleMouseLeave1 = () => {
-    setHoverTab1(false);
-  };
-
-  const handleMouseEnter2 = () => {
-    setHoverTab2(true);
-  };
-
-  const handleMouseLeave2 = () => {
-    setHoverTab2(false);
-  };
-
-  const handleMouseEnter3 = () => {
-    setHoverTab3(true);
-  };
-
-  const handleMouseLeave3 = () => {
-    setHoverTab3(false);
-  };
-
-  const handleMouseClick1 = () => {
-    !isSelectedTab1 && handleTabChange();
-    setSelectedTab1(true);
-    setSelectedTab2(false);
-    setSelectedTab3(false);
-  };
-
-  const handleMouseClick2 = () => {
-    !isSelectedTab2 && handleTabChange();
-    setSelectedTab1(false);
-    setSelectedTab2(true);
-    setSelectedTab3(false);
-  };
-
-  const handleMouseClick3 = () => {
-    !isSelectedTab3 && handleTabChange();
-    setSelectedTab1(false);
-    setSelectedTab2(false);
-    setSelectedTab3(true);
-  };
-
+const Screen = ({ selectedSeats, bookedSeates, handleSeatClick }) => {
   const renderSeats = (
     startRow,
     endRow,
@@ -140,13 +88,14 @@ const Screen = ({ selectedSeats, handleSeatClick, handleTabChange }) => {
           {rowName.map((row, index) => {
             const seatNo = `${row}${i + 1}`;
             const isSelected = selectedSeats.includes(seatNo);
+            const isBooked = bookedSeates?.includes(seatNo);
 
             return (
               <div
                 key={`leftSeat-${i}-${index}`}
                 style={leftSeatStyle}
                 onClick={() => handleSeatClick(seatNo)}>
-                <Seat seatNo={seatNo} isSelected={isSelected} />
+                <Seat seatNo={seatNo} isSelected={isSelected} isBooked={isBooked} />
               </div>
             );
           })}
@@ -158,13 +107,14 @@ const Screen = ({ selectedSeats, handleSeatClick, handleTabChange }) => {
           {rowName.map((row, index) => {
             const seatNo = `${row}${i + 7}`;
             const isSelected = selectedSeats.includes(seatNo);
+            const isBooked = bookedSeates?.includes(seatNo);
 
             return (
               <div
                 key={`rightSeat-${i}-${index}`}
                 style={rightSeatStyle}
                 onClick={() => handleSeatClick(seatNo)}>
-                <Seat seatNo={seatNo} isSelected={isSelected} />
+                <Seat seatNo={seatNo} isSelected={isSelected} isBooked={isBooked} />
               </div>
             );
           })}
@@ -185,34 +135,8 @@ const Screen = ({ selectedSeats, handleSeatClick, handleTabChange }) => {
 
   return (
     <Grid container justifyContent="center">
-      <Grid item xs={12}>
+      <Grid item xs={10.5}>
         <TabsContainer>
-          <CustomTabList>
-            <CustomTab
-              isHover={isHoverTab1}
-              isSelected={isSelectedTab1}
-              onMouseEnter={handleMouseEnter1}
-              onMouseLeave={handleMouseLeave1}
-              onClick={handleMouseClick1}>
-              11 : 00 AM
-            </CustomTab>
-            <CustomTab
-              isHover={isHoverTab2}
-              isSelected={isSelectedTab2}
-              onMouseEnter={handleMouseEnter2}
-              onMouseLeave={handleMouseLeave2}
-              onClick={handleMouseClick2}>
-              04 : 00 PM
-            </CustomTab>
-            <CustomTab
-              isHover={isHoverTab3}
-              isSelected={isSelectedTab3}
-              onMouseEnter={handleMouseEnter3}
-              onMouseLeave={handleMouseLeave3}
-              onClick={handleMouseClick3}>
-              08 : 00 PM
-            </CustomTab>
-          </CustomTabList>
           <div>
             <div
               style={{

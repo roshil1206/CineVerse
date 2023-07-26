@@ -1,4 +1,6 @@
 /* eslint-disable */
+import Cookies from "js-cookie";
+
 export const isCharactersInStringOnly = (string) => {
   if (/^[a-zA-Z]+$/.test(string)) {
     return true;
@@ -19,6 +21,14 @@ export const isPhoneValid = (string) => {
       string
     )
   ) {
+    return true;
+  }
+  return false;
+};
+
+export const isLogin = () => {
+  const token = Cookies.get("token");
+  if (token) {
     return true;
   }
   return false;

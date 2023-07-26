@@ -1,15 +1,29 @@
-import React, { useEffect } from "react";
-import { Route, Routes, useLocation } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 
 import "./App.css";
-import Wrapper from "./layout/Wrapper";
+import PublicLayout from "./layout/PublicLayout";
 import RoutesList from "./routes";
+import AdminLayout from "./layout/AdminLayout";
+import { ToastContainer } from "react-toastify";
+
+import "react-toastify/dist/ReactToastify.css";
+import { isLogin } from "./utils/functions";
+import { useSelector } from "react-redux";
 
 const App = () => {
-  // const cookieData = Cookies.get("user");
-  // const user = JSON.parse(cookieData === undefined ? "{}" : cookieData);
+  const { user } = useSelector((state) => state.authReducer);
 
+  const [isAdmin, setIsAdmin] = useState(user.role === "admin" || false);
+  const [isLoggedIn, setIsLoggedIn] = useState(isLogin());
   const location = useLocation();
+
+  useEffect(() => {
+    if (user) {
+      setIsAdmin(user.role === "admin");
+    }
+    setIsLoggedIn(isLogin());
+  }, [user]);
 
   useEffect(() => {
     window.scrollTo({
@@ -20,42 +34,46 @@ const App = () => {
   }, [location]);
 
   const renderRoutes = () => {
-    // const isLogin = !!user;
-    // const isAdmin = user?.isAdmin;
     const renderRoute = (Component, layout) => {
       if (Component) {
         switch (layout) {
-          // case "admin":
-          //   return isAdmin ? (
-          //     <AdminLayout>
-          //       <Component />
-          //     </AdminLayout>
-          //   ) : isLogin ? (
-          //     <Navigate to="/" />
-          //   ) : (
-          //     <Navigate to="/signin" />
-          //   );
-          // case "private":
-          //   return isLogin ? (
-          //     <PrivateLayout>
-          //       <Component />
-          //     </PrivateLayout>
-          //   ) : (
-          //     <Navigate to="/signin" />
-          //   );
+          case "admin":
+            return isAdmin ? (
+              <AdminLayout>
+                <Component />
+              </AdminLayout>
+            ) : isLoggedIn ? (
+              <Navigate to="/" />
+            ) : (
+              <Navigate to="/login" />
+            );
+          case "private":
+            return isLoggedIn ? (
+              <PublicLayout>
+                <Component />
+              </PublicLayout>
+            ) : (
+              <Navigate to="/login" />
+            );
+          case "none":
+            return <Component />;
           case "public":
           default:
             return (
-              <Wrapper>
+              <PublicLayout>
                 <Component />
-              </Wrapper>
+              </PublicLayout>
             );
         }
       }
       return null;
     };
 
-    return RoutesList.map((route) => (
+    const routes = isAdmin
+      ? RoutesList.filter((route) => route.layout === "admin")
+      : RoutesList.filter((route) => route.layout !== "admin");
+
+    return routes.map((route) => (
       <Route
         key={route.name}
         path={route.path}
@@ -66,7 +84,22 @@ const App = () => {
 
   return (
     <div className="App">
-      <Routes>{renderRoutes()}</Routes>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+      <Routes>
+        {renderRoutes()}
+        <Route path="*" element={<Navigate to={isAdmin ? "/admin/movie" : "/"} />} />
+      </Routes>
     </div>
   );
 };

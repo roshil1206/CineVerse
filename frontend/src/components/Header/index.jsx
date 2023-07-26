@@ -10,6 +10,8 @@ import {
   Typography,
   styled,
   useMediaQuery,
+  Menu,
+  MenuItem,
 } from "@mui/material";
 import React, { useState } from "react";
 import Tab from "@mui/material/Tab";
@@ -18,6 +20,10 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useTheme } from "@emotion/react";
 import { MdOutlineMenu } from "react-icons/md";
 import CustomListItem from "./CustomListItem";
+import { isLogin } from "../../utils/functions";
+import { useDispatch, useSelector } from "react-redux";
+import { removeUserAction } from "../../store/Auth/actions";
+import { clearCartAction } from "../../store/Cart/actionTypes";
 
 const StyledAppBar = styled(AppBar)(({ theme }) => ({
   backgroundColor: theme.palette.white,
@@ -67,13 +73,25 @@ const Header = () => {
   const { pathname, search } = useLocation();
   const activePath = "/" + pathname.split("/")[1];
   const isMobileScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const dispatch = useDispatch();
 
   const currentTab = activePath.slice(1);
   const currentTabURL = pathname.concat(search);
   const isMainTabs = links.some((link) => link.link === activePath);
 
   const [value, setValue] = useState(activePath);
+
+  const { user } = useSelector((state) => state.authReducer);
+
   const [drawerState, setDrawerState] = useState(false);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   const toggleDrawer = (open) => (event) => {
     if (event.type === "keydown" && (event.key === "Tab" || event.key === "Shift")) {
       return;
@@ -96,6 +114,12 @@ const Header = () => {
   };
 
   const handleHomeRedirect = () => {
+    navigate("/");
+  };
+
+  const handleLogOut = () => {
+    dispatch(clearCartAction());
+    dispatch(removeUserAction());
     navigate("/");
   };
 
@@ -130,11 +154,15 @@ const Header = () => {
                   />
                 ))}
                 <Divider />
-                <CustomListItem
-                  name="Login / Register"
-                  link="/login"
-                  isActive={"/login" === activePath}
-                />
+                {isLogin() ? (
+                  <CustomListItem name="Logout" link="/logout" handleCLick={handleLogOut} />
+                ) : (
+                  <CustomListItem
+                    name="Login / Register"
+                    link="/login"
+                    isActive={"/login" === activePath}
+                  />
+                )}
               </List>
             </Box>
           </Drawer>
@@ -162,8 +190,49 @@ const Header = () => {
               </Tabs>
             </Grid>
             <Grid>
-              {!(activePath === "/login") && (
+              {isLogin() ? (
                 <>
+                  <Button
+                    id="basic-button"
+                    aria-controls={open ? "basic-menu" : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={open ? "true" : undefined}
+                    onClick={handleClick}>
+                    Hii {user.name} ▼
+                  </Button>
+                  <Menu
+                    id="basic-menu"
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleClose}
+                    MenuListProps={{
+                      "aria-labelledby": "basic-button",
+                    }}>
+                    <MenuItem
+                      onClick={() => {
+                        navigate("/profile");
+                        handleClose();
+                      }}>
+                      My Profile
+                    </MenuItem>
+                    <MenuItem
+                      onClick={() => {
+                        navigate("/summary");
+                        handleClose();
+                      }}>
+                      My Cart
+                    </MenuItem>
+                    <MenuItem
+                      onClick={() => {
+                        handleLogOut();
+                        handleClose();
+                      }}>
+                      Logout
+                    </MenuItem>
+                  </Menu>
+                </>
+              ) : (
+                <div style={{ visibility: activePath === "/login" ? "hidden" : "visible" }}>
                   <StyledButton
                     variant="contained"
                     onClick={handleLogin}
@@ -173,7 +242,7 @@ const Header = () => {
                   <StyledButtonOutline variant="outlined" onClick={handleRegister}>
                     Sign up
                   </StyledButtonOutline>
-                </>
+                </div>
               )}
             </Grid>
           </Grid>

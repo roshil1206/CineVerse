@@ -4,13 +4,11 @@ import styled from "@emotion/styled";
 
 const TileWrapper = styled("div")(({ theme }) => ({
   width: 300,
+  minWidth: 300,
   borderRadius: 10,
   backgroundColor: theme.palette.white,
-  margin: "10px 25px 10px 5px",
+  margin: "10px 5px",
   boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
-  "@media only screen and (max-width: 600px)": {
-    minWidth: "250px",
-  },
 }));
 
 const RatingText = styled(Typography)(({ theme }) => ({

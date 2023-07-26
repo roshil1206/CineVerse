@@ -75,9 +75,9 @@ const Footer = () => {
             Contact Us:
           </Typography>
           <Typography variant="p" marginBottom="10px">
-            Email: info@cineverse.com
+            Email: help@cineverse.com
           </Typography>
-          <Typography variant="p">Phone: +1 123-456-7890</Typography>
+          <Typography variant="p">Phone: +1 123 123 1234</Typography>
         </FooterColumn>
       </FooterContainer>
       <Typography variant="body2" marginTop="10px" textAlign="center">
