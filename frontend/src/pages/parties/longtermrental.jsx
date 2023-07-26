@@ -144,6 +144,13 @@ const ScreeningCard = styled.div`
     transform: perspective(1000px) rotateY(-15deg);
     transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
   }
+  transform-origin: center right;
+  transition: transform 0.4s ease-in-out;
+
+  &:hover {
+    transform: perspective(1000px) rotateY(-10deg) scale(1.05);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+  }
 `;
 
 const CorporateScreeningCard = styled(ScreeningCard)`
@@ -238,7 +245,7 @@ const TypesOfScreeningsHeading = styled.h2`
   animation: ${fadeInAnimation} 0.8s ease, ${fallDownAnimation} 1.5s ease;
 
   &::before {
-    content: "🎞️"; /* Movie reel symbol */
+    content: "🎞️";
     display: block;
     font-size: 32px;
     margin-bottom: 10px;

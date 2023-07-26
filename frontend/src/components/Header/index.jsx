@@ -65,6 +65,7 @@ const links = [
   { name: "Home", link: "/" },
   { name: "Contact", link: "/contact" },
   { name: "FAQs", link: "/faq" },
+  { name: "Parties", link: "/parties" },
 ];
 
 const Header = () => {
