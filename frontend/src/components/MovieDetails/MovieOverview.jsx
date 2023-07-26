@@ -116,7 +116,7 @@ const MovieOverview = ({ data }) => {
           <TextWrapper className="textWrapper">
             <Typography variant="h3">{data.name}</Typography>
             <RatingText variant="p" className="ratingText">
-              Rating: {data.movieRating}/10
+              Rating: {data.movieRating.toFixed(2)}/10
             </RatingText>
             <DesText variant="p" className="desText">
               {data.duration} | {languages} | {releaseDate}
