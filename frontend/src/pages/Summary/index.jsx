@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box, Card, Grid, Typography, styled } from "@mui/material";
 import CustomButton from "../../components/UI/CustomButton";
+import CustomSpinner from "../../components/UI/CustomSpinner";
 import { useDispatch, useSelector } from "react-redux";
 import ItemData from "../../components/Summary/ItemData";
 import axios from "../../utils/axios";
 import { clearCartAction } from "../../store/Cart/actionTypes";
+import { toast } from "react-toastify";
 
 const styles = {
   box: {
@@ -27,6 +29,8 @@ const Summary = () => {
   const { items } = useSelector((state) => state.cartReducer);
   const dispatch = useDispatch();
 
+  const [loading, setLoading] = useState(false);
+
   const getTotal = () => {
     let total = 0;
     items.forEach((entry) => {
@@ -46,6 +50,7 @@ const Summary = () => {
 
   const startCheckout = async () => {
     addSeats();
+    setLoading(true);
     axios
       .post("/payments/createSesssion", { items })
       .then(({ data }) => {
@@ -53,7 +58,10 @@ const Summary = () => {
           window.location.href = data.data.link;
         }
       })
-      .catch((error) => console.error(error));
+      .catch(() => {
+        toast.error("Something went wrong");
+        setLoading(false);
+      });
   };
 
   const clearCart = () => {
@@ -101,13 +109,17 @@ const Summary = () => {
           disabled={!items.length}>
           Clear
         </CustomButton>
-        <CustomButton
-          variant="contained"
-          sx={{ marginTop: "10px" }}
-          onClick={() => startCheckout()}
-          disabled={!items.length}>
-          Proceed to checkout
-        </CustomButton>
+        {loading ? (
+          <CustomSpinner />
+        ) : (
+          <CustomButton
+            variant="contained"
+            sx={{ marginTop: "10px" }}
+            onClick={() => startCheckout()}
+            disabled={!items.length}>
+            Proceed to checkout
+          </CustomButton>
+        )}
       </Grid>
     </Container>
   );

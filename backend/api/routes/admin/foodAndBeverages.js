@@ -1,15 +1,16 @@
+// Author - Roshil Ka Patel (B00917345)
 const router = require("express").Router();
 const multer = require("../../../utils/multer");
 const {
-  getFoodItems,
   getFoodItem,
   addFoodItem,
   deleteItem,
   changeItemStatus,
   updateFoodItem,
+  getAllFoddItems,
 } = require("../../controllers/foodAndBeveregesController");
 
-router.get("/getItems", getFoodItems);
+router.get("/getItems", getAllFoddItems);
 router.get("/get/:id", getFoodItem);
 router.post("/addItem", multer.single("file"), addFoodItem);
 router.put("/updateItem", multer.single("file"), updateFoodItem);

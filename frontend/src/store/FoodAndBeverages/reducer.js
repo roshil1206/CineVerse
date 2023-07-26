@@ -1,8 +1,11 @@
+// Author - Roshil Ka Patel (B00917345)
 import {
   ADD_FOOD_ITEM_FAIL,
   ADD_FOOD_ITEM_SUCCESS,
   CHANGE_ACTIVATION_STATE_FAIL,
   CHANGE_ACTIVATION_STATE_SUCCESS,
+  GET_ALL_FOOD_ITEMS_FAIL,
+  GET_ALL_FOOD_ITEMS_SUCCESS,
   GET_FOOD_ITEMS_FAIL,
   GET_FOOD_ITEMS_SUCCESS,
   SET_FOOD_LOADING,
@@ -25,12 +28,14 @@ const foodReducer = (state = initialState, action) => {
         loading: true,
       };
     case GET_FOOD_ITEMS_SUCCESS:
+    case GET_ALL_FOOD_ITEMS_SUCCESS:
       return {
         ...state,
         loading: false,
         foodItems: action.payload,
       };
     case GET_FOOD_ITEMS_FAIL:
+    case GET_ALL_FOOD_ITEMS_FAIL:
       return {
         ...state,
         loading: false,
