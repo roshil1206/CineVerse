@@ -84,7 +84,7 @@ const TableComponent = ({ columns, data, handleDelete, handleUpdate }) => {
                     {column.render("Header")}
                   </TableHeaderCell>
                 ))}
-                <TableHeaderCell>Action</TableHeaderCell>
+                <TableHeaderCell style={{ letterSpacing: "0px" }}>Action</TableHeaderCell>
               </TableRow>
             ))}
           </TableHead>
