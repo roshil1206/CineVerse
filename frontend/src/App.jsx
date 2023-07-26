@@ -26,13 +26,6 @@ const App = () => {
   }, [user]);
 
   useEffect(() => {
-    if (user) {
-      setIsAdmin(user.role === "admin");
-    }
-    setIsLoggedIn(isLogin());
-  }, [user]);
-
-  useEffect(() => {
     window.scrollTo({
       top: 0,
       left: 0,
