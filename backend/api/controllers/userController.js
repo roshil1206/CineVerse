@@ -46,10 +46,6 @@ const resetPassword = async (req, res) => {
     // const email = req.params.email;
 
     const user = await User.findOne({ email });
-<<<<<<< HEAD
-
-=======
->>>>>>> develop
     if (!user) {
       return response(res, 404, false, { message: "User not found" });
     }

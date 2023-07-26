@@ -17,10 +17,6 @@ const App = () => {
   const [isAdmin, setIsAdmin] = useState(user.role === "admin" || false);
   const [isLoggedIn, setIsLoggedIn] = useState(isLogin());
   const location = useLocation();
-  const { user } = useSelector((state) => state.authReducer);
-
-  const [isAdmin, setIsAdmin] = useState(user.role === "admin" || false);
-  const [isLoggedIn, setIsLoggedIn] = useState(isLogin());
 
   useEffect(() => {
     if (user) {

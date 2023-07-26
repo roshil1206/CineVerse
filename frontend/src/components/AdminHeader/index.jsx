@@ -18,13 +18,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useTheme } from "@emotion/react";
 import { MdOutlineMenu } from "react-icons/md";
 import CustomListItem from "../Header/CustomListItem";
-<<<<<<< HEAD
-import { useDispatch } from "react-redux";
-import { removeUserAction } from "../../store/Auth/actions";
-=======
 import { removeUserAction } from "../../store/Auth/actions";
 import { useDispatch } from "react-redux";
->>>>>>> develop
 
 const StyledAppBar = styled(AppBar)(({ theme }) => ({
   backgroundColor: theme.palette.white,
