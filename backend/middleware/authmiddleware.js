@@ -1,3 +1,5 @@
+// Author - Vaidik Anilbhai Nimavat (B00925420)
+
 const jwt = require("jsonwebtoken");
 const UserModel = require("../models/UserModel");
 const response = require("../utils/response");
