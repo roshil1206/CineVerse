@@ -4,8 +4,8 @@ var smtpTransport = nodemailer.createTransport({
   host: "smtp.gmail.com",
   port: 587,
   auth: {
-    user: "browniepointapp@gmail.com",
-    pass: "gfljbxiojnlsmvko",
+    user: "cineverseappplication@gmail.com",
+    pass: "ikrjolabjnphyync",
   },
 });
 
