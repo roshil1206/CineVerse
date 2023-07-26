@@ -42,7 +42,6 @@ const TimeTile = styled("div")({
   fontSize: "16px",
   fontWeight: "bold",
   color: theme.palette.white,
-  width: "80px",
   textAlign: "center",
   "@media (max-width: 700px)": {
     padding: "6px 12px",
