@@ -7,6 +7,7 @@ import ReviewTile from "./ReviewTile";
 import AddReviewModal from "./AddReviewModal";
 import axios from "axios";
 import { isLogin } from "../../utils/functions";
+import { toast } from "react-toastify";
 
 const slideInAnimation = keyframes`
   from {
@@ -68,11 +69,14 @@ const TopReviews = ({ reviews, id, updateMovie }) => {
         `${process.env.REACT_APP_BACKEND_BASE_URL}/movie/${id}/reviews`,
         reviewState
       );
-      const movieData = data.data;
-      updateMovie(movieData);
+      if (data.success) {
+        const movieData = data.data;
+        updateMovie(movieData);
+        toast.success("Review Added Successfully");
+      }
       setOpen(false);
     } catch (err) {
-      console.log(err);
+      toast.error(err.message);
     }
   };
   return (

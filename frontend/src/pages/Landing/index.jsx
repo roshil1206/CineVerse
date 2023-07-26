@@ -22,8 +22,6 @@ export default function Landing() {
       const upcomingMoviesData = await axios.get(
         `${process.env.REACT_APP_BACKEND_BASE_URL}/landing/upcoming`
       );
-      // console.log(currentMoviesData);
-      // console.log(upcomingMoviesData);
 
       setCurrentMovies(currentMoviesData.data);
       setUpcomingMovies(upcomingMoviesData.data);

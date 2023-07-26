@@ -34,6 +34,11 @@ const PaymentsSchema = new Schema(
           type: Number,
           required: true,
         },
+        type: {
+          type: String,
+          enum: ["movie", "food"],
+          required: true,
+        },
         price: {
           type: Number,
           required: true,

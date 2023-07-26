@@ -1,9 +1,10 @@
 import React from "react";
 import { Box, Card, Grid, Typography, styled } from "@mui/material";
 import CustomButton from "../../components/UI/CustomButton";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ItemData from "../../components/Summary/ItemData";
 import axios from "../../utils/axios";
+import { clearCartAction } from "../../store/Cart/actionTypes";
 
 const styles = {
   box: {
@@ -24,50 +25,39 @@ const CustomCard = styled(Card)(() => ({
 
 const Summary = () => {
   const { items } = useSelector((state) => state.cartReducer);
+  const dispatch = useDispatch();
 
   const getTotal = () => {
     let total = 0;
     items.forEach((entry) => {
-      console.log(entry);
       total = total + entry.count * entry.price;
     });
     return total;
   };
 
   const addSeats = async () => {
-    console.log(items);
     const ticketData = items.filter((item) => item !== undefined && item?.movieId !== undefined)[0];
-    axios
-      .post(`/screen/${ticketData.movieId}/${ticketData.theatreId}`, {
-        seatNumbers: ticketData.seatNumbers,
-        date: ticketData.date,
-        showTime: ticketData.showTime,
-      })
-      .then(({ data }) => {
-        console.log(data);
-      })
-      .catch((error) => console.error(error));
+    await axios.post(`/screen/${ticketData.movieId}/${ticketData.theatreId}`, {
+      seatNumbers: ticketData.seatNumbers,
+      date: ticketData.date,
+      showTime: ticketData.showTime,
+    });
   };
 
   const startCheckout = async () => {
     addSeats();
     axios
-      .post(
-        "/payments/createSesssion",
-        { items },
-        {
-          headers: {
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YjhkNDMwNDI0YzEyOTkwNmFmZmIwMSIsImlhdCI6MTY4OTgzNTM2MywiZXhwIjoxNjkyNDI3MzYzfQ.Ao4p8ZoVmMkiWqK6cTYKZaanB8nQ8uocZI7sxOM1OPk",
-          },
-        }
-      )
+      .post("/payments/createSesssion", { items })
       .then(({ data }) => {
         if (data.data.link) {
           window.location.href = data.data.link;
         }
       })
       .catch((error) => console.error(error));
+  };
+
+  const clearCart = () => {
+    dispatch(clearCartAction());
   };
 
   return (
@@ -78,30 +68,44 @@ const Summary = () => {
         </Typography>
       </Box>
       <CustomCard>
-        {items.map((order, key) => (
-          <ItemData order={order} key={key} />
-        ))}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            padding: "10px",
-          }}>
-          <Typography variant="h3">
-            <b>Total</b>
+        {items.length === 0 ? (
+          <Typography variant="body1" textAlign="center" mt={2}>
+            No items in cart.
           </Typography>
-          <Typography variant="h3">
-            <b>$ {parseFloat(getTotal()).toFixed(2)}</b>
-          </Typography>
-        </div>
+        ) : (
+          items.map((order, key) => <ItemData order={order} key={key} />)
+        )}
+        {items.length > 0 && (
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              padding: "10px",
+            }}>
+            <Typography variant="h3">
+              <b>Total</b>
+            </Typography>
+            <Typography variant="h3">
+              <b>$ {parseFloat(getTotal()).toFixed(2)}</b>
+            </Typography>
+          </div>
+        )}
       </CustomCard>
 
-      <Grid container justifyContent="flex-end">
+      <Grid container justifyContent="space-between">
         <CustomButton
           variant="contained"
           sx={{ marginTop: "10px" }}
-          onClick={() => startCheckout()}>
+          onClick={clearCart}
+          disabled={!items.length}>
+          Clear
+        </CustomButton>
+        <CustomButton
+          variant="contained"
+          sx={{ marginTop: "10px" }}
+          onClick={() => startCheckout()}
+          disabled={!items.length}>
           Proceed to checkout
         </CustomButton>
       </Grid>

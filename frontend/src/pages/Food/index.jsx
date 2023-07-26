@@ -80,10 +80,6 @@ const FoodandBeverages = () => {
 
   const [selectedButton, setSelectedButton] = useState(0);
 
-  items.forEach((entry) => {
-    console.log(entry);
-  });
-
   const handleDataAdd = (item) => {
     dispatch(addItemAction(item));
   };

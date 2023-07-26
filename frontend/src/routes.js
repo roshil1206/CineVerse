@@ -12,8 +12,12 @@ import Success from "./pages/Payments/Success";
 import Failure from "./pages/Payments/Failure";
 import AdminMovie from "./pages/Admin/Movie";
 import AdminTheatre from "./pages/Admin/Theatre";
+import AdminScreen from "./pages/Admin/Screen";
 import AdminFood from "./pages/Admin/Food";
+import parties from "./pages/parties/partiespage";
 import ForgotPassword from "./pages/Authentication/forgotPassword";
+import longtermrental from "./pages/parties/longtermrental";
+import inquirenow from "./pages/parties/inquirenow";
 
 const routes = [
   {
@@ -72,6 +76,24 @@ const routes = [
     layout: "public",
   },
   {
+    path: "/parties",
+    name: "Parties at Cineverse",
+    component: parties,
+    layout: "public",
+  },
+  {
+    path: "/parties/longtermrental",
+    name: "Long Term Rentals",
+    component: longtermrental,
+    layout: "private",
+  },
+  {
+    path: "/parties/inquirenow",
+    name: "Inquire Now",
+    component: inquirenow,
+    layout: "private",
+  },
+  {
     path: "/summary",
     name: "Summary",
     component: Summary,
@@ -105,6 +127,12 @@ const routes = [
     path: "/admin/theatre",
     name: "Theatre",
     component: AdminTheatre,
+    layout: "admin",
+  },
+  {
+    path: "/admin/screen",
+    name: "Screen",
+    component: AdminScreen,
     layout: "admin",
   },
 ];

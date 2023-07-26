@@ -42,7 +42,6 @@ const TimeTile = styled("div")({
   fontSize: "16px",
   fontWeight: "bold",
   color: theme.palette.white,
-  width: "80px",
   textAlign: "center",
   "@media (max-width: 700px)": {
     padding: "6px 12px",
@@ -51,14 +50,14 @@ const TimeTile = styled("div")({
   },
 });
 
-export default function TheatreCard({ theatreName, showtimes, theatreId, handleClick }) {
+export default function TheatreCard({ theatreName, showTimes, theatreId, handleClick }) {
   return (
     <TheatreCardContainer>
       <TheatreName>{theatreName}</TheatreName>
       <TimeTileContainer>
-        {showtimes.map((showtime, index) => (
-          <TimeTile key={index} onClick={() => handleClick(showtime, theatreId)}>
-            {showtime}
+        {showTimes.map((showTime, index) => (
+          <TimeTile key={index} onClick={() => handleClick(showTime, theatreId)}>
+            {showTime}
           </TimeTile>
         ))}
       </TimeTileContainer>

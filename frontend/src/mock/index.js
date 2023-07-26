@@ -2,7 +2,7 @@ export const faqData = [
   {
     question: "How can I book movie tickets?",
     answer:
-      "To book movie tickets, you can visit our website and follow the steps on the booking page. Select the movie, showtime, number of tickets, and seats. Then proceed to the payment process to confirm your booking.",
+      "To book movie tickets, you can visit our website and follow the steps on the booking page. Select the movie, showTime, number of tickets, and seats. Then proceed to the payment process to confirm your booking.",
   },
   {
     question: "Do I need to create an account to book movie tickets?",

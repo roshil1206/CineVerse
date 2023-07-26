@@ -21,6 +21,10 @@ const MovieDetail = () => {
 
   const updateMovie = (updatedMovie) => {
     let movieRating = 0;
+    if (updatedMovie.topReviews.length === 0) {
+      setMovie({ ...updatedMovie, movieRating: 0 });
+      return;
+    }
     updatedMovie.topReviews.forEach((movie) => {
       movieRating += movie.rating;
     });
@@ -40,10 +44,14 @@ const MovieDetail = () => {
       const relatedMovieData = resp.data.data;
       const relatedMovieDataFiltered = relatedMovieData.filter((movie) => movie._id !== movieId);
       let movieRating = 0;
-      movieData.topReviews.forEach((movie) => {
-        movieRating += movie.rating;
-      });
-      setMovie({ ...movieData, movieRating: movieRating / movieData.topReviews.length });
+      if (movieData.topReviews.length === 0) {
+        setMovie({ ...movieData, movieRating: 0 });
+      } else {
+        movieData.topReviews.forEach((movie) => {
+          movieRating += movie.rating;
+        });
+        setMovie({ ...movieData, movieRating: movieRating / movieData.topReviews.length });
+      }
       setRelatedMovies(relatedMovieDataFiltered);
       setIsLoading(false);
     } catch (error) {

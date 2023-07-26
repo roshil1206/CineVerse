@@ -3,12 +3,12 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const response = require("../../../utils/response");
 const { authenticateUser } = require("../../../middleware/authmiddleware");
 const PaymentsModel = require("../../../models/PaymentsModel");
+const sendEmail = require("../../../utils/nodemail");
 
 router.use(authenticateUser);
 
 router.post("/createSesssion", async (req, res) => {
   const { user } = req;
-  console.log(user);
   const { items } = req.body;
   const session = await stripe.checkout.sessions.create({
     customer: user.stripeCustomerId,
@@ -18,25 +18,25 @@ router.post("/createSesssion", async (req, res) => {
       price_data: {
         currency: "cad",
         product_data: {
-          name: item.name,
+          name: item.type === "movie" ? "Movie" : item.name,
         },
         unit_amount: item.price * 100,
       },
     })),
     mode: "payment",
-    success_url:
-      "http://localhost:3000/paymentSuccess?session_id={CHECKOUT_SESSION_ID}",
-    cancel_url: "http://localhost:3000/paymentFail",
+    success_url: `${process.env.FRONTEND_URL}/paymentSuccess?session_id={CHECKOUT_SESSION_ID}`,
+    cancel_url: `${process.env.FRONTEND_URL}/paymentFail`,
   });
   const paymentObj = new PaymentsModel({
     user_id: user._id,
     session_id: session.id,
     total_price: session.amount_total / 100,
     items: items.map((item) => ({
-      name: item.name,
-      id: item._id,
+      name: item.type === "movie" ? "Movie" : item.name,
+      id: item.type === "movie" ? item.movieId : item._id,
       quantity: item.count,
       price: item.price,
+      type: item.type === "movie" ? "movie" : "food",
     })),
   });
   await paymentObj.save();
@@ -58,6 +58,11 @@ router.post("/success", async (req, res) => {
     });
     paymentData.paymentSuccess = true;
     await paymentData.save();
+    await sendEmail(
+      user.email,
+      "Booking Confirmation",
+      `<b>Dear customer,</b> <br/> <p>Your booking is confirmed, your ticket number is:<b> ${paymentData._id}</b>.</p><p>Payment of $ ${paymentData.total_price} is successfull.</p>`
+    );
     return response(res, 200, true, {
       message: "Payment successfull.",
       paymentData,

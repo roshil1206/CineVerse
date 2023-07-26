@@ -18,8 +18,13 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useTheme } from "@emotion/react";
 import { MdOutlineMenu } from "react-icons/md";
 import CustomListItem from "../Header/CustomListItem";
+<<<<<<< HEAD
 import { useDispatch } from "react-redux";
 import { removeUserAction } from "../../store/Auth/actions";
+=======
+import { removeUserAction } from "../../store/Auth/actions";
+import { useDispatch } from "react-redux";
+>>>>>>> develop
 
 const StyledAppBar = styled(AppBar)(({ theme }) => ({
   backgroundColor: theme.palette.white,
@@ -53,6 +58,7 @@ function a11yProps(index) {
 const links = [
   { name: "Movies", link: "/admin/movie" },
   { name: "Theatres", link: "/admin/theatre" },
+  { name: "Screens", link: "/admin/screen" },
   { name: "Foods", link: "/admin/food" },
 ];
 

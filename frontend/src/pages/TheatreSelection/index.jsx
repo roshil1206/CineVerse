@@ -5,6 +5,9 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import axios from "axios";
 import theme from "../../theme";
 import DateStrip from "../../components/TheatreSelection/DateCard";
+import { useDispatch, useSelector } from "react-redux";
+import ConfirmationModal from "../../components/ConfirmationModal";
+import { clearCartAction } from "../../store/Cart/actionTypes";
 
 export default function TheatreSelection() {
   const [searchParams] = useSearchParams();
@@ -12,6 +15,14 @@ export default function TheatreSelection() {
   const [movie, setMovie] = useState({});
   const [theatres, setTheatres] = useState([]);
   const [isLoading, setIsLoading] = useState(null);
+  const [showConfirmationModal, setShowConfirmationModal] = useState({
+    open: false,
+    time: "",
+    theatreId: "",
+  });
+
+  const { items } = useSelector((state) => state.cartReducer);
+  const dispatch = useDispatch();
 
   const today = new Date();
   const tomorrow = new Date(today);
@@ -50,7 +61,6 @@ export default function TheatreSelection() {
       );
       setTheatres(tData.data);
       setIsLoading(false);
-      console.log(tData);
     } catch (error) {
       console.error("Error fetching movie:", error);
       setIsLoading(false);
@@ -58,7 +68,24 @@ export default function TheatreSelection() {
   };
 
   const handleClick = (time, id) => {
-    navigate(`/booking?movieId=${movieId}&showTime=${time}&date=${selectedDate}&theatreId=${id}`);
+    const isALreadyinCart =
+      items.length > 0 &&
+      !!items.find(
+        (item) =>
+          item.movieId !== movieId ||
+          item.theatreId !== id ||
+          item.date !== selectedDate ||
+          item.showTime !== time
+      );
+    if (isALreadyinCart) {
+      setShowConfirmationModal({
+        open: true,
+        time: time,
+        theatreId: id,
+      });
+    } else {
+      navigate(`/booking?movieId=${movieId}&showTime=${time}&date=${selectedDate}&theatreId=${id}`);
+    }
   };
 
   return (
@@ -75,6 +102,30 @@ export default function TheatreSelection() {
         </div>
       ) : (
         <>
+          <ConfirmationModal
+            open={showConfirmationModal.open}
+            onClose={() =>
+              setShowConfirmationModal({
+                open: false,
+                time: "",
+                theatreId: "",
+              })
+            }
+            onCompleteTransaction={() => {
+              navigate("/summary");
+            }}
+            onContinue={() => {
+              dispatch(clearCartAction());
+              navigate(
+                `/booking?movieId=${movieId}&showTime=${showConfirmationModal.time}&date=${selectedDate}&theatreId=${showConfirmationModal.theatreId}`
+              );
+              setShowConfirmationModal({
+                open: false,
+                time: "",
+                theatreId: "",
+              });
+            }}
+          />
           <Container
             sx={{
               padding: "3rem",
@@ -122,12 +173,12 @@ export default function TheatreSelection() {
               </Typography>
             ) : (
               theatres.map((theatre, index) => {
-                const { showtimes } = theatre.movieDetails.find((m) => m.movie === movieId);
+                const { showTimes } = theatre.movieDetails.find((m) => m.movie._id === movieId);
                 return (
                   <TheatreCard
                     key={index}
                     theatreName={theatre.name}
-                    showtimes={showtimes || []}
+                    showTimes={showTimes || []}
                     theatreId={theatre._id}
                     handleClick={handleClick}
                   />

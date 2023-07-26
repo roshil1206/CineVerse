@@ -79,7 +79,7 @@ const MovieModal = ({ open, onClose, isUpdate, movieData, onSubmit }) => {
 
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle>{isUpdate ? "Update Movie" : "Create Movie"}</DialogTitle>
+      <DialogTitle variant="h2">{isUpdate ? "Update Movie" : "Create Movie"}</DialogTitle>
       <DialogContent>
         <TextField
           label="Name"

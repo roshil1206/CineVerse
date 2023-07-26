@@ -12,11 +12,22 @@ import { isLogin } from "./utils/functions";
 import { useSelector } from "react-redux";
 
 const App = () => {
+  const { user } = useSelector((state) => state.authReducer);
+
+  const [isAdmin, setIsAdmin] = useState(user.role === "admin" || false);
+  const [isLoggedIn, setIsLoggedIn] = useState(isLogin());
   const location = useLocation();
   const { user } = useSelector((state) => state.authReducer);
 
   const [isAdmin, setIsAdmin] = useState(user.role === "admin" || false);
   const [isLoggedIn, setIsLoggedIn] = useState(isLogin());
+
+  useEffect(() => {
+    if (user) {
+      setIsAdmin(user.role === "admin");
+    }
+    setIsLoggedIn(isLogin());
+  }, [user]);
 
   useEffect(() => {
     if (user) {

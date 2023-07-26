@@ -81,6 +81,7 @@ const updateFoodItem = async (req, res) => {
 
 const changeItemStatus = async (req, res) => {
   const { id, status } = req.body;
+
   if (!id || !status) {
     return response(res, 400, false, {
       message: "id and status are required.",
@@ -89,10 +90,9 @@ const changeItemStatus = async (req, res) => {
   try {
     const updatedData = await FoodAndBeveragesModel.findByIdAndUpdate(id, {
       $set: {
-        isActive: status,
+        isActive: status === "true" ? true : false,
       },
     });
-    console.log(updatedData);
 
     return response(res, 200, true, {
       message: "Item updated successfully",
@@ -103,7 +103,7 @@ const changeItemStatus = async (req, res) => {
   }
 };
 const deleteItem = async (req, res) => {
-  const { id } = req.body;
+  const { id } = req.params;
   if (!id) {
     return response(res, 400, false, {
       message: "id is required.",

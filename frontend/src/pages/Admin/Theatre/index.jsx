@@ -4,6 +4,7 @@ import axios from "axios";
 import { Container, Button } from "@mui/material";
 import styled from "@emotion/styled";
 import TheatreModal from "../../../components/TheatreModal";
+import { toast } from "react-toastify";
 
 const Heading = styled("h1")({
   fontSize: "24px",
@@ -32,42 +33,24 @@ const AddButton = styled(Button)({
 
 const Theatre = () => {
   const [theatreData, setTheatres] = useState([]);
-  const [movies, setMovies] = useState([]);
   const [screens, setScreens] = useState([]);
   const [open, setOpen] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
   const [selectedTheatre, setSelectedTheatre] = useState({});
 
   useEffect(() => {
-    fetchMovieData();
-    fetchTheatreData();
     fetchScreenData();
+    fetchTheatreData();
   }, []);
 
-  const columns = React.useMemo(
-    () => [
-      { Header: "Name", accessor: "name" },
-      { Header: "Movie", accessor: "movieDetails.name" },
-      { Header: "Price", accessor: "price" },
-    ],
-    []
-  );
-
-  const fetchMovieData = async () => {
-    try {
-      const { data } = await axios.get(`${process.env.REACT_APP_BACKEND_BASE_URL}/admin/movie`);
-      setMovies(data.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const columns = React.useMemo(() => [{ Header: "Name", accessor: "name" }], []);
 
   const fetchScreenData = async () => {
     try {
       const { data } = await axios.get(`${process.env.REACT_APP_BACKEND_BASE_URL}/admin/screen`);
       setScreens(data.data);
     } catch (error) {
-      console.log(error);
+      toast.error(error.message);
     }
   };
 
@@ -76,24 +59,29 @@ const Theatre = () => {
       const { data } = await axios.get(`${process.env.REACT_APP_BACKEND_BASE_URL}/admin/theatre`);
       setTheatres(data.data);
     } catch (error) {
-      console.log(error);
+      toast.error(error.message);
     }
   };
 
-  const handleDelete = (theatreData) => {
+  const handleDelete = async (theatreData) => {
     try {
-      axios.delete(`${process.env.REACT_APP_BACKEND_BASE_URL}/admin/theatre/${theatreData._id}`);
+      const { data } = await axios.delete(
+        `${process.env.REACT_APP_BACKEND_BASE_URL}/admin/theatre/${theatreData._id}`
+      );
       screens.forEach(async (screen) => {
-        if (screen.theatre === theatreData._id) {
+        if (screen.theatre._id === theatreData._id) {
           await axios.delete(
             `${process.env.REACT_APP_BACKEND_BASE_URL}/admin/screen/${screen._id}`
           );
         }
       });
-      fetchTheatreData();
-      fetchScreenData();
+      if (data.success) {
+        fetchTheatreData();
+        fetchScreenData();
+        toast.success("Theatre Deleted Successfully");
+      }
     } catch (error) {
-      console.log(error);
+      toast.error(error.message);
     }
   };
 
@@ -105,35 +93,26 @@ const Theatre = () => {
 
   const handleSubmit = async (theatreData) => {
     try {
+      let success = false;
       if (isUpdate) {
-        await axios.put(
+        const { data } = await axios.put(
           `${process.env.REACT_APP_BACKEND_BASE_URL}/admin/theatre/${theatreData._id}`,
-          { ...theatreData, movieDetails: theatreData.movieDetails._id }
+          theatreData
         );
-
-        screens.forEach(async (screen) => {
-          if (screen.theatre === theatreData._id) {
-            await axios.put(
-              `${process.env.REACT_APP_BACKEND_BASE_URL}/admin/screen/${screen._id}`,
-              { movie: theatreData.movieDetails._id, price: theatreData.price }
-            );
-          }
-        });
+        success = data.success;
       } else {
         const { data } = await axios.post(
           `${process.env.REACT_APP_BACKEND_BASE_URL}/admin/theatre`,
           theatreData
         );
-        await axios.post(`${process.env.REACT_APP_BACKEND_BASE_URL}/admin/screen`, {
-          movie: theatreData.movieDetails,
-          theatre: data.data._id,
-          price: theatreData.price,
-        });
+        success = data.success;
       }
-      fetchTheatreData();
-      fetchScreenData();
+      if (success) {
+        fetchTheatreData();
+        toast.success(`Theatre ${isUpdate ? "Updated" : "Added"} Successfully`);
+      }
     } catch (error) {
-      console.log(error);
+      toast.error(error.message);
     }
   };
 
@@ -147,7 +126,6 @@ const Theatre = () => {
         }}
         isUpdate={isUpdate}
         theatreData={selectedTheatre}
-        movies={movies}
         onSubmit={handleSubmit}
       />
       <Container justifyContent="center">

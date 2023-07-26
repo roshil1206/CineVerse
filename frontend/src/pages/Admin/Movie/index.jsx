@@ -1,9 +1,11 @@
+/* eslint-disable no-undef */
 import React, { useEffect, useState } from "react";
 import Table from "../../../components/Table";
 import axios from "axios";
 import { Container, Button } from "@mui/material";
 import styled from "@emotion/styled";
 import MovieModal from "../../../components/MovieModal";
+import { toast } from "react-toastify";
 
 const Heading = styled("h1")({
   fontSize: "24px",
@@ -44,7 +46,6 @@ const Movie = () => {
     () => [
       { Header: "Name", accessor: "name" },
       { Header: "Genre", accessor: "genre" },
-      { Header: "Rating", accessor: "rating" },
       { Header: "Duration", accessor: "duration" },
     ],
     []
@@ -55,16 +56,21 @@ const Movie = () => {
       const { data } = await axios.get(`${process.env.REACT_APP_BACKEND_BASE_URL}/admin/movie`);
       setMovieData(data.data);
     } catch (error) {
-      console.log(error);
+      toast.error(error.message);
     }
   };
 
-  const handleDelete = (movieData) => {
+  const handleDelete = async (movieData) => {
     try {
-      axios.delete(`${process.env.REACT_APP_BACKEND_BASE_URL}/admin/movie/${movieData._id}`);
-      fetchMovieData();
+      const { data } = await axios.delete(
+        `${process.env.REACT_APP_BACKEND_BASE_URL}/admin/movie/${movieData._id}`
+      );
+      if (data.success) {
+        fetchMovieData();
+        toast.success("Movie Deleted Successfully");
+      }
     } catch (error) {
-      console.log(error);
+      toast.error(error.message);
     }
   };
 
@@ -76,14 +82,26 @@ const Movie = () => {
 
   const handleSubmit = async (data) => {
     try {
+      let success = false;
       if (isUpdate) {
-        await axios.put(`${process.env.REACT_APP_BACKEND_BASE_URL}/admin/movie/${data._id}`, data);
+        const res = await axios.put(
+          `${process.env.REACT_APP_BACKEND_BASE_URL}/admin/movie/${data._id}`,
+          data
+        );
+        success = res.data.success;
       } else {
-        await axios.post(`${process.env.REACT_APP_BACKEND_BASE_URL}/admin/movie`, data);
+        const resp = await axios.post(
+          `${process.env.REACT_APP_BACKEND_BASE_URL}/admin/movie`,
+          data
+        );
+        success = resp.data.success;
       }
-      fetchMovieData();
+      if (success) {
+        toast.success(`Movie ${isUpdate ? "Updated" : "Added"} Successfully`);
+        fetchMovieData();
+      }
     } catch (error) {
-      console.log(error);
+      toast.error(error.message);
     }
   };
 

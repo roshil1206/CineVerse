@@ -148,8 +148,6 @@ const UserProfile = () => {
     const phoneRegex = /^\d+$/;
     const validationErrors = {};
 
-    console.log(state);
-
     if (!state.name.trim().match(regex)) {
       validationErrors.name = "Name can only contain letters and spaces";
     }
