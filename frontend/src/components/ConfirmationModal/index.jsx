@@ -36,6 +36,8 @@ const Actions = styled(DialogActions)`
 
 const StyledButton = styled(Button)`
   margin: 0 8px;
+  width: 150px;
+  height: 55px;
 `;
 
 const ConfirmationModal = ({ open, onClose, onContinue, onCompleteTransaction }) => {
