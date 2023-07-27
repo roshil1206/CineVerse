@@ -1,3 +1,5 @@
+// Author - Vaidik Anilbhai Nimavat (B00925420)
+
 const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
@@ -57,11 +59,11 @@ const userSchema = new mongoose.Schema({
   },
   otp: {
     type: String,
-    default: "", 
+    default: "",
   },
   resetPasswordToken: {
     type: String,
-    default: "", 
+    default: "",
   },
 });
 

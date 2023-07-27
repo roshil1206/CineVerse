@@ -1,3 +1,5 @@
+// Author - Vaidik Anilbhai Nimavat (B00925420)
+
 import styled from "@emotion/styled";
 
 export const MainContainer = styled.div`

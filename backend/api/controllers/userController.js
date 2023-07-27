@@ -1,3 +1,5 @@
+// Author - Vaidik Anilbhai Nimavat (B00925420)
+
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../../models/UserModel");
