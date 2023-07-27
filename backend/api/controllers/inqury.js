@@ -9,16 +9,16 @@ const response = require("../../utils/response");
 app.use(cors());
 app.use(bodyParser.json());
 
-function getEmailFromToken(token) {
-  return "test@example.com"; // Replace with your logic to get email from token
-}
+// function getEmailFromToken(token) {
+//   return "test@example.com";
+// }
 
 const inquireNow = async (req, res) => {
   try {
     const formData = req.body;
-    const token = req.headers.authorization;
+    // const token = req.headers.authorization;
 
-    const email = getEmailFromToken(token);
+    // const email = getEmailFromToken(token);
 
     formData.email = email;
 

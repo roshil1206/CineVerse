@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import { React, useState } from "react";
 import styled from "@emotion/styled";
-import axios from "axios";
+// import axios from "axios";
 import Cookies from "js-cookie";
 
 const Container = styled.div`
@@ -36,11 +36,6 @@ const Input = styled.input`
   border-radius: 5px;
 `;
 
-const ErrorMessage = styled.div`
-  color: red;
-  font-size: 0.8rem;
-`;
-
 const TextArea = styled.textarea`
   width: 100%;
   padding: 10px;
@@ -70,8 +65,7 @@ const SubmitButton = styled.button`
     pointer-events: none;
   }
 `;
-
-const inquirenow = () => {
+const inquirynow = () => {
   const initialFormData = {
     firstName: "",
     lastName: "",
@@ -79,159 +73,104 @@ const inquirenow = () => {
     email: "",
     phone: "",
     groupType: "",
-    theatreProvince: "",
-    theatreCity: "",
-    preferredTheatre: "",
     preferredDate: "",
     startTime: "",
     numGuests: "",
     howHeard: "",
     eventDetails: "",
   };
-
-  const initialFormErrors = {
-    firstName: "",
-    lastName: "",
-    groupName: "",
-    email: "",
-    phone: "",
-    groupType: "",
-    theatreProvince: "",
-    theatreCity: "",
-    preferredTheatre: "",
-    preferredDate: "",
-    startTime: "",
-    numGuests: "",
-    howHeard: "",
-    eventDetails: "",
-  };
-
-  const initialSubmissionStatus = null;
 
   const [formData, setFormData] = useState(initialFormData);
-  const [formErrors, setFormErrors] = useState(initialFormErrors);
+  const [formErrors, setFormErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submissionStatus, setSubmissionStatus] = useState(initialSubmissionStatus);
+  const [submissionStatus, setSubmissionStatus] = useState("");
 
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
+  };
   const validateForm = () => {
-    let isValid = true;
-    const newErrors = { ...initialFormErrors };
+    const errors = {};
 
-    // Validate required fields
-    const validateForm = () => {
-  let isValid = true;
-  const newErrors = { ...initialFormErrors };
+    // Regular expressions for validation
+    const namePattern = /^[A-Za-z\s]+$/;
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phonePattern = /^\d{10}$/;
 
-  // Validate required fields
-  const requiredFields = [
-    "firstName",
-    "lastName",
-    "groupName",
-    "email",
-    "phone",
-    "groupType",
-    "theatreProvince",
-    "theatreCity",
-    "preferredTheatre",
-    "preferredDate",
-    "startTime",
-    "numGuests",
-    "howHeard",
-    "eventDetails",
-  ];
-
-  requiredFields.forEach((field) => {
-    if (!formData[field].trim()) {
-      newErrors[field] = "This field is required";
-      isValid = false;
+    if (!formData.firstName.trim()) {
+      errors.firstName = "First Name is required";
+    } else if (!namePattern.test(formData.firstName)) {
+      errors.firstName = "Invalid First Name";
     }
-  });
 
-  // Validate email format
-  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (formData.email && !emailPattern.test(formData.email)) {
-    newErrors.email = "Please enter a valid email address";
-    isValid = false;
-  }
+    if (!formData.lastName.trim()) {
+      errors.lastName = "Last Name is required";
+    } else if (!namePattern.test(formData.lastName)) {
+      errors.lastName = "Invalid Last Name";
+    }
 
-  // Validate phone format
-  const phonePattern = /^\d{10}$/;
-  if (formData.phone && !phonePattern.test(formData.phone)) {
-    newErrors.phone = "Please enter a valid phone number (10 digits)";
-    isValid = false;
-  }
+    if (!formData.email.trim()) {
+      errors.email = "Email is required";
+    } else if (!emailPattern.test(formData.email)) {
+      errors.email = "Invalid Email";
+    }
 
-  setFormErrors(newErrors);
-  return isValid;
-};
+    if (!formData.phone.trim()) {
+      errors.phone = "Phone number is required";
+    } else if (!phonePattern.test(formData.phone)) {
+      errors.phone = "Invalid Phone number (10 digits)";
+    }
+    setFormErrors(errors);
 
-  const submitForm = (formData) => {
-    return new Promise((resolve, reject) => {
+    return Object.keys(errors).length === 0;
+  };
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setIsSubmitting(true);
+
+    const isValid = validateForm();
+    if (isValid) {
       try {
         const token = Cookies.get("token");
         const headers = token ? { Authorization: `Bearer ${token}` } : {};
 
-        axios
-          .post("http://localhost:4000/api/inquirenow", formData, {
-            headers,
-          })
-          .then((response) => {
-            console.log(response.data);
-            // Update the state or show a success message to the user if needed
-            resolve(response.data);
-          })
-          .catch((error) => {
-            console.error("Error submitting form:", error);
-            // Handle the error or show an error message to the user if needed
-            reject(error);
-          });
+        let res = await fetch("http://localhost:4000/api/inquiry", {
+          method: "POST",
+          headers: {
+            ...headers,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        });
+
+        let resJson = await res.json();
+
+        if (res.status === 201 && resJson.message === "Inquiry submitted successfully!") {
+          setSubmissionStatus("success");
+          resetForm();
+        } else {
+          setSubmissionStatus("error");
+        }
       } catch (error) {
         console.error("Error submitting form:", error);
-        reject(error);
-      }
-    });
-  };
-
-  const handleSubmit = (event) => {
-  event.preventDefault();
-
-  // Validate the form before submitting
-  const isValid = validateForm();
-
-  if (isValid) {
-    // Disable the submit button while submitting to prevent multiple submissions
-    setIsSubmitting(true);
-
-    // Send the formData to the server or database here using the submitForm function
-    submitForm(formData)
-      .then(() => {
-        // Reset the form data after successful form submission to the initial values
-        setFormData(initialFormData);
-        setSubmissionStatus("success");
-        // Re-enable the submit button after successful submission
-        setIsSubmitting(false);
-      })
-      .catch((error) => {
-        console.error("Error submitting form:", error);
         setSubmissionStatus("error");
-        // Re-enable the submit button after an error
+      } finally {
         setIsSubmitting(false);
-      });
-  }
-};
-
-  const handleInputChange = (event) => {
-    const { name, value, type, checked } = event.target;
-    const inputValue = type === "checkbox" ? checked : value;
-    setFormData((prevFormData) => ({ ...prevFormData, [name]: inputValue }));
+      }
+    } else {
+      setIsSubmitting(false);
+    }
+  };
+  const resetForm = () => {
+    setFormData(initialFormData);
+    setFormErrors({});
   };
   return (
     <Container>
-      <h1>Inquire Now</h1>
+      <h1>Inquiry Form</h1>
       <Form onSubmit={handleSubmit}>
-        <h2>Your Details</h2>
         <FormGroup>
-          <Label>First Name *</Label>
+          <Label>First Name</Label>
           <Input
             type="text"
             name="firstName"
@@ -239,10 +178,10 @@ const inquirenow = () => {
             onChange={handleInputChange}
             required
           />
-          {formErrors.firstName && <ErrorMessage>{formErrors.firstName}</ErrorMessage>}
+          {formErrors.firstName && <div>{formErrors.firstName}</div>}
         </FormGroup>
         <FormGroup>
-          <Label>Last Name *</Label>
+          <Label>Last Name</Label>
           <Input
             type="text"
             name="lastName"
@@ -250,10 +189,10 @@ const inquirenow = () => {
             onChange={handleInputChange}
             required
           />
-          {formErrors.lastName && <ErrorMessage>{formErrors.lastName}</ErrorMessage>}
+          {formErrors.lastName && <div>{formErrors.lastName}</div>}
         </FormGroup>
         <FormGroup>
-          <Label>Group Name *</Label>
+          <Label>Group Name</Label>
           <Input
             type="text"
             name="groupName"
@@ -261,10 +200,9 @@ const inquirenow = () => {
             onChange={handleInputChange}
             required
           />
-          {formErrors.groupName && <ErrorMessage>{formErrors.groupName}</ErrorMessage>}
         </FormGroup>
         <FormGroup>
-          <Label>Email *</Label>
+          <Label>Email address</Label>
           <Input
             type="email"
             name="email"
@@ -272,10 +210,10 @@ const inquirenow = () => {
             onChange={handleInputChange}
             required
           />
-          {formErrors.email && <ErrorMessage>{formErrors.email}</ErrorMessage>}
+          {formErrors.email && <div>{formErrors.email}</div>}
         </FormGroup>
         <FormGroup>
-          <Label>Phone *</Label>
+          <Label>Phone</Label>
           <Input
             type="tel"
             name="phone"
@@ -283,11 +221,10 @@ const inquirenow = () => {
             onChange={handleInputChange}
             required
           />
-          {formErrors.phone && <ErrorMessage>{formErrors.phone}</ErrorMessage>}
+          {formErrors.phone && <div>{formErrors.phone}</div>}
         </FormGroup>
-        <h2>Event Details</h2>
         <FormGroup>
-          <Label>Group Type *</Label>
+          <Label>Group Type</Label>
           <Input
             type="text"
             name="groupType"
@@ -297,37 +234,7 @@ const inquirenow = () => {
           />
         </FormGroup>
         <FormGroup>
-          <Label>Theatre Province *</Label>
-          <Input
-            type="text"
-            name="theatreProvince"
-            value={formData.theatreProvince}
-            onChange={handleInputChange}
-            required
-          />
-        </FormGroup>
-        <FormGroup>
-          <Label>Theatre City *</Label>
-          <Input
-            type="text"
-            name="theatreCity"
-            value={formData.theatreCity}
-            onChange={handleInputChange}
-            required
-          />
-        </FormGroup>
-        <FormGroup>
-          <Label>Preferred Theatre *</Label>
-          <Input
-            type="text"
-            name="preferredTheatre"
-            value={formData.preferredTheatre}
-            onChange={handleInputChange}
-            required
-          />
-        </FormGroup>
-        <FormGroup>
-          <Label>Preferred Date *</Label>
+          <Label>Preferred Date</Label>
           <Input
             type="date"
             name="preferredDate"
@@ -337,16 +244,7 @@ const inquirenow = () => {
           />
         </FormGroup>
         <FormGroup>
-          <Label>Alternate Date</Label>
-          <Input
-            type="date"
-            name="alternateDate"
-            value={formData.alternateDate}
-            onChange={handleInputChange}
-          />
-        </FormGroup>
-        <FormGroup>
-          <Label>Start Time *</Label>
+          <Label>Start Time</Label>
           <Input
             type="time"
             name="startTime"
@@ -356,7 +254,7 @@ const inquirenow = () => {
           />
         </FormGroup>
         <FormGroup>
-          <Label>Number of Guests *</Label>
+          <Label>Number of Guests</Label>
           <Input
             type="number"
             name="numGuests"
@@ -366,7 +264,7 @@ const inquirenow = () => {
           />
         </FormGroup>
         <FormGroup>
-          <Label>How did you hear about us? *</Label>
+          <Label>How did you hear about us?</Label>
           <Input
             type="text"
             name="howHeard"
@@ -376,35 +274,23 @@ const inquirenow = () => {
           />
         </FormGroup>
         <FormGroup>
-          <Label>Please specify where you heard about us *</Label>
-          <Input
-            type="text"
-            name="otherHowHeard"
-            value={formData.otherHowHeard}
-            onChange={handleInputChange}
-            required
-          />
-        </FormGroup>
-        <h2>Tell us more about your event</h2>
-        <FormGroup>
+          <Label>Tell us more about your event</Label>
           <TextArea
-            rows={6}
+            rows={5}
             name="eventDetails"
             value={formData.eventDetails}
             onChange={handleInputChange}
-            placeholder="Please type details here..."
             required
           />
         </FormGroup>
-        <Form onSubmit={handleSubmit}>
-          {/* {submissionStatus === "success" && (
-            <SuccessMessage>Your inquiry has been submitted successfully</SuccessMessage>
-          )} */}
-          <SubmitButton type="submit">Submit</SubmitButton>
-        </Form>
+        <SubmitButton type="submit" disabled={isSubmitting}>
+          Submit
+        </SubmitButton>
+        {submissionStatus === "success" && <div>Message Sent.</div>}
+        {submissionStatus === "error" && <div>Message failed to send.</div>}
       </Form>
     </Container>
   );
 };
 
-export default inquirenow;
+export default inquirynow;
