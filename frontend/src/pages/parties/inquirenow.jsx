@@ -134,7 +134,7 @@ const inquirynow = () => {
         const token = Cookies.get("token");
         const headers = token ? { Authorization: `Bearer ${token}` } : {};
 
-        let res = await fetch("http://localhost:4000/api/inquiry", {
+        let res = await fetch("/api/inquiry", {
           method: "POST",
           headers: {
             ...headers,
