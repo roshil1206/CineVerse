@@ -1,3 +1,5 @@
+// Author - Vaidik Anilbhai Nimavat (B00925420)
+
 import React, { useEffect, useState } from "react";
 import * as Components from "../../components/Authentication/Auth";
 import { Alert, Box, Snackbar, styled, useMediaQuery, Typography } from "@mui/material";
