@@ -96,7 +96,7 @@ const Container = styled(Box)(() => ({
 const LeftAlignedContainer = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-end; /* Align children to the right */
+  align-items: flex-end;
   margin-top: 50px;
 `;
 const TicketWrapper = styled.div`
@@ -114,7 +114,6 @@ const TicketWrapper = styled.div`
   transform: scale(1);
   transition: all 0.3s ease;
 
-  /* Custom border for the movie reel effect */
   &::before,
   &::after,
   &::before,
@@ -143,7 +142,6 @@ const TicketWrapper = styled.div`
     transform: scale(1.05) rotate(-2deg);
   }
 
-  /* Glowing effect */
   &:after {
     position: absolute;
     content: "";
@@ -238,7 +236,6 @@ const testimonialData = [
     title: "Cinema Fanatic",
     comment: "XSCAPE Arcade is a unique and fun experience for all ages.",
   },
-  // Add more testimonial data as needed
 ];
 
 const getRandomTestimonial = () => {
@@ -335,7 +332,6 @@ const partiespage = () => {
   return (
     <Container>
       <ImageContainer>
-        {/* Image Slider */}
         <ImageSlider />
       </ImageContainer>
       <Typography variant="h1" color="darkBlue" textAlign="center">
@@ -345,7 +341,6 @@ const partiespage = () => {
         Celebrate your special moments with us!
       </Typography>
 
-      {/* Long Term Rentals */}
       <TicketWrapper>
         <TicketHeader>Long Term Rental</TicketHeader>
         <TicketContent>
@@ -361,18 +356,12 @@ const partiespage = () => {
         </TicketContent>
         <CardButton onClick={handleCardButtonClick}>Go to Long Term Rental</CardButton>
       </TicketWrapper>
-      {/* XSCAPE Arcade Parties */}
       <TicketWrapper>
         <TicketHeader>XSCAPE Arcade</TicketHeader>
         <TicketContent>
           <p>
             Want an epic party that will be talked about for years? Have it at XSCAPE! Our XSCAPE
             Arcade parties are the ultimate gaming experience for all ages.
-          </p>
-          <p>
-            Choose from a wide selection of games, both classic and modern, and challenge your
-            friends to exciting competitions. Our comfortable gaming lounges and party packages will
-            ensure that everyone has a blast!
           </p>
           <p>
             **Paid Partnership with Playdium:** We are proud to announce that we have a paid
@@ -383,15 +372,15 @@ const partiespage = () => {
         </TicketContent>
         <CardButton onClick={navigateToXSCAPE}>Go to XSCAPE Arcade</CardButton>
       </TicketWrapper>
-      {/* First Testimonial Slider */}
+
       <TestimonialSlider />
-      {/* More Questions */}
+
       <LeftAlignedContainer>
         <div className="card-content">
           <h3>More Questions?</h3>
           <p>Visit our FAQ to learn more.</p>
         </div>
-        {/* Button */}
+
         <CardButton onClick={() => navigate("/faq")}>Visit FAQ</CardButton>
       </LeftAlignedContainer>
     </Container>
