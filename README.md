@@ -12,15 +12,6 @@ experience for all moviegoers.**
 - _Project URL_: <https://csci-5709-group-08.netlify.app>
 - _Git URL_: https://git.cs.dal.ca/umehta/csci-5709-grp-08
 
-## Authors
-
-- [Himanshu Prajapati](himanshu@dal.ca) - _(Full-stack Developer)_
-- [Kevin Panchal](panchal@dal.ca) - _(Full-stack Developer)_
-- [Riya Patel](riya.patel@dal.ca) - _(Full-stack Developer)_
-- [Roshil Patel](rs622844@dal.ca) - _(Full-stack Developer)_
-- [Umang Mehta](umang@dal.ca) - _(Full-stack Developer)_
-- [Vaidik Nimavat](vd386827@dal.ca) - _(Full-stack Developer)_
-
 ## Testing
 
 To test the application for frontend, manual testing approach was used.
@@ -44,37 +35,6 @@ For backend, the application has been deployed using [Render](https://render.com
 - Movie Management
 - Theatre Management
 - Food & Beverages Management
-
-## Individual Contribution
-
-### Himanshu Prajapati
-
-- Developed frontend and backend of Seat Selection and Admin Theatre Management Modules.
-
-### Kevin Panchal
-
-- Developed frontend and backend of Landing page Module.
-- Developed Theatre selection page.
-
-### Riya Patel
-
-- Developed frontend and backend of Parties Module.
-
-### Roshil Ka Patel
-
-- Developed frontend and backend of Food & Beverages and Admin Food & Beverages Management Modules.
-- Integrated Stripe Payment Gateway.
-- Developed Contact Us page.
-
-### Umang Mehta
-
-- Developed frontend and backend of Movie Details and Admin Movie Management Modules.
-- Developed FAQ page.
-
-### Vaidik Nimavat
-
-- Developed frontend and backend of Authentication Module.
-- Developed User Profile Management page.
 
 ## Credentials
 
@@ -147,7 +107,7 @@ function* watchLastFetchUser() {
 
 ```
 
-The Code in the [frontend/src/store/FoodAndBeverages/saga.js](https://git.cs.dal.ca/umehta/csci-5709-grp-08/-/blob/develop/frontend/src/store/FoodAndBeverages/saga.js) was implemented with by reffering from the [Redux-saga API document](https://redux-saga.js.org/docs/api/) where the function defination was modified as per the requirements by [Roshil Ka Patel](rs622844@dal.ca).
+The Code in the [frontend/src/store/FoodAndBeverages/saga.js](https://git.cs.dal.ca/umehta/csci-5709-grp-08/-/blob/develop/frontend/src/store/FoodAndBeverages/saga.js) was implemented with by reffering from the [Redux-saga API document](https://redux-saga.js.org/docs/api/) where the function defination was modified as per the requirements.
 
 ### [src/components/Table/index.jsx](https://git.cs.dal.ca/umehta/csci-5709-grp-08/-/blob/develop/frontend/src/components/Table/index.jsx)
 
@@ -261,8 +221,6 @@ The code above was created by adapting the code in [React Table](https://www.npm
 The code in [React Table](https://github.com/TanStack/table/blob/v7/examples/basic/src/App.js) was implemented by TanStack. It's not individual person's code rather its a open source library that anyone can use for their project. We have used this library to create table in our project. We have modified the code according to our requirements. We have added some extra features like pagination, search, sorting, etc. We have also added some extra styling to the table. We have also added some extra features like pagination, search,
 
 [React Table](https://github.com/TanStack/table/blob/v7/examples/basic/src/App.js)'s Code was used to create table in our project.
-
-[React Table](https://github.com/TanStack/table/blob/v7/examples/basic/src/App.js)'s Code was modified by [Umang Mehta](umang@dal.ca) to fit our project needs. I have added some extra like pagination and styling to the table.
 
 ## Acknowledgments
 
